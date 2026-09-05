@@ -1,7 +1,7 @@
 /* Gastroführer – gastro.js */
 'use strict';
 
-const GF_VERSION = '0.3.0';
+const GF_VERSION = '0.3.2';
 
 // ---------- Konstanten ----------
 const DEFAULT_LABELS = [
@@ -26,7 +26,7 @@ const LS_LABELS = 'gf-labels';
 const LS_REST = 'gf-restaurants';
 const LS_ART = 'gf-art';
 
-const SIZE = 640, CX = 320, CY = 320, R = 235, LABEL_R = R + 34;
+const CX = 410, CY = 320, R = 235, LABEL_R = R + 36;
 
 // ---------- Zustand ----------
 let labels = loadJSON(LS_LABELS, null);
@@ -35,7 +35,6 @@ if (labels[5] === 'Weitere Option 1') labels[5] = 'Günstig'; // Migration v0.2 
 
 let wish = loadJSON(LS_WISH, null);                    // 1–5 oder null (= egal)
 if (!Array.isArray(wish) || wish.length !== N) wish = Array(N).fill(DEFAULT_VALUE);
-for (const [a, b] of EXCLUSIVE) if (wish[a] !== null && wish[b] !== null) wish[b] = null;
 
 let restaurants = loadJSON(LS_REST, []);
 if (!Array.isArray(restaurants)) restaurants = [];
@@ -140,14 +139,21 @@ function drawRadar() {
       svgEl('circle', { class: 'step' + (off ? ' off' : ''), cx: sx, cy: sy, r: 5, 'data-axis': i, 'data-level': l }, svg)
         .addEventListener('pointerdown', onAxisPointerDown);
     }
-    const a = angle(i), cos = Math.cos(a);
-    const t = svgEl('text', {
-      class: 'label' + (off ? ' off' : ''),
-      x: CX + LABEL_R * cos, y: CY + LABEL_R * Math.sin(a) + 5,
-      'text-anchor': Math.abs(cos) < 0.15 ? 'middle' : cos > 0 ? 'start' : 'end'
-    }, svg);
-    t.textContent = labels[i] + (off ? ' (egal)' : '');
+    const a = angle(i), cos = Math.cos(a), sin = Math.sin(a);
+    const anchor = Math.abs(cos) < 0.15 ? 'middle' : cos > 0 ? 'start' : 'end';
+    const lx = CX + LABEL_R * cos, ly = CY + LABEL_R * sin + 5;
+    const t = svgEl('text', { class: 'label' + (off ? ' off' : ''), x: lx, y: ly, 'text-anchor': anchor }, svg);
+    t.textContent = labels[i];
     t.addEventListener('click', () => toggleOff(i));
+    // «egal»-Knopf: oberhalb bei Achsen in der oberen Hälfte, sonst unterhalb
+    const W = 40, H = 18;
+    const by = sin < -0.05 ? ly - 14 - H : ly + 8;
+    const bx = anchor === 'start' ? lx : anchor === 'end' ? lx - W : lx - W / 2;
+    const g = svgEl('g', { class: 'egal-btn' + (off ? ' on' : '') }, svg);
+    svgEl('title', {}, g).textContent = off ? 'Wieder werten' : 'Ist mir egal';
+    svgEl('rect', { x: bx, y: by, width: W, height: H, rx: 9 }, g);
+    svgEl('text', { x: bx + W / 2, y: by + 13, 'text-anchor': 'middle' }, g).textContent = 'egal';
+    g.addEventListener('click', () => toggleOff(i));
   }
 
   // Restaurant-Overlay (gestrichelt)
@@ -224,21 +230,8 @@ function toggleOff(axis) {
   }
   save(); render();
 }
-function drawEgalRow() {
-  const box = document.getElementById('egal-row');
-  box.innerHTML = '';
-  labels.forEach((lab, i) => {
-    const b = document.createElement('button');
-    b.className = 'crit-chip' + (wish[i] === null ? ' off' : '');
-    b.textContent = lab;
-    b.title = wish[i] === null ? 'Wieder werten' : 'Ist mir egal';
-    b.addEventListener('click', () => toggleOff(i));
-    box.appendChild(b);
-  });
-}
 document.getElementById('btn-reset').addEventListener('click', () => {
   wish = Array(N).fill(DEFAULT_VALUE);
-  for (const [, b] of EXCLUSIVE) wish[b] = null;
   save(); render(); toast('Wunschprofil zurückgesetzt');
 });
 
@@ -468,7 +461,7 @@ function renameLabel(i) {
 
 // ---------- Render ----------
 function render() {
-  drawArtSelect(); drawRadar(); drawOverlayInfo(); drawEgalRow(); drawList(); drawTable();
+  drawArtSelect(); drawRadar(); drawOverlayInfo(); drawList(); drawTable();
   const demoBtn = document.getElementById('btn-demo');
   const hasDemo = restaurants.some(r => String(r.id).startsWith('demo-'));
   demoBtn.textContent = hasDemo ? 'Beispiele entfernen' : 'Beispiele laden';

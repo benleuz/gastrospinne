@@ -56,7 +56,7 @@
     padding: 7px 10px; border: 1px solid var(--line); border-radius: 8px;
     background: var(--card); color: var(--text); width: 100%;
   }
-  header select { width: auto; min-width: 150px; }
+  .toolbar select { width: auto; min-width: 150px; }
   select:focus-visible, input:focus-visible, textarea:focus-visible, .btn:focus-visible, .row:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
 
   main { max-width: 980px; margin: 0 auto; padding: 18px 14px 60px; display: grid; gap: 16px; }
@@ -79,7 +79,7 @@
 
   /* Netz */
   #radar-wrap { display: grid; place-items: center; }
-  #radar { width: 100%; max-width: 620px; height: auto; touch-action: none; user-select: none; -webkit-user-select: none; display: block; }
+  #radar { width: 100%; max-width: 760px; height: auto; touch-action: none; user-select: none; -webkit-user-select: none; display: block; }
   #radar .ring { fill: none; stroke: var(--grid); stroke-width: 1; }
   #radar .axis { stroke: var(--grid); stroke-width: 1.2; }
   #radar .axis-hit { stroke: transparent; stroke-width: 26; cursor: ns-resize; }
@@ -87,6 +87,12 @@
   #radar .label { font-size: 14px; fill: var(--text); cursor: pointer; font-family: var(--font); }
   #radar .label.off { fill: var(--axis-off); text-decoration: line-through; }
   #radar .label:hover { fill: var(--accent); }
+  #radar .egal-btn { cursor: pointer; }
+  #radar .egal-btn rect { fill: var(--card); stroke: var(--line); stroke-width: 1; }
+  #radar .egal-btn text { font-size: 11px; fill: var(--muted); font-family: var(--font); pointer-events: none; }
+  #radar .egal-btn:hover rect { stroke: var(--accent); }
+  #radar .egal-btn.on rect { fill: var(--axis-off); stroke: var(--axis-off); }
+  #radar .egal-btn.on text { fill: var(--text); font-weight: 600; }
   #radar .level-num { font-size: 10px; fill: var(--muted); pointer-events: none; font-family: var(--font); }
   #radar .step { fill: var(--card); stroke: var(--grid); stroke-width: 1; cursor: pointer; }
   #radar .step:hover { stroke: var(--accent); stroke-width: 2; }
@@ -96,13 +102,6 @@
   #radar .dot { pointer-events: none; }
   #radar .dot.wish { cursor: grab; pointer-events: auto; }
 
-  #egal-row { display: flex; flex-wrap: wrap; gap: 6px; justify-content: center; }
-  .crit-chip { display: inline-flex; align-items: center; gap: 6px; padding: 5px 11px; border: 1px solid var(--line); border-radius: 999px; background: var(--card); cursor: pointer; font-size: 13px; }
-  .crit-chip::before { content: "✓"; color: var(--accent); font-weight: 700; }
-  .crit-chip:hover { border-color: var(--accent); }
-  .crit-chip.off { color: var(--muted); background: var(--bg); text-decoration: line-through; }
-  .crit-chip.off::before { content: "–"; color: var(--muted); }
-  .crit-chip.off::after { content: "egal"; text-decoration: none; font-size: 11px; color: var(--muted); }
   #overlay-info { display: flex; align-items: center; gap: 10px; justify-content: center; font-size: 13px; color: var(--muted); min-height: 24px; flex-wrap: wrap; }
   .swatch { width: 12px; height: 12px; border-radius: 50%; display: inline-block; vertical-align: middle; margin-right: 4px; }
   .swatch.dash { border-radius: 2px; height: 3px; width: 16px; }
@@ -168,8 +167,6 @@
   <h1>Gastroführer</h1>
   <span id="app-version"></span>
   <span class="spacer"></span>
-  <label for="sel-art" class="hint" style="margin:0">Art</label>
-  <select id="sel-art" title="Art der Küche"></select>
   <button class="btn icon" id="btn-theme" title="Hell/Dunkel umschalten" aria-label="Design umschalten">◐</button>
 </header>
 
@@ -180,19 +177,19 @@
       <span class="grow"></span>
       <button class="btn small" id="btn-reset" title="Wunschprofil zurücksetzen">↺ Zurücksetzen</button>
     </div>
-    <p class="hint">Punkt anklicken oder entlang der Achse ziehen: 1 tief … 5 hoch. Achsentitel anklicken schaltet «egal» um.</p>
+    <p class="hint">Punkt anklicken oder entlang der Achse ziehen: 1 tief … 5 hoch. «egal» neben dem Kriterium = wird nicht gewertet. Preisniveau und Günstig schliessen sich aus.</p>
     <div id="radar-wrap">
-      <svg id="radar" viewBox="0 0 640 640" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Netzdiagramm"></svg>
+      <svg id="radar" viewBox="0 0 820 640" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Netzdiagramm"></svg>
     </div>
     <div id="overlay-info"></div>
-    <p class="hint" style="margin-top:12px">Kriterium antippen = «ist mir egal» (wird nicht gewertet). Preisniveau und Günstig schliessen sich gegenseitig aus.</p>
-    <div id="egal-row"></div>
   </section>
 
   <section class="card">
     <div class="toolbar">
       <h2>Restaurants</h2>
       <span id="rest-count" class="hint" style="margin:0"></span>
+      <label for="sel-art" class="hint" style="margin:0 0 0 8px">Art</label>
+      <select id="sel-art" title="Art der Küche"></select>
       <span class="grow"></span>
       <button class="btn small" id="btn-demo" title="Fiktive Beispiel-Restaurants aus Zürich laden">Beispiele</button>
       <button class="btn small" id="btn-export" title="Alle Restaurants als JSON sichern">Sichern</button>
@@ -242,6 +239,6 @@
 <footer id="footer-version"></footer>
 <div id="toasts" aria-live="polite"></div>
 
-<script src="gastro.js?v=0.3.0"></script>
+<script src="gastro.js?v=0.3.2"></script>
 </body>
 </html>
