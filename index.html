@@ -4,9 +4,8 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Gastroführer</title>
-<meta name="description" content="Gastroführer – Wunschprofil für Restaurants als Netzdiagramm.">
+<meta name="description" content="Gastroführer – Restaurants nach Wunschprofil finden.">
 <style>
-  /* ---------- Design-Tokens (CRM-kompatibel: CSS-Variablen, Dark/Light) ---------- */
   :root {
     --bg: #f4f5f7;
     --card: #ffffff;
@@ -18,6 +17,8 @@
     --danger: #c9372c;
     --grid: #c9ced6;
     --axis-off: #b8bec8;
+    --wish: #1f6fe0;
+    --rest: #e0561f;
     --shadow: 0 1px 2px rgba(20,30,50,.06), 0 4px 16px rgba(20,30,50,.06);
     --radius: 10px;
     --font: "Segoe UI", system-ui, -apple-system, Roboto, "Helvetica Neue", Arial, sans-serif;
@@ -29,66 +30,43 @@
     --muted: #97a0ad;
     --line: #2d333d;
     --accent: #4d8dff;
-    --accent-text: #ffffff;
     --danger: #ff6b5e;
     --grid: #3a414c;
     --axis-off: #4a525e;
+    --wish: #4d8dff;
+    --rest: #ff8a5c;
     --shadow: 0 1px 2px rgba(0,0,0,.4), 0 6px 20px rgba(0,0,0,.35);
   }
 
   * { box-sizing: border-box; }
   html, body { margin: 0; }
-  body {
-    font-family: var(--font);
-    font-size: 15px;
-    line-height: 1.45;
-    color: var(--text);
-    background: var(--bg);
-    min-height: 100vh;
-  }
-  button { font: inherit; color: inherit; }
+  body { font-family: var(--font); font-size: 15px; line-height: 1.45; color: var(--text); background: var(--bg); min-height: 100vh; }
+  button, select, input, textarea { font: inherit; color: inherit; }
+  a { color: var(--accent); }
 
-  /* ---------- Kopfzeile ---------- */
   header {
-    display: flex; align-items: center; gap: 14px;
-    padding: 12px 20px;
-    border-bottom: 1px solid var(--line);
-    background: var(--card);
-    position: sticky; top: 0; z-index: 5;
+    display: flex; align-items: center; gap: 12px; flex-wrap: wrap;
+    padding: 10px 16px; border-bottom: 1px solid var(--line);
+    background: var(--card); position: sticky; top: 0; z-index: 5;
   }
-  header h1 { font-size: 18px; font-weight: 600; margin: 0; letter-spacing: .1px; }
+  header h1 { font-size: 18px; font-weight: 600; margin: 0; }
   #app-version { color: var(--muted); font-size: 13px; }
   header .spacer { flex: 1; }
-
-  /* ---------- Layout ---------- */
-  main {
-    max-width: 980px; margin: 0 auto; padding: 22px 16px 60px;
-    display: grid; gap: 18px;
+  select, input[type=text], input[type=url], textarea {
+    padding: 7px 10px; border: 1px solid var(--line); border-radius: 8px;
+    background: var(--card); color: var(--text); width: 100%;
   }
+  header select { width: auto; min-width: 150px; }
+  select:focus-visible, input:focus-visible, textarea:focus-visible, .btn:focus-visible, .row:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
 
-  /* ---------- Bausteine ---------- */
-  .card {
-    background: var(--card);
-    border: 1px solid var(--line);
-    border-radius: var(--radius);
-    box-shadow: var(--shadow);
-    padding: 16px 18px;
-  }
-  .card h2 { font-size: 15px; font-weight: 600; margin: 0 0 8px; }
+  main { max-width: 980px; margin: 0 auto; padding: 18px 14px 60px; display: grid; gap: 16px; }
+
+  .card { background: var(--card); border: 1px solid var(--line); border-radius: var(--radius); box-shadow: var(--shadow); padding: 16px 18px; }
+  .card h2 { font-size: 15px; font-weight: 600; margin: 0; }
   .hint { color: var(--muted); font-size: 13px; margin: 0 0 6px; }
 
-  .btn {
-    display: inline-flex; align-items: center; gap: 6px;
-    padding: 7px 12px;
-    border: 1px solid var(--line);
-    border-radius: 8px;
-    background: var(--card);
-    cursor: pointer;
-    line-height: 1.2;
-    transition: background .12s, border-color .12s;
-  }
+  .btn { display: inline-flex; align-items: center; gap: 6px; padding: 7px 12px; border: 1px solid var(--line); border-radius: 8px; background: var(--card); cursor: pointer; line-height: 1.2; transition: background .12s, border-color .12s; }
   .btn:hover { border-color: var(--accent); }
-  .btn:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
   .btn.primary { background: var(--accent); border-color: var(--accent); color: var(--accent-text); }
   .btn.small { padding: 4px 9px; font-size: 13px; }
   .btn.icon { padding: 6px 9px; }
@@ -96,58 +74,41 @@
   .btn.active { background: var(--accent); border-color: var(--accent); color: var(--accent-text); }
   .btn.off.active { background: var(--axis-off); border-color: var(--axis-off); color: var(--text); }
 
-  .toolbar { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin-bottom: 10px; }
+  .toolbar { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin-bottom: 8px; }
   .toolbar .grow { flex: 1; }
 
-  /* ---------- Netz ---------- */
+  /* Netz */
   #radar-wrap { display: grid; place-items: center; }
-  #radar {
-    width: 100%; max-width: 640px; height: auto;
-    touch-action: none; user-select: none; -webkit-user-select: none;
-    display: block;
-  }
+  #radar { width: 100%; max-width: 620px; height: auto; touch-action: none; user-select: none; -webkit-user-select: none; display: block; }
   #radar .ring { fill: none; stroke: var(--grid); stroke-width: 1; }
-  #radar .axis { stroke: var(--grid); stroke-width: 1.2; cursor: ns-resize; }
+  #radar .axis { stroke: var(--grid); stroke-width: 1.2; }
   #radar .axis-hit { stroke: transparent; stroke-width: 26; cursor: ns-resize; }
   #radar .axis.off { stroke: var(--axis-off); stroke-dasharray: 3 4; }
-  #radar .label {
-    font-size: 14px; fill: var(--text); cursor: pointer;
-    font-family: var(--font);
-  }
+  #radar .label { font-size: 14px; fill: var(--text); cursor: pointer; font-family: var(--font); }
   #radar .label.off { fill: var(--axis-off); text-decoration: line-through; }
   #radar .label:hover { fill: var(--accent); }
   #radar .level-num { font-size: 10px; fill: var(--muted); pointer-events: none; font-family: var(--font); }
   #radar .step { fill: var(--card); stroke: var(--grid); stroke-width: 1; cursor: pointer; }
   #radar .step:hover { stroke: var(--accent); stroke-width: 2; }
-  #radar .step.off { opacity: .35; cursor: pointer; }
+  #radar .step.off { opacity: .35; }
   #radar .poly { fill-opacity: .12; stroke-width: 2.5; stroke-linejoin: round; pointer-events: none; }
-  #radar .poly.inactive { fill-opacity: .04; stroke-width: 1.6; stroke-dasharray: 6 5; }
+  #radar .poly.rest { fill-opacity: .06; stroke-width: 1.8; stroke-dasharray: 6 5; }
   #radar .dot { pointer-events: none; }
-  #radar .dot.active { cursor: grab; pointer-events: auto; }
+  #radar .dot.wish { cursor: grab; pointer-events: auto; }
 
-  /* ---------- Legende / Profile ---------- */
-  #legend { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; margin-top: 8px; }
-  .chip {
-    display: inline-flex; align-items: center; gap: 8px;
-    padding: 5px 10px 5px 8px;
-    border: 1px solid var(--line); border-radius: 999px;
-    background: var(--card); cursor: pointer;
-  }
-  .chip .swatch { width: 12px; height: 12px; border-radius: 50%; display: inline-block; }
-  .chip.active { border-color: var(--chip, var(--accent)); box-shadow: inset 0 0 0 1px var(--chip, var(--accent)); font-weight: 600; }
-  .chip:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+  #overlay-info { display: flex; align-items: center; gap: 10px; justify-content: center; font-size: 13px; color: var(--muted); min-height: 24px; flex-wrap: wrap; }
+  .swatch { width: 12px; height: 12px; border-radius: 50%; display: inline-block; vertical-align: middle; margin-right: 4px; }
+  .swatch.dash { border-radius: 2px; height: 3px; width: 16px; }
 
-  /* ---------- Tabelle ---------- */
+  /* Tabelle Wunschprofil */
   details summary { cursor: pointer; font-weight: 600; list-style: none; display: flex; align-items: center; gap: 8px; }
   details summary::-webkit-details-marker { display: none; }
   details summary::before { content: "▸"; color: var(--muted); transition: transform .15s; }
   details[open] summary::before { transform: rotate(90deg); }
-  table { width: 100%; border-collapse: collapse; margin-top: 12px; }
-  th, td { padding: 8px 6px; border-top: 1px solid var(--line); text-align: left; }
+  table { width: 100%; border-collapse: collapse; margin-top: 10px; }
+  th, td { padding: 7px 6px; border-top: 1px solid var(--line); text-align: left; }
   th { font-weight: 600; color: var(--muted); font-size: 13px; border-top: 0; }
-  td.crit button {
-    all: unset; cursor: pointer; border-bottom: 1px dashed var(--line);
-  }
+  td.crit button { all: unset; cursor: pointer; border-bottom: 1px dashed var(--line); }
   td.crit button:hover { color: var(--accent); border-color: var(--accent); }
   td.vals { display: flex; gap: 4px; flex-wrap: wrap; }
   @media (max-width: 560px) {
@@ -157,14 +118,37 @@
     tr { border-top: 1px solid var(--line); padding: 6px 0; }
   }
 
-  /* ---------- Toast ---------- */
-  #toasts { position: fixed; left: 50%; bottom: 22px; transform: translateX(-50%); display: grid; gap: 8px; z-index: 20; }
-  .toast {
-    background: var(--text); color: var(--bg);
-    padding: 9px 14px; border-radius: 8px; font-size: 14px;
-    box-shadow: var(--shadow);
-    animation: toast-in .18s ease-out;
+  /* Restaurantliste */
+  #rest-list { display: grid; gap: 6px; margin-top: 10px; }
+  .row {
+    display: grid; grid-template-columns: 58px 1fr auto; gap: 10px; align-items: center;
+    padding: 10px 12px; border: 1px solid var(--line); border-radius: 8px; cursor: pointer;
+    background: var(--card);
   }
+  .row:hover { border-color: var(--accent); }
+  .row.selected { border-color: var(--rest); box-shadow: inset 0 0 0 1px var(--rest); }
+  .score { font-weight: 700; font-size: 17px; text-align: center; }
+  .score small { display: block; font-weight: 400; font-size: 11px; color: var(--muted); }
+  .row .name { font-weight: 600; }
+  .row .meta { color: var(--muted); font-size: 13px; }
+  .row .actions { display: flex; gap: 4px; }
+  .empty { color: var(--muted); padding: 18px 0; text-align: center; }
+
+  /* Dialog */
+  dialog { border: 1px solid var(--line); border-radius: var(--radius); background: var(--card); color: var(--text); padding: 0; width: min(560px, 94vw); box-shadow: var(--shadow); }
+  dialog::backdrop { background: rgba(0,0,0,.45); }
+  dialog .body { padding: 18px; display: grid; gap: 12px; }
+  dialog h2 { font-size: 16px; margin: 0; }
+  label.field { display: grid; gap: 4px; font-size: 13px; color: var(--muted); }
+  .two { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  @media (max-width: 480px) { .two { grid-template-columns: 1fr; } }
+  #rating-rows { display: grid; gap: 6px; }
+  .rating-row { display: grid; grid-template-columns: 1fr auto; gap: 8px; align-items: center; font-size: 14px; }
+  .rating-row .vals { display: flex; gap: 3px; }
+  dialog .foot { display: flex; gap: 8px; justify-content: flex-end; padding: 12px 18px; border-top: 1px solid var(--line); }
+
+  #toasts { position: fixed; left: 50%; bottom: 22px; transform: translateX(-50%); display: grid; gap: 8px; z-index: 20; }
+  .toast { background: var(--text); color: var(--bg); padding: 9px 14px; border-radius: 8px; font-size: 14px; box-shadow: var(--shadow); animation: toast-in .18s ease-out; }
   @keyframes toast-in { from { opacity: 0; transform: translateY(8px);} to { opacity: 1; transform: none; } }
   @media (prefers-reduced-motion: reduce) { .toast { animation: none; } * { transition: none !important; } }
 
@@ -177,41 +161,77 @@
   <h1>Gastroführer</h1>
   <span id="app-version"></span>
   <span class="spacer"></span>
+  <label for="sel-art" class="hint" style="margin:0">Art</label>
+  <select id="sel-art" title="Art der Küche"></select>
   <button class="btn icon" id="btn-theme" title="Hell/Dunkel umschalten" aria-label="Design umschalten">◐</button>
 </header>
 
 <main>
   <section class="card">
     <div class="toolbar">
-      <h2 style="margin:0">Wunschprofil</h2>
+      <h2>Wunschprofil</h2>
       <span class="grow"></span>
-      <button class="btn small" id="btn-add">＋ Profil</button>
-      <button class="btn small" id="btn-rename" title="Aktives Profil umbenennen">Umbenennen</button>
-      <button class="btn small" id="btn-reset" title="Aktives Profil zurücksetzen">↺</button>
-      <button class="btn small danger" id="btn-delete" title="Aktives Profil löschen">✕</button>
+      <button class="btn small" id="btn-reset" title="Wunschprofil zurücksetzen">↺ Zurücksetzen</button>
     </div>
-    <p class="hint">Punkt anklicken oder entlang der Achse ziehen: 1 unwichtig … 5 sehr wichtig. Achsentitel anklicken schaltet «egal» um.</p>
+    <p class="hint">Punkt anklicken oder entlang der Achse ziehen: 1 tief … 5 hoch. Achsentitel anklicken schaltet «egal» um.</p>
     <div id="radar-wrap">
-      <svg id="radar" viewBox="0 0 640 640" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Netzdiagramm der Kriterien"></svg>
+      <svg id="radar" viewBox="0 0 640 640" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Netzdiagramm"></svg>
     </div>
-    <div id="legend"></div>
+    <div id="overlay-info"></div>
+  </section>
+
+  <section class="card">
+    <div class="toolbar">
+      <h2>Restaurants</h2>
+      <span id="rest-count" class="hint" style="margin:0"></span>
+      <span class="grow"></span>
+      <button class="btn small" id="btn-export" title="Alle Restaurants als JSON sichern">Sichern</button>
+      <button class="btn small" id="btn-import" title="JSON-Datei laden">Laden</button>
+      <input type="file" id="file-import" accept="application/json,.json" hidden>
+      <button class="btn small primary" id="btn-add">＋ Restaurant</button>
+    </div>
+    <p class="hint">Sortiert nach Passung zum Wunschprofil. Antippen legt das Restaurant über das Netz.</p>
+    <div id="rest-list"></div>
   </section>
 
   <section class="card">
     <details id="table-details">
-      <summary>Tabelle</summary>
+      <summary>Tabelle Wunschprofil</summary>
       <p class="hint" style="margin-top:8px">Kriterium anklicken, um es umzubenennen.</p>
       <table>
-        <thead><tr><th>Kriterium</th><th>Gewichtung (aktives Profil)</th></tr></thead>
+        <thead><tr><th>Kriterium</th><th>Wunsch</th></tr></thead>
         <tbody id="table-body"></tbody>
       </table>
     </details>
   </section>
 </main>
 
+<dialog id="dlg">
+  <div class="body">
+    <h2 id="dlg-title">Restaurant erfassen</h2>
+    <div class="two">
+      <label class="field">Name<input type="text" id="f-name" required></label>
+      <label class="field">Ort<input type="text" id="f-ort"></label>
+    </div>
+    <div class="two">
+      <label class="field">Art<input type="text" id="f-art" list="art-list" placeholder="z.B. Japanisch"><datalist id="art-list"></datalist></label>
+      <label class="field">Link<input type="url" id="f-link" placeholder="https://…"></label>
+    </div>
+    <label class="field">Notiz<textarea id="f-note" rows="2"></textarea></label>
+    <div>
+      <p class="hint">Bewertung des Restaurants (1 tief … 5 hoch)</p>
+      <div id="rating-rows"></div>
+    </div>
+  </div>
+  <div class="foot">
+    <button class="btn" id="dlg-cancel">Abbrechen</button>
+    <button class="btn primary" id="dlg-save">Speichern</button>
+  </div>
+</dialog>
+
 <footer id="footer-version"></footer>
 <div id="toasts" aria-live="polite"></div>
 
-<script src="gastro.js?v=0.1.0"></script>
+<script src="gastro.js?v=0.2.0"></script>
 </body>
 </html>
