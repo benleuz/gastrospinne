@@ -1,4 +1,4 @@
-# Gastroführer — Projektstand (05.09.2026, v0.4.1)
+# Gastroführer — Projektstand (05.09.2026, v0.4.2)
 
 ## Was es ist
 Eigenständige Browser-App (kein Login, kein O365/MSAL, keine Backend-Abhängigkeit),
@@ -15,12 +15,12 @@ CRM-CSS noch nicht 1:1 übernommen, Variablen im `<style>` von index.html sind d
 - localStorage: Theme `gf-theme`, Wunschprofil `gf-wunsch`, umbenannte Kriterien `gf-labels`,
   Restaurants `gf-restaurants`, gewählte Art `gf-art`.
 
-## Funktionsumfang v0.4.1
+## Funktionsumfang v0.4.2
 - Geführter Ablauf in drei Schritten:
   1. «Heute habe ich Lust auf …» – grosse Kacheln je Küchenart (Emoji, Anzahl Lokale),
      «Überrasch mich» = alle. Auswahl erscheint im Titel, scrollt zu Schritt 2.
   2. «Mir ist wichtig:» – Netzdiagramm (7 Achsen, 1–5, «egal»-Knopf am Achsentitel,
-     Preisniveau/Günstig schliessen sich aus). ↺ Zurücksetzen.
+     Schick/Günstig schliessen sich aus). ↺ Zurücksetzen.
   3. «Deine Treffer» – Ranking nach Passung (Rang, Prozent-Ring, Mini-Balken der Bewertung).
      Antippen legt das Lokal über das Netz.
 - Datenmodell:
@@ -36,7 +36,7 @@ CRM-CSS noch nicht 1:1 übernommen, Variablen im `<style>` von index.html sind d
 - localStorage: `gf-theme`, `gf-wunsch`, `gf-art`, `gf-own`, `gf-mine` (v0.3-Daten aus
   `gf-restaurants` werden migriert, Demo-Einträge verworfen).
 - Kriterien sind fix (LABELS in gastro.js), Umbenennen entfernt.
-- Mobile first (≤600 px): 3-spaltige Kacheln, Netz mit Kurztiteln (SHORT), grösseren
+- Mobile first (≤600 px): 3-spaltige Kacheln, Netz mit Kurztiteln (SHORT), viewBox 680×640 (Netz füllt die Breite), grösseren
   Punkten/«egal»-Knöpfen und Tap-Zielen ≥40 px, Seite über dem Netz weiterhin scrollbar
   (touch-action nur auf den Griffen), Dialog als Bottom-Sheet, schwebender Knopf
   «Treffer ansehen ↓», Safe-Area-Abstände. Netz zeichnet sich bei Resize neu.

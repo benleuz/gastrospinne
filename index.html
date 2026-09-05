@@ -179,8 +179,10 @@
     .tile .emoji { font-size: 28px; }
     .tile .name { font-size: 13px; line-height: 1.2; }
     .tile .count { font-size: 11px; }
-    #radar { max-width: none; margin: 0 -4px; width: calc(100% + 8px); }
-    #radar .label { font-size: 22px; }
+    #radar-wrap { margin: 0 -12px; }
+    #radar { max-width: none; width: 100%; }
+    #step-wish .card { padding: 10px 12px; }
+    #radar .label { font-size: 21px; }
     #radar .egal-btn text { font-size: 17px; }
     #radar .level-num { font-size: 15px; }
     #overlay-info { font-size: 14px; }
@@ -240,7 +242,7 @@
       <button class="btn small" id="btn-reset" title="Wunschprofil zurücksetzen">↺ Zurücksetzen</button>
     </div>
     <div class="card">
-      <p class="hint">Punkt anklicken oder entlang der Achse ziehen: 1 tief … 5 hoch. «egal» = wird nicht gewertet. Preisniveau und Günstig schliessen sich aus.</p>
+      <p class="hint">Punkt anklicken oder entlang der Achse ziehen: 1 tief … 5 hoch. «egal» = wird nicht gewertet. Schick und Günstig schliessen sich aus.</p>
       <div id="radar-wrap">
         <svg id="radar" viewBox="0 0 820 640" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Netzdiagramm"></svg>
       </div>
@@ -298,6 +300,6 @@
 <footer id="footer-version"></footer>
 <div id="toasts" aria-live="polite"></div>
 
-<script src="gastro.js?v=0.4.1"></script>
+<script src="gastro.js?v=0.4.2"></script>
 </body>
 </html>

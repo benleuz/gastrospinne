@@ -1,15 +1,15 @@
 /* Gastroführer – gastro.js */
 'use strict';
 
-const GF_VERSION = '0.4.1';
+const GF_VERSION = '0.4.2';
 
 // ---------- Konstanten ----------
-const LABELS = ['Preisniveau', 'Ambiente', 'Weinkarte', 'Essen', 'Sehen und gesehen werden', 'Günstig', 'Weitere Option 2'];
-const SHORT = ['Preis', 'Ambiente', 'Wein', 'Essen', 'Gesehen werden', 'Günstig', 'Option 2'];
+const LABELS = ['Schick', 'Ambiente', 'Weinkarte', 'Essen', 'Sehen und gesehen werden', 'Günstig', 'Service'];
+const SHORT = ['Schick', 'Ambiente', 'Wein', 'Essen', 'Gesehen werden', 'Günstig', 'Service'];
 const N = LABELS.length;
 const LEVELS = 5;
 const DEFAULT_VALUE = 3;
-const EXCLUSIVE = [[0, 5]]; // Preisniveau <-> Günstig
+const EXCLUSIVE = [[0, 5]]; // Schick <-> Günstig
 function partnerOf(i) { for (const [a, b] of EXCLUSIVE) { if (i === a) return b; if (i === b) return a; } return -1; }
 
 const EMOJI = {
@@ -25,13 +25,14 @@ const LS_ART = 'gf-art';
 const LS_OWN = 'gf-own';        // eigene Bewertungen: { [id]: values[] }
 const LS_MINE = 'gf-mine';      // eigene Restaurants: [ {id, name, ort, art, link, note, values} ]
 
-const CX = 410, CY = 320;
+let CX = 410; const CY = 320;
 let R = 235, LABEL_R = R + 36;
 // Mobile: kürzere Titel, grössere Knöpfe/Punkte
 function isMobile() { return window.innerWidth <= 600; }
 function geo() {
   const m = isMobile();
-  R = m ? 210 : 235; LABEL_R = R + (m ? 34 : 36);
+  R = m ? 215 : 235; LABEL_R = R + (m ? 30 : 36); CX = m ? 340 : 410;
+  svg.setAttribute('viewBox', m ? '0 0 680 640' : '0 0 820 640');
   return { m, W: m ? 64 : 40, H: m ? 28 : 18, stepR: m ? 8 : 5, dotR: m ? 10 : 7, hit: m ? 40 : 26 };
 }
 
@@ -157,12 +158,13 @@ function drawRadar() {
     }
     const a = angle(i), cos = Math.cos(a), sin = Math.sin(a);
     const anchor = Math.abs(cos) < 0.15 ? 'middle' : cos > 0 ? 'start' : 'end';
-    const lx = CX + LABEL_R * cos, ly = CY + LABEL_R * sin + 5;
+    const W = G.W, H = G.H;
+    // Titel; in der oberen Hälfte nach oben versetzt, damit «egal» darunter Platz hat
+    const lx = CX + LABEL_R * cos, ly = CY + LABEL_R * sin + 5 - (sin < -0.05 ? H + 10 : 0);
     const t = svgEl('text', { class: 'label' + (off ? ' off' : ''), x: lx, y: ly, 'text-anchor': anchor }, svg);
     t.textContent = G.m ? SHORT[i] : LABELS[i];
     t.addEventListener('click', () => toggleOff(i));
-    const W = G.W, H = G.H;
-    const by = sin < -0.05 ? ly - 14 - H : ly + 8;
+    const by = ly + 8; // «egal» immer unterhalb des Titels
     const bx = anchor === 'start' ? lx : anchor === 'end' ? lx - W : lx - W / 2;
     const g = svgEl('g', { class: 'egal-btn' + (off ? ' on' : '') }, svg);
     svgEl('title', {}, g).textContent = off ? 'Wieder werten' : 'Ist mir egal';
