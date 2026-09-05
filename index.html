@@ -2,39 +2,24 @@
 <html lang="de-CH">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#1d2128">
 <title>Gastroführer</title>
-<meta name="description" content="Gastroführer – Restaurants nach Wunschprofil finden.">
+<meta name="description" content="Gastroführer – Heute Lust auf …? Finde das passende Restaurant.">
 <style>
   :root {
-    --bg: #f4f5f7;
-    --card: #ffffff;
-    --text: #1d2229;
-    --muted: #6b7380;
-    --line: #dde1e7;
-    --accent: #1f6fe0;
-    --accent-text: #ffffff;
-    --danger: #c9372c;
-    --grid: #c9ced6;
-    --axis-off: #b8bec8;
-    --wish: #1f6fe0;
-    --rest: #e0561f;
+    --bg: #f4f5f7; --card: #ffffff; --text: #1d2229; --muted: #6b7380; --line: #dde1e7;
+    --accent: #1f6fe0; --accent-soft: #e6efff; --accent-text: #fff; --danger: #c9372c;
+    --grid: #c9ced6; --axis-off: #b8bec8; --wish: #1f6fe0; --rest: #e0561f; --own: #1fa05a;
+    --gold: #d9a21f; --silver: #9aa3ad; --bronze: #b8763a;
     --shadow: 0 1px 2px rgba(20,30,50,.06), 0 4px 16px rgba(20,30,50,.06);
-    --radius: 10px;
+    --radius: 12px;
     --font: "Segoe UI", system-ui, -apple-system, Roboto, "Helvetica Neue", Arial, sans-serif;
   }
   :root[data-theme="dark"] {
-    --bg: #14171c;
-    --card: #1d2128;
-    --text: #e6e9ee;
-    --muted: #97a0ad;
-    --line: #2d333d;
-    --accent: #4d8dff;
-    --danger: #ff6b5e;
-    --grid: #3a414c;
-    --axis-off: #4a525e;
-    --wish: #4d8dff;
-    --rest: #ff8a5c;
+    --bg: #14171c; --card: #1d2128; --text: #e6e9ee; --muted: #97a0ad; --line: #2d333d;
+    --accent: #4d8dff; --accent-soft: #223251; --danger: #ff6b5e;
+    --grid: #3a414c; --axis-off: #4a525e; --wish: #4d8dff; --rest: #ff8a5c; --own: #3ec97a;
     --shadow: 0 1px 2px rgba(0,0,0,.4), 0 6px 20px rgba(0,0,0,.35);
   }
 
@@ -44,48 +29,60 @@
   button, select, input, textarea { font: inherit; color: inherit; }
   a { color: var(--accent); }
 
-  header {
-    display: flex; align-items: center; gap: 12px; flex-wrap: wrap;
-    padding: 10px 16px; border-bottom: 1px solid var(--line);
-    background: var(--card); position: sticky; top: 0; z-index: 5;
-  }
+  header { display: flex; align-items: center; gap: 12px; padding: 10px 16px; border-bottom: 1px solid var(--line); background: var(--card); position: sticky; top: 0; z-index: 5; }
   header h1 { font-size: 18px; font-weight: 600; margin: 0; }
   #app-version { color: var(--muted); font-size: 13px; }
   header .spacer { flex: 1; }
-  select, input[type=text], input[type=url], textarea {
-    padding: 7px 10px; border: 1px solid var(--line); border-radius: 8px;
-    background: var(--card); color: var(--text); width: 100%;
-  }
-  .toolbar select { width: auto; min-width: 150px; }
-  select:focus-visible, input:focus-visible, textarea:focus-visible, .btn:focus-visible, .row:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
 
-  main { max-width: 980px; margin: 0 auto; padding: 18px 14px 60px; display: grid; gap: 16px; }
+  main { max-width: 900px; margin: 0 auto; padding: 22px 14px 80px; display: grid; gap: 28px; }
+
+  /* Schritte */
+  .step { display: grid; gap: 12px; }
+  .step-head { display: flex; align-items: baseline; gap: 14px; flex-wrap: wrap; }
+  .step-num { width: 34px; height: 34px; border-radius: 50%; background: var(--accent); color: var(--accent-text); display: inline-grid; place-items: center; font-weight: 700; font-size: 16px; flex: none; align-self: center; }
+  .step-title { font-size: 26px; font-weight: 700; margin: 0; letter-spacing: -.2px; }
+  .step-title em { font-style: normal; color: var(--accent); }
+  .step-sub { color: var(--muted); font-size: 14px; margin: 0; }
+  @media (max-width: 560px) { .step-title { font-size: 21px; } }
 
   .card { background: var(--card); border: 1px solid var(--line); border-radius: var(--radius); box-shadow: var(--shadow); padding: 16px 18px; }
-  .card h2 { font-size: 15px; font-weight: 600; margin: 0; }
-  .hint { color: var(--muted); font-size: 13px; margin: 0 0 6px; }
+  .hint { color: var(--muted); font-size: 13px; margin: 0; }
 
-  .btn { display: inline-flex; align-items: center; gap: 6px; padding: 7px 12px; border: 1px solid var(--line); border-radius: 8px; background: var(--card); cursor: pointer; line-height: 1.2; transition: background .12s, border-color .12s; }
+  .btn { display: inline-flex; align-items: center; gap: 6px; padding: 8px 13px; border: 1px solid var(--line); border-radius: 9px; background: var(--card); cursor: pointer; line-height: 1.2; transition: background .12s, border-color .12s; }
   .btn:hover { border-color: var(--accent); }
+  .btn:focus-visible, .tile:focus-visible, .row:focus-visible, select:focus-visible, input:focus-visible, textarea:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
   .btn.primary { background: var(--accent); border-color: var(--accent); color: var(--accent-text); }
   .btn.small { padding: 4px 9px; font-size: 13px; }
   .btn.icon { padding: 6px 9px; }
   .btn.danger:hover { border-color: var(--danger); color: var(--danger); }
   .btn.active { background: var(--accent); border-color: var(--accent); color: var(--accent-text); }
-  .btn.off.active { background: var(--axis-off); border-color: var(--axis-off); color: var(--text); }
-
-  .toolbar { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin-bottom: 8px; }
+  .toolbar { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
   .toolbar .grow { flex: 1; }
 
-  /* Netz */
+  /* Schritt 1: Art-Kacheln */
+  #tiles { display: grid; grid-template-columns: repeat(auto-fill, minmax(128px, 1fr)); gap: 10px; }
+  .tile {
+    display: grid; gap: 4px; justify-items: center; text-align: center;
+    padding: 16px 8px 12px; border: 2px solid var(--line); border-radius: var(--radius);
+    background: var(--card); cursor: pointer; transition: border-color .12s, transform .12s, background .12s;
+  }
+  .tile:hover { border-color: var(--accent); transform: translateY(-2px); }
+  .tile.active { border-color: var(--accent); background: var(--accent-soft); }
+  .tile .emoji { font-size: 34px; line-height: 1; }
+  .tile .name { font-weight: 600; font-size: 15px; }
+  .tile .count { font-size: 12px; color: var(--muted); }
+  @media (prefers-reduced-motion: reduce) { .tile:hover { transform: none; } }
+
+  /* Schritt 2: Netz */
   #radar-wrap { display: grid; place-items: center; }
-  #radar { width: 100%; max-width: 760px; height: auto; touch-action: none; user-select: none; -webkit-user-select: none; display: block; }
+  #radar { width: 100%; max-width: 760px; height: auto; touch-action: pan-y; user-select: none; -webkit-user-select: none; -webkit-tap-highlight-color: transparent; display: block; }
+  #radar .axis-hit, #radar .step-pt, #radar .dot.wish, #radar .egal-btn { touch-action: none; }
   #radar .ring { fill: none; stroke: var(--grid); stroke-width: 1; }
   #radar .axis { stroke: var(--grid); stroke-width: 1.2; }
-  #radar .axis-hit { stroke: transparent; stroke-width: 26; cursor: ns-resize; }
+  #radar .axis-hit { stroke: transparent; cursor: ns-resize; }
   #radar .axis.off { stroke: var(--axis-off); stroke-dasharray: 3 4; }
-  #radar .label { font-size: 14px; fill: var(--text); cursor: pointer; font-family: var(--font); }
-  #radar .label.off { fill: var(--axis-off); text-decoration: line-through; }
+  #radar .label { font-size: 14px; fill: var(--text); cursor: pointer; font-family: var(--font); font-weight: 600; }
+  #radar .label.off { fill: var(--axis-off); text-decoration: line-through; font-weight: 400; }
   #radar .label:hover { fill: var(--accent); }
   #radar .egal-btn { cursor: pointer; }
   #radar .egal-btn rect { fill: var(--card); stroke: var(--line); stroke-width: 1; }
@@ -94,69 +91,116 @@
   #radar .egal-btn.on rect { fill: var(--axis-off); stroke: var(--axis-off); }
   #radar .egal-btn.on text { fill: var(--text); font-weight: 600; }
   #radar .level-num { font-size: 10px; fill: var(--muted); pointer-events: none; font-family: var(--font); }
-  #radar .step { fill: var(--card); stroke: var(--grid); stroke-width: 1; cursor: pointer; }
-  #radar .step:hover { stroke: var(--accent); stroke-width: 2; }
-  #radar .step.off { opacity: .35; }
+  #radar .step-pt { fill: var(--card); stroke: var(--grid); stroke-width: 1; cursor: pointer; }
+  #radar .step-pt:hover { stroke: var(--accent); stroke-width: 2; }
+  #radar .step-pt.off { opacity: .35; }
   #radar .poly { fill-opacity: .12; stroke-width: 2.5; stroke-linejoin: round; pointer-events: none; }
   #radar .poly.rest { fill-opacity: .06; stroke-width: 1.8; stroke-dasharray: 6 5; }
   #radar .dot { pointer-events: none; }
   #radar .dot.wish { cursor: grab; pointer-events: auto; }
-
-  #overlay-info { display: flex; align-items: center; gap: 10px; justify-content: center; font-size: 13px; color: var(--muted); min-height: 24px; flex-wrap: wrap; }
+  #overlay-info { display: flex; align-items: center; gap: 12px; justify-content: center; font-size: 13px; color: var(--muted); min-height: 24px; flex-wrap: wrap; }
   .swatch { width: 12px; height: 12px; border-radius: 50%; display: inline-block; vertical-align: middle; margin-right: 4px; }
   .swatch.dash { border-radius: 2px; height: 3px; width: 16px; }
 
-  /* Tabelle Wunschprofil */
-  details summary { cursor: pointer; font-weight: 600; list-style: none; display: flex; align-items: center; gap: 8px; }
-  details summary::-webkit-details-marker { display: none; }
-  details summary::before { content: "▸"; color: var(--muted); transition: transform .15s; }
-  details[open] summary::before { transform: rotate(90deg); }
-  table { width: 100%; border-collapse: collapse; margin-top: 10px; }
-  th, td { padding: 7px 6px; border-top: 1px solid var(--line); text-align: left; }
-  th { font-weight: 600; color: var(--muted); font-size: 13px; border-top: 0; }
-  td.crit button { all: unset; cursor: pointer; border-bottom: 1px dashed var(--line); }
-  td.crit button:hover { color: var(--accent); border-color: var(--accent); }
-  td.vals { display: flex; gap: 4px; flex-wrap: wrap; }
-  @media (max-width: 560px) {
-    table, tbody, tr, td { display: block; }
-    th { display: none; }
-    td { border-top: 0; }
-    tr { border-top: 1px solid var(--line); padding: 6px 0; }
-  }
-
-  /* Restaurantliste */
-  #rest-list { display: grid; gap: 6px; margin-top: 10px; }
+  /* Schritt 3: Ranking */
+  #rest-list { display: grid; gap: 8px; }
   .row {
-    display: grid; grid-template-columns: 58px 1fr auto; gap: 10px; align-items: center;
-    padding: 10px 12px; border: 1px solid var(--line); border-radius: 8px; cursor: pointer;
-    background: var(--card);
+    display: grid; grid-template-columns: 34px 62px 1fr auto; gap: 12px; align-items: center;
+    padding: 12px 14px; border: 1px solid var(--line); border-radius: var(--radius); cursor: pointer;
+    background: var(--card); box-shadow: var(--shadow);
   }
   .row:hover { border-color: var(--accent); }
-  .row.selected { border-color: var(--rest); box-shadow: inset 0 0 0 1px var(--rest); }
-  .score { font-weight: 700; font-size: 17px; text-align: center; }
-  .score small { display: block; font-weight: 400; font-size: 11px; color: var(--muted); }
-  .row .name { font-weight: 600; }
+  .row.selected { border-color: var(--rest); box-shadow: inset 0 0 0 1px var(--rest), var(--shadow); }
+  .rank { font-weight: 700; font-size: 18px; color: var(--muted); text-align: center; }
+  .rank.r1 { color: var(--gold); } .rank.r2 { color: var(--silver); } .rank.r3 { color: var(--bronze); }
+  .ring { width: 58px; height: 58px; }
+  .ring circle { fill: none; stroke-width: 6; }
+  .ring .track { stroke: var(--line); }
+  .ring .val { stroke: var(--accent); stroke-linecap: round; transform: rotate(-90deg); transform-origin: 50% 50%; transition: stroke-dashoffset .35s ease; }
+  .ring text { font-size: 15px; font-weight: 700; fill: var(--text); text-anchor: middle; dominant-baseline: central; font-family: var(--font); }
+  .row .name { font-weight: 600; font-size: 16px; }
   .row .meta { color: var(--muted); font-size: 13px; }
+  .badge { display: inline-block; font-size: 11px; padding: 1px 7px; border-radius: 999px; margin-left: 6px; vertical-align: middle; font-weight: 600; }
+  .badge.own { background: var(--own); color: #fff; }
+  .badge.mine { background: var(--accent-soft); color: var(--accent); }
+  .bars { display: flex; gap: 3px; align-items: flex-end; height: 18px; margin-top: 6px; }
+  .bars i { display: block; width: 8px; border-radius: 2px 2px 0 0; background: var(--grid); }
+  .bars.own i { background: var(--own); }
+  .bars i.off { opacity: .3; }
   .row .actions { display: flex; gap: 4px; }
-  .empty { color: var(--muted); padding: 18px 0; text-align: center; }
+  .empty { color: var(--muted); padding: 24px 0; text-align: center; }
+  @media (max-width: 560px) {
+    .row { grid-template-columns: 26px 52px 1fr; }
+    .row .actions { grid-column: 1 / -1; justify-content: flex-end; }
+    .ring { width: 50px; height: 50px; }
+  }
 
-  /* Dialog */
+  /* Banner (geteilter Link) */
+  #share-banner { display: none; border: 2px solid var(--own); background: var(--card); border-radius: var(--radius); padding: 14px 16px; gap: 10px; align-items: center; flex-wrap: wrap; }
+  #share-banner.show { display: flex; }
+
+  select, input[type=text], input[type=url], textarea { padding: 8px 10px; border: 1px solid var(--line); border-radius: 9px; background: var(--card); color: var(--text); width: 100%; }
+
   dialog { border: 1px solid var(--line); border-radius: var(--radius); background: var(--card); color: var(--text); padding: 0; width: min(560px, 94vw); box-shadow: var(--shadow); }
   dialog::backdrop { background: rgba(0,0,0,.45); }
   dialog .body { padding: 18px; display: grid; gap: 12px; }
-  dialog h2 { font-size: 16px; margin: 0; }
+  dialog h2 { font-size: 17px; margin: 0; }
   label.field { display: grid; gap: 4px; font-size: 13px; color: var(--muted); }
   .two { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
   @media (max-width: 480px) { .two { grid-template-columns: 1fr; } }
   #rating-rows { display: grid; gap: 6px; }
   .rating-row { display: grid; grid-template-columns: 1fr auto; gap: 8px; align-items: center; font-size: 14px; }
   .rating-row .vals { display: flex; gap: 3px; }
-  dialog .foot { display: flex; gap: 8px; justify-content: flex-end; padding: 12px 18px; border-top: 1px solid var(--line); }
+  dialog .foot { display: flex; gap: 8px; justify-content: flex-end; padding: 12px 18px; border-top: 1px solid var(--line); flex-wrap: wrap; }
+  dialog .foot .grow { flex: 1; }
 
   #toasts { position: fixed; left: 50%; bottom: 22px; transform: translateX(-50%); display: grid; gap: 8px; z-index: 20; }
-  .toast { background: var(--text); color: var(--bg); padding: 9px 14px; border-radius: 8px; font-size: 14px; box-shadow: var(--shadow); animation: toast-in .18s ease-out; }
+  .toast { background: var(--text); color: var(--bg); padding: 9px 14px; border-radius: 9px; font-size: 14px; box-shadow: var(--shadow); animation: toast-in .18s ease-out; }
   @keyframes toast-in { from { opacity: 0; transform: translateY(8px);} to { opacity: 1; transform: none; } }
   @media (prefers-reduced-motion: reduce) { .toast { animation: none; } * { transition: none !important; } }
+
+  /* ---------- Mobile first: kompakter, grössere Tap-Ziele ---------- */
+  @media (max-width: 600px) {
+    body { font-size: 16px; }
+    header { padding: 8px 12px; gap: 8px; }
+    header h1 { font-size: 17px; }
+    main { padding: 16px 12px 96px; gap: 22px; }
+    .card { padding: 12px; border-radius: 12px; }
+    .btn { min-height: 40px; }
+    .btn.small { min-height: 36px; padding: 6px 11px; font-size: 14px; }
+    .step-head { gap: 10px; }
+    .step-num { width: 30px; height: 30px; font-size: 15px; }
+    .step-title { font-size: 21px; }
+    .step-sub { width: 100%; }
+    #step-list .toolbar { width: 100%; }
+    #step-list .toolbar .btn { flex: 1 1 auto; justify-content: center; }
+    #tiles { grid-template-columns: repeat(3, 1fr); gap: 8px; }
+    .tile { padding: 12px 6px 10px; border-radius: 12px; gap: 2px; }
+    .tile .emoji { font-size: 28px; }
+    .tile .name { font-size: 13px; line-height: 1.2; }
+    .tile .count { font-size: 11px; }
+    #radar { max-width: none; margin: 0 -4px; width: calc(100% + 8px); }
+    #radar .label { font-size: 22px; }
+    #radar .egal-btn text { font-size: 17px; }
+    #radar .level-num { font-size: 15px; }
+    #overlay-info { font-size: 14px; }
+    .row { grid-template-columns: 24px 50px 1fr; gap: 10px; padding: 10px 12px; }
+    .row .actions { grid-column: 1 / -1; justify-content: flex-end; }
+    .row .actions .btn.small { min-height: 40px; min-width: 44px; justify-content: center; }
+    .row .name { font-size: 15px; }
+    .rank { font-size: 16px; }
+    .ring { width: 50px; height: 50px; }
+    dialog { width: 100vw; max-width: 100vw; max-height: 92dvh; margin: auto 0 0; border-radius: 16px 16px 0 0; border-bottom: 0; }
+    dialog .body { padding: 14px; max-height: calc(92dvh - 70px); overflow: auto; }
+    .rating-row { grid-template-columns: 1fr; gap: 4px; }
+    .rating-row .vals .btn { flex: 1; justify-content: center; }
+    dialog .foot { padding: 10px 14px calc(10px + env(safe-area-inset-bottom)); }
+    #toasts { bottom: calc(70px + env(safe-area-inset-bottom)); width: calc(100% - 24px); }
+  }
+  /* Sprung zu den Treffern (nur mobil, wenn Liste nicht sichtbar) */
+  #jump { position: fixed; left: 50%; bottom: calc(14px + env(safe-area-inset-bottom)); transform: translateX(-50%) translateY(20px); opacity: 0; pointer-events: none; z-index: 15; padding: 10px 16px; border-radius: 999px; background: var(--accent); color: var(--accent-text); border: 0; font-weight: 600; box-shadow: var(--shadow); transition: opacity .2s, transform .2s; }
+  #jump.show { opacity: 1; pointer-events: auto; transform: translateX(-50%); }
+  @media (min-width: 601px) { #jump { display: none; } }
 
   footer { text-align: center; color: var(--muted); font-size: 13px; padding: 10px; }
 </style>
@@ -167,78 +211,93 @@
   <h1>Gastroführer</h1>
   <span id="app-version"></span>
   <span class="spacer"></span>
+  <button class="btn small" id="btn-share" title="Deine Auswahl, Bewertungen und eigenen Restaurants als Link teilen">Teilen</button>
   <button class="btn icon" id="btn-theme" title="Hell/Dunkel umschalten" aria-label="Design umschalten">◐</button>
 </header>
 
 <main>
-  <section class="card">
-    <div class="toolbar">
-      <h2>Wunschprofil</h2>
-      <span class="grow"></span>
+  <div id="share-banner" role="status">
+    <span id="share-text" style="flex:1"></span>
+    <button class="btn primary" id="share-accept">Übernehmen</button>
+    <button class="btn" id="share-dismiss">Nein danke</button>
+  </div>
+
+  <!-- Schritt 1 -->
+  <section class="step" id="step-art">
+    <div class="step-head">
+      <span class="step-num">1</span>
+      <h2 class="step-title">Heute habe ich Lust auf <em id="art-word">…</em></h2>
+    </div>
+    <div id="tiles"></div>
+  </section>
+
+  <!-- Schritt 2 -->
+  <section class="step" id="step-wish">
+    <div class="step-head">
+      <span class="step-num">2</span>
+      <h2 class="step-title">Mir ist wichtig:</h2>
+      <span class="grow" style="flex:1"></span>
       <button class="btn small" id="btn-reset" title="Wunschprofil zurücksetzen">↺ Zurücksetzen</button>
     </div>
-    <p class="hint">Punkt anklicken oder entlang der Achse ziehen: 1 tief … 5 hoch. «egal» neben dem Kriterium = wird nicht gewertet. Preisniveau und Günstig schliessen sich aus.</p>
-    <div id="radar-wrap">
-      <svg id="radar" viewBox="0 0 820 640" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Netzdiagramm"></svg>
+    <div class="card">
+      <p class="hint">Punkt anklicken oder entlang der Achse ziehen: 1 tief … 5 hoch. «egal» = wird nicht gewertet. Preisniveau und Günstig schliessen sich aus.</p>
+      <div id="radar-wrap">
+        <svg id="radar" viewBox="0 0 820 640" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Netzdiagramm"></svg>
+      </div>
+      <div id="overlay-info"></div>
     </div>
-    <div id="overlay-info"></div>
   </section>
 
-  <section class="card">
-    <div class="toolbar">
-      <h2>Restaurants</h2>
-      <span id="rest-count" class="hint" style="margin:0"></span>
-      <label for="sel-art" class="hint" style="margin:0 0 0 8px">Art</label>
-      <select id="sel-art" title="Art der Küche"></select>
-      <span class="grow"></span>
-      <button class="btn small" id="btn-demo" title="Fiktive Beispiel-Restaurants aus Zürich laden">Beispiele</button>
-      <button class="btn small" id="btn-export" title="Alle Restaurants als JSON sichern">Sichern</button>
-      <button class="btn small" id="btn-import" title="JSON-Datei laden">Laden</button>
-      <input type="file" id="file-import" accept="application/json,.json" hidden>
-      <button class="btn small primary" id="btn-add">＋ Restaurant</button>
+  <!-- Schritt 3 -->
+  <section class="step" id="step-list">
+    <div class="step-head">
+      <span class="step-num">3</span>
+      <h2 class="step-title">Deine Treffer</h2>
+      <span id="rest-count" class="step-sub"></span>
+      <span style="flex:1"></span>
+      <div class="toolbar">
+        <button class="btn small" id="btn-export" title="Eigene Bewertungen und Restaurants als JSON sichern">Sichern</button>
+        <button class="btn small" id="btn-import" title="JSON-Datei laden">Laden</button>
+        <input type="file" id="file-import" accept="application/json,.json" hidden>
+        <button class="btn small primary" id="btn-add">＋ Eigenes Restaurant</button>
+      </div>
     </div>
-    <p class="hint">Sortiert nach Passung zum Wunschprofil. Antippen legt das Restaurant über das Netz.</p>
+    <p class="hint">Sortiert nach Passung. Antippen legt das Restaurant über das Netz. Mit ✎ bewertest du selbst – deine Bewertung zählt dann statt der des Gastroführers.</p>
     <div id="rest-list"></div>
-  </section>
-
-  <section class="card">
-    <details id="table-details">
-      <summary>Tabelle Wunschprofil</summary>
-      <p class="hint" style="margin-top:8px">Kriterium anklicken, um es umzubenennen.</p>
-      <table>
-        <thead><tr><th>Kriterium</th><th>Wunsch</th></tr></thead>
-        <tbody id="table-body"></tbody>
-      </table>
-    </details>
   </section>
 </main>
 
 <dialog id="dlg">
   <div class="body">
     <h2 id="dlg-title">Restaurant erfassen</h2>
-    <div class="two">
-      <label class="field">Name<input type="text" id="f-name" required></label>
-      <label class="field">Ort<input type="text" id="f-ort"></label>
+    <div id="dlg-fields">
+      <div class="two">
+        <label class="field">Name<input type="text" id="f-name" required></label>
+        <label class="field">Ort<input type="text" id="f-ort"></label>
+      </div>
+      <div class="two" style="margin-top:10px">
+        <label class="field">Art<input type="text" id="f-art" list="art-list" placeholder="z.B. Japanisch"><datalist id="art-list"></datalist></label>
+        <label class="field">Link<input type="url" id="f-link" placeholder="https://…"></label>
+      </div>
+      <label class="field" style="margin-top:10px">Notiz<textarea id="f-note" rows="2"></textarea></label>
     </div>
-    <div class="two">
-      <label class="field">Art<input type="text" id="f-art" list="art-list" placeholder="z.B. Japanisch"><datalist id="art-list"></datalist></label>
-      <label class="field">Link<input type="url" id="f-link" placeholder="https://…"></label>
-    </div>
-    <label class="field">Notiz<textarea id="f-note" rows="2"></textarea></label>
     <div>
-      <p class="hint">Bewertung des Restaurants (1 tief … 5 hoch)</p>
+      <p class="hint" id="rating-hint">Bewertung (1 tief … 5 hoch)</p>
       <div id="rating-rows"></div>
     </div>
   </div>
   <div class="foot">
+    <button class="btn danger" id="dlg-remove-own" hidden>Eigene Bewertung entfernen</button>
+    <span class="grow"></span>
     <button class="btn" id="dlg-cancel">Abbrechen</button>
     <button class="btn primary" id="dlg-save">Speichern</button>
   </div>
 </dialog>
 
+<button id="jump" type="button">Treffer ansehen ↓</button>
 <footer id="footer-version"></footer>
 <div id="toasts" aria-live="polite"></div>
 
-<script src="gastro.js?v=0.3.2"></script>
+<script src="gastro.js?v=0.4.1"></script>
 </body>
 </html>

@@ -1,129 +1,147 @@
 /* Gastroführer – gastro.js */
 'use strict';
 
-const GF_VERSION = '0.3.2';
+const GF_VERSION = '0.4.1';
 
 // ---------- Konstanten ----------
-const DEFAULT_LABELS = [
-  'Preisniveau', 'Ambiente', 'Weinkarte', 'Essen',
-  'Sehen und gesehen werden', 'Günstig', 'Weitere Option 2'
-];
-// Kriterien, die sich gegenseitig ausschliessen (Index-Paare): Preisniveau <-> Günstig
-const EXCLUSIVE = [[0, 5]];
-function partnerOf(i) { for (const [a, b] of EXCLUSIVE) { if (i === a) return b; if (i === b) return a; } return -1; }
-const N = DEFAULT_LABELS.length;
+const LABELS = ['Preisniveau', 'Ambiente', 'Weinkarte', 'Essen', 'Sehen und gesehen werden', 'Günstig', 'Weitere Option 2'];
+const SHORT = ['Preis', 'Ambiente', 'Wein', 'Essen', 'Gesehen werden', 'Günstig', 'Option 2'];
+const N = LABELS.length;
 const LEVELS = 5;
 const DEFAULT_VALUE = 3;
-const DEFAULT_ARTEN = [
-  'Schweizerisch', 'Italienisch', 'Französisch', 'Spanisch', 'Griechisch',
-  'Japanisch', 'Chinesisch', 'Thailändisch', 'Vietnamesisch', 'Indisch',
-  'Mexikanisch', 'Vegetarisch/Vegan', 'Steakhouse', 'Fisch'
-];
+const EXCLUSIVE = [[0, 5]]; // Preisniveau <-> Günstig
+function partnerOf(i) { for (const [a, b] of EXCLUSIVE) { if (i === a) return b; if (i === b) return a; } return -1; }
+
+const EMOJI = {
+  'Schweizerisch': '🫕', 'Italienisch': '🍝', 'Französisch': '🥐', 'Spanisch': '🥘', 'Griechisch': '🫒',
+  'Japanisch': '🍣', 'Chinesisch': '🥟', 'Thailändisch': '🌶️', 'Vietnamesisch': '🍜', 'Indisch': '🍛',
+  'Mexikanisch': '🌮', 'Vegetarisch/Vegan': '🥗', 'Steakhouse': '🥩', 'Fisch': '🐟'
+};
+const ART_ORDER = Object.keys(EMOJI);
 
 const LS_THEME = 'gf-theme';
 const LS_WISH = 'gf-wunsch';
-const LS_LABELS = 'gf-labels';
-const LS_REST = 'gf-restaurants';
 const LS_ART = 'gf-art';
+const LS_OWN = 'gf-own';        // eigene Bewertungen: { [id]: values[] }
+const LS_MINE = 'gf-mine';      // eigene Restaurants: [ {id, name, ort, art, link, note, values} ]
 
-const CX = 410, CY = 320, R = 235, LABEL_R = R + 36;
+const CX = 410, CY = 320;
+let R = 235, LABEL_R = R + 36;
+// Mobile: kürzere Titel, grössere Knöpfe/Punkte
+function isMobile() { return window.innerWidth <= 600; }
+function geo() {
+  const m = isMobile();
+  R = m ? 210 : 235; LABEL_R = R + (m ? 34 : 36);
+  return { m, W: m ? 64 : 40, H: m ? 28 : 18, stepR: m ? 8 : 5, dotR: m ? 10 : 7, hit: m ? 40 : 26 };
+}
 
 // ---------- Zustand ----------
-let labels = loadJSON(LS_LABELS, null);
-if (!Array.isArray(labels) || labels.length !== N) labels = [...DEFAULT_LABELS];
-if (labels[5] === 'Weitere Option 1') labels[5] = 'Günstig'; // Migration v0.2 -> v0.3
-
-let wish = loadJSON(LS_WISH, null);                    // 1–5 oder null (= egal)
+let base = [];                                              // Gastroführer-Daten (restaurants.json)
+let wish = loadJSON(LS_WISH, null);
 if (!Array.isArray(wish) || wish.length !== N) wish = Array(N).fill(DEFAULT_VALUE);
+let own = loadJSON(LS_OWN, {}); if (!own || typeof own !== 'object') own = {};
+let mine = loadJSON(LS_MINE, []); if (!Array.isArray(mine)) mine = [];
+let artFilter = ''; try { artFilter = localStorage.getItem(LS_ART) || ''; } catch {}
+let selectedId = null;
+let pendingShare = null;
 
-let restaurants = loadJSON(LS_REST, []);
-if (!Array.isArray(restaurants)) restaurants = [];
+// Migration v0.3: eigene Einträge aus gf-restaurants übernehmen
+(function migrate() {
+  const old = loadJSON('gf-restaurants', null);
+  if (Array.isArray(old)) {
+    for (const r of old) if (r?.name && !String(r.id).startsWith('demo-') && !mine.some(m => m.id === r.id)) mine.push(r);
+    try { localStorage.removeItem('gf-restaurants'); } catch {}
+    save();
+  }
+})();
 
-let artFilter = '';                                    // '' = Alle
-try { artFilter = localStorage.getItem(LS_ART) || ''; } catch {}
-
-let selectedId = null;                                 // Restaurant, das über das Netz gelegt wird
-let editingId = null;                                  // im Dialog
-
-// ---------- Speichern / Laden ----------
-function loadJSON(key, fallback) {
-  try { const v = localStorage.getItem(key); return v ? JSON.parse(v) : fallback; }
-  catch { return fallback; }
-}
+function loadJSON(key, fb) { try { const v = localStorage.getItem(key); return v ? JSON.parse(v) : fb; } catch { return fb; } }
 function save() {
   try {
     localStorage.setItem(LS_WISH, JSON.stringify(wish));
-    localStorage.setItem(LS_LABELS, JSON.stringify(labels));
-    localStorage.setItem(LS_REST, JSON.stringify(restaurants));
+    localStorage.setItem(LS_OWN, JSON.stringify(own));
+    localStorage.setItem(LS_MINE, JSON.stringify(mine));
     localStorage.setItem(LS_ART, artFilter);
   } catch {}
 }
 
 // ---------- Theme ----------
-function applyTheme(t) {
-  document.documentElement.setAttribute('data-theme', t);
-  try { localStorage.setItem(LS_THEME, t); } catch {}
-}
-(function initTheme() {
-  let t = null;
-  try { t = localStorage.getItem(LS_THEME); } catch {}
+function applyTheme(t) { document.documentElement.setAttribute('data-theme', t); try { localStorage.setItem(LS_THEME, t); } catch {} }
+(function () {
+  let t = null; try { t = localStorage.getItem(LS_THEME); } catch {}
   if (!t) t = matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
   document.documentElement.setAttribute('data-theme', t);
 })();
-document.getElementById('btn-theme').addEventListener('click', () => {
-  applyTheme(document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark');
-});
-
-// ---------- Toast ----------
-function toast(msg) {
-  const el = document.createElement('div');
-  el.className = 'toast'; el.textContent = msg;
-  document.getElementById('toasts').appendChild(el);
-  setTimeout(() => el.remove(), 2200);
-}
+document.getElementById('btn-theme').addEventListener('click', () =>
+  applyTheme(document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark'));
 
 // ---------- Hilfen ----------
-function uid() { return 'r' + Date.now().toString(36) + Math.random().toString(36).slice(2, 6); }
-function esc(s) { return String(s ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c])); }
-function cssVar(name) { return getComputedStyle(document.documentElement).getPropertyValue(name).trim(); }
-function arten() {
-  const set = new Set(DEFAULT_ARTEN);
-  restaurants.forEach(r => { if (r.art) set.add(r.art); });
-  return [...set].sort((a, b) => a.localeCompare(b, 'de'));
+function toast(msg) {
+  const el = document.createElement('div'); el.className = 'toast'; el.textContent = msg;
+  document.getElementById('toasts').appendChild(el); setTimeout(() => el.remove(), 2400);
 }
+function uid() { return 'u' + Date.now().toString(36) + Math.random().toString(36).slice(2, 6); }
+function esc(s) { return String(s ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c])); }
+function cssVar(n) { return getComputedStyle(document.documentElement).getPropertyValue(n).trim(); }
 
-// Passung 0–100 %: mittlere Abweichung über alle nicht-«egal»-Kriterien
-function score(r) {
+function allRestaurants() {
+  return [...base.map(r => ({ ...r, source: 'gf' })), ...mine.map(r => ({ ...r, source: 'mine' }))];
+}
+function effectiveValues(r) { return own[r.id] || r.values; }
+function arten() {
+  const set = new Set(ART_ORDER);
+  allRestaurants().forEach(r => { if (r.art) set.add(r.art); });
+  const extra = [...set].filter(a => !ART_ORDER.includes(a)).sort((a, b) => a.localeCompare(b, 'de'));
+  return [...ART_ORDER, ...extra];
+}
+function score(values) {
   let sum = 0, n = 0;
   for (let i = 0; i < N; i++) {
     if (wish[i] === null) continue;
-    const v = r.values?.[i];
-    if (typeof v !== 'number') continue;
+    const v = values?.[i]; if (typeof v !== 'number') continue;
     sum += Math.abs(wish[i] - v); n++;
   }
-  if (!n) return null;
-  return Math.round(100 * (1 - sum / (n * (LEVELS - 1))));
+  return n ? Math.round(100 * (1 - sum / (n * (LEVELS - 1)))) : null;
 }
 
-// ---------- Geometrie / SVG ----------
+// ---------- Schritt 1: Kacheln ----------
+function drawTiles() {
+  const box = document.getElementById('tiles');
+  box.innerHTML = '';
+  const all = allRestaurants();
+  const counts = {};
+  all.forEach(r => { counts[r.art] = (counts[r.art] || 0) + 1; });
+  const mk = (art, label, emoji, count) => {
+    const b = document.createElement('button');
+    b.className = 'tile' + (artFilter === art ? ' active' : '');
+    b.innerHTML = `<span class="emoji">${emoji}</span><span class="name">${esc(label)}</span><span class="count">${count} ${count === 1 ? 'Lokal' : 'Lokale'}</span>`;
+    b.addEventListener('click', () => {
+      artFilter = art; save(); render();
+      document.getElementById('step-wish').scrollIntoView({ behavior: 'smooth', block: 'start' });
+    });
+    box.appendChild(b);
+  };
+  mk('', 'Überrasch mich', '🎲', all.length);
+  arten().forEach(a => mk(a, a, EMOJI[a] || '🍽️', counts[a] || 0));
+  document.getElementById('art-word').textContent = artFilter ? artFilter : '…';
+}
+
+// ---------- Schritt 2: Netz ----------
 const svg = document.getElementById('radar');
 function angle(i) { return -Math.PI / 2 + (2 * Math.PI * i) / N; }
-function point(i, level) {
-  const r = (R * level) / LEVELS, a = angle(i);
-  return [CX + r * Math.cos(a), CY + r * Math.sin(a)];
-}
+function point(i, level) { const r = (R * level) / LEVELS, a = angle(i); return [CX + r * Math.cos(a), CY + r * Math.sin(a)]; }
 function svgEl(tag, attrs = {}, parent) {
   const el = document.createElementNS('http://www.w3.org/2000/svg', tag);
   for (const k in attrs) el.setAttribute(k, attrs[k]);
   if (parent) parent.appendChild(el);
   return el;
 }
-
 function drawRadar() {
   svg.innerHTML = '';
+  const G = geo();
+  svg.classList.toggle('mobile', G.m);
   for (let l = 1; l <= LEVELS; l++) {
-    const pts = [];
-    for (let i = 0; i < N; i++) pts.push(point(i, l).join(','));
+    const pts = []; for (let i = 0; i < N; i++) pts.push(point(i, l).join(','));
     svgEl('polygon', { class: 'ring', points: pts.join(' ') }, svg);
     const [x, y] = point(0, l);
     svgEl('text', { class: 'level-num', x: x + 6, y: y + 4 }, svg).textContent = l;
@@ -132,63 +150,43 @@ function drawRadar() {
     const off = wish[i] === null;
     const [x, y] = point(i, LEVELS);
     svgEl('line', { class: 'axis' + (off ? ' off' : ''), x1: CX, y1: CY, x2: x, y2: y }, svg);
-    svgEl('line', { class: 'axis-hit', x1: CX, y1: CY, x2: x, y2: y, 'data-axis': i }, svg)
-      .addEventListener('pointerdown', onAxisPointerDown);
+    svgEl('line', { class: 'axis-hit', x1: CX, y1: CY, x2: x, y2: y, 'data-axis': i, 'stroke-width': G.hit }, svg).addEventListener('pointerdown', onAxisPointerDown);
     for (let l = 1; l <= LEVELS; l++) {
       const [sx, sy] = point(i, l);
-      svgEl('circle', { class: 'step' + (off ? ' off' : ''), cx: sx, cy: sy, r: 5, 'data-axis': i, 'data-level': l }, svg)
-        .addEventListener('pointerdown', onAxisPointerDown);
+      svgEl('circle', { class: 'step-pt' + (off ? ' off' : ''), cx: sx, cy: sy, r: G.stepR, 'data-axis': i, 'data-level': l }, svg).addEventListener('pointerdown', onAxisPointerDown);
     }
     const a = angle(i), cos = Math.cos(a), sin = Math.sin(a);
     const anchor = Math.abs(cos) < 0.15 ? 'middle' : cos > 0 ? 'start' : 'end';
     const lx = CX + LABEL_R * cos, ly = CY + LABEL_R * sin + 5;
     const t = svgEl('text', { class: 'label' + (off ? ' off' : ''), x: lx, y: ly, 'text-anchor': anchor }, svg);
-    t.textContent = labels[i];
+    t.textContent = G.m ? SHORT[i] : LABELS[i];
     t.addEventListener('click', () => toggleOff(i));
-    // «egal»-Knopf: oberhalb bei Achsen in der oberen Hälfte, sonst unterhalb
-    const W = 40, H = 18;
+    const W = G.W, H = G.H;
     const by = sin < -0.05 ? ly - 14 - H : ly + 8;
     const bx = anchor === 'start' ? lx : anchor === 'end' ? lx - W : lx - W / 2;
     const g = svgEl('g', { class: 'egal-btn' + (off ? ' on' : '') }, svg);
     svgEl('title', {}, g).textContent = off ? 'Wieder werten' : 'Ist mir egal';
     svgEl('rect', { x: bx, y: by, width: W, height: H, rx: 9 }, g);
-    svgEl('text', { x: bx + W / 2, y: by + 13, 'text-anchor': 'middle' }, g).textContent = 'egal';
+    svgEl('text', { x: bx + W / 2, y: by + H * 0.72, 'text-anchor': 'middle' }, g).textContent = 'egal';
     g.addEventListener('click', () => toggleOff(i));
   }
-
-  // Restaurant-Overlay (gestrichelt)
-  const sel = restaurants.find(r => r.id === selectedId);
-  if (sel) drawPoly(sel.values, cssVar('--rest'), false);
-  // Wunschprofil (kräftig, oben)
+  const sel = allRestaurants().find(r => r.id === selectedId);
+  if (sel) drawPoly(effectiveValues(sel), own[sel.id] ? cssVar('--own') : cssVar('--rest'), false);
   drawPoly(wish, cssVar('--wish'), true);
 }
 function drawPoly(values, col, isWish) {
   const pts = [];
   for (let i = 0; i < N; i++) if (typeof values[i] === 'number') pts.push(point(i, values[i]));
-  if (pts.length >= 2) {
-    svgEl(pts.length >= 3 ? 'polygon' : 'polyline', {
-      class: 'poly' + (isWish ? '' : ' rest'),
-      points: pts.map(q => q.join(',')).join(' '), fill: col, stroke: col
-    }, svg);
-  }
+  if (pts.length >= 2) svgEl(pts.length >= 3 ? 'polygon' : 'polyline', { class: 'poly' + (isWish ? '' : ' rest'), points: pts.map(q => q.join(',')).join(' '), fill: col, stroke: col }, svg);
   for (let i = 0; i < N; i++) {
     if (typeof values[i] !== 'number') continue;
     const [dx, dy] = point(i, values[i]);
-    const d = svgEl('circle', {
-      class: 'dot' + (isWish ? ' wish' : ''), cx: dx, cy: dy,
-      r: isWish ? 7 : 4, fill: col, stroke: 'var(--card)', 'stroke-width': isWish ? 2 : 1, 'data-axis': i
-    }, svg);
+    const d = svgEl('circle', { class: 'dot' + (isWish ? ' wish' : ''), cx: dx, cy: dy, r: isWish ? geo().dotR : 4, fill: col, stroke: 'var(--card)', 'stroke-width': isWish ? 2 : 1, 'data-axis': i }, svg);
     if (isWish) d.addEventListener('pointerdown', onAxisPointerDown);
   }
 }
-
-// ---------- Interaktion Netz ----------
 let drag = null;
-function svgPoint(evt) {
-  const pt = svg.createSVGPoint(); pt.x = evt.clientX; pt.y = evt.clientY;
-  const p = pt.matrixTransform(svg.getScreenCTM().inverse());
-  return [p.x, p.y];
-}
+function svgPoint(evt) { const pt = svg.createSVGPoint(); pt.x = evt.clientX; pt.y = evt.clientY; const p = pt.matrixTransform(svg.getScreenCTM().inverse()); return [p.x, p.y]; }
 function levelFromPointer(axis, evt) {
   const [px, py] = svgPoint(evt), a = angle(axis);
   const proj = (px - CX) * Math.cos(a) + (py - CY) * Math.sin(a);
@@ -215,120 +213,116 @@ svg.addEventListener('pointercancel', endDrag);
 function setWish(axis, level, persist = true) {
   wish[axis] = level;
   const p = partnerOf(axis);
-  if (p >= 0 && wish[p] !== null) { wish[p] = null; if (persist) toast(`«${labels[p]}» auf egal gesetzt`); }
+  if (p >= 0 && wish[p] !== null) { wish[p] = null; if (persist) toast(`«${LABELS[p]}» auf egal gesetzt`); }
   if (persist) save();
   render();
-if (!restaurants.length) loadDemo(true); // leere Liste: Beispiele automatisch anbieten
 }
 function toggleOff(axis) {
   if (wish[axis] === null) {
     wish[axis] = DEFAULT_VALUE;
     const p = partnerOf(axis);
-    if (p >= 0 && wish[p] !== null) { wish[p] = null; toast(`«${labels[p]}» auf egal gesetzt`); }
-  } else {
-    wish[axis] = null;
-  }
+    if (p >= 0 && wish[p] !== null) { wish[p] = null; toast(`«${LABELS[p]}» auf egal gesetzt`); }
+  } else wish[axis] = null;
   save(); render();
 }
-document.getElementById('btn-reset').addEventListener('click', () => {
-  wish = Array(N).fill(DEFAULT_VALUE);
-  save(); render(); toast('Wunschprofil zurückgesetzt');
-});
+document.getElementById('btn-reset').addEventListener('click', () => { wish = Array(N).fill(DEFAULT_VALUE); save(); render(); toast('Wunschprofil zurückgesetzt'); });
 
-// ---------- Overlay-Info ----------
 function drawOverlayInfo() {
   const box = document.getElementById('overlay-info');
-  const sel = restaurants.find(r => r.id === selectedId);
-  box.innerHTML = `<span><span class="swatch" style="background:${cssVar('--wish')}"></span>Wunschprofil</span>`;
+  const sel = allRestaurants().find(r => r.id === selectedId);
+  box.innerHTML = `<span><span class="swatch" style="background:${cssVar('--wish')}"></span>Mein Wunsch</span>`;
   if (sel) {
-    const s = score(sel);
-    box.innerHTML += `<span><span class="swatch dash" style="background:${cssVar('--rest')}"></span>${esc(sel.name)}${s === null ? '' : ' · ' + s + ' %'}</span>
+    const isOwn = !!own[sel.id];
+    const s = score(effectiveValues(sel));
+    box.innerHTML += `<span><span class="swatch dash" style="background:${isOwn ? cssVar('--own') : cssVar('--rest')}"></span>${esc(sel.name)}${isOwn ? ' (deine Bewertung)' : ''}${s === null ? '' : ' · ' + s + ' %'}</span>
       <button class="btn small" id="btn-clear-overlay">Ausblenden</button>`;
     box.querySelector('#btn-clear-overlay').addEventListener('click', () => { selectedId = null; render(); });
   }
 }
 
-// ---------- Art-Dropdown ----------
-function drawArtSelect() {
-  const sel = document.getElementById('sel-art');
-  const list = arten();
-  if (artFilter && !list.includes(artFilter)) artFilter = '';
-  sel.innerHTML = '<option value="">Alle Arten</option>' + list.map(a => `<option value="${esc(a)}">${esc(a)}</option>`).join('');
-  sel.value = artFilter;
-  document.getElementById('art-list').innerHTML = list.map(a => `<option value="${esc(a)}">`).join('');
+// ---------- Schritt 3: Ranking ----------
+function ringSVG(s) {
+  const r = 24, c = 2 * Math.PI * r, off = s === null ? c : c * (1 - s / 100);
+  return `<svg class="ring" viewBox="0 0 58 58"><circle class="track" cx="29" cy="29" r="${r}"/><circle class="val" cx="29" cy="29" r="${r}" stroke-dasharray="${c}" stroke-dashoffset="${off}"/><text x="29" y="29">${s === null ? '–' : s}</text></svg>`;
 }
-document.getElementById('sel-art').addEventListener('change', e => { artFilter = e.target.value; save(); render(); });
-
-// ---------- Restaurantliste ----------
+function barsHTML(values, cls) {
+  return `<div class="bars ${cls}" title="${LABELS.map((l, i) => l + ': ' + (values[i] ?? '–')).join(', ')}">` +
+    values.map((v, i) => `<i class="${wish[i] === null ? 'off' : ''}" style="height:${(v / LEVELS) * 100}%"></i>`).join('') + '</div>';
+}
 function drawList() {
   const box = document.getElementById('rest-list');
   box.innerHTML = '';
-  const rows = restaurants
-    .filter(r => !artFilter || r.art === artFilter)
-    .map(r => ({ r, s: score(r) }))
+  const all = allRestaurants();
+  const rows = all.filter(r => !artFilter || r.art === artFilter)
+    .map(r => ({ r, s: score(effectiveValues(r)) }))
     .sort((a, b) => (b.s ?? -1) - (a.s ?? -1) || a.r.name.localeCompare(b.r.name, 'de'));
-
-  document.getElementById('rest-count').textContent =
-    rows.length === restaurants.length ? `${restaurants.length}` : `${rows.length} von ${restaurants.length}`;
-
+  document.getElementById('rest-count').textContent = artFilter ? `${rows.length} × ${artFilter}` : `${rows.length} Lokale`;
   if (!rows.length) {
-    box.innerHTML = `<div class="empty">${restaurants.length ? 'Kein Restaurant dieser Art erfasst.' : 'Noch keine Restaurants. Mit «＋ Restaurant» das erste erfassen.'}</div>`;
+    box.innerHTML = `<div class="empty">${all.length ? 'Kein Lokal dieser Art. Erfasse eines mit «＋ Eigenes Restaurant».' : 'Daten werden geladen …'}</div>`;
     return;
   }
-  for (const { r, s } of rows) {
+  rows.forEach(({ r, s }, idx) => {
+    const isOwn = !!own[r.id];
     const div = document.createElement('div');
     div.className = 'row' + (r.id === selectedId ? ' selected' : '');
     div.tabIndex = 0;
     const meta = [r.art, r.ort].filter(Boolean).map(esc).join(' · ');
     div.innerHTML = `
-      <div class="score">${s === null ? '–' : s + '<small>%</small>'}</div>
+      <div class="rank r${idx + 1}">${idx + 1}</div>
+      ${ringSVG(s)}
       <div>
-        <div class="name">${esc(r.name)}</div>
+        <div class="name">${esc(r.name)}${r.source === 'mine' ? '<span class="badge mine">eigenes</span>' : ''}${isOwn ? '<span class="badge own">deine Bewertung</span>' : ''}</div>
         <div class="meta">${meta}${r.link ? (meta ? ' · ' : '') + `<a href="${esc(r.link)}" target="_blank" rel="noopener">Link</a>` : ''}</div>
         ${r.note ? `<div class="meta">${esc(r.note)}</div>` : ''}
+        ${isOwn ? barsHTML(own[r.id], 'own') : barsHTML(r.values, '')}
       </div>
       <div class="actions">
-        <button class="btn small icon" data-edit title="Bearbeiten">✎</button>
-        <button class="btn small icon danger" data-del title="Löschen">✕</button>
+        <button class="btn small icon" data-rate title="${isOwn ? 'Deine Bewertung ändern' : 'Selbst bewerten'}">✎</button>
+        ${r.source === 'mine' ? '<button class="btn small icon danger" data-del title="Löschen">✕</button>' : ''}
       </div>`;
     div.addEventListener('click', e => {
       if (e.target.closest('a,button')) return;
       selectedId = selectedId === r.id ? null : r.id; render();
-      if (selectedId) window.scrollTo({ top: 0, behavior: 'smooth' });
+      if (selectedId) document.getElementById('step-wish').scrollIntoView({ behavior: 'smooth', block: 'start' });
     });
     div.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); div.click(); } });
-    div.querySelector('[data-edit]').addEventListener('click', () => openDialog(r));
-    div.querySelector('[data-del]').addEventListener('click', () => {
+    div.querySelector('[data-rate]').addEventListener('click', () => openDialog(r));
+    div.querySelector('[data-del]')?.addEventListener('click', () => {
       if (!confirm(`«${r.name}» löschen?`)) return;
-      restaurants = restaurants.filter(x => x.id !== r.id);
+      mine = mine.filter(x => x.id !== r.id); delete own[r.id];
       if (selectedId === r.id) selectedId = null;
       save(); render(); toast(`«${r.name}» gelöscht`);
     });
     box.appendChild(div);
-  }
+  });
 }
 
-// ---------- Dialog Erfassen / Bearbeiten ----------
+// ---------- Dialog: eigenes Restaurant / eigene Bewertung ----------
 const dlg = document.getElementById('dlg');
-let dlgValues = Array(N).fill(DEFAULT_VALUE);
+let dlgValues = Array(N).fill(DEFAULT_VALUE), dlgTarget = null; // null = neu, sonst Restaurant
 
 function openDialog(r) {
-  editingId = r ? r.id : null;
-  document.getElementById('dlg-title').textContent = r ? 'Restaurant bearbeiten' : 'Restaurant erfassen';
+  dlgTarget = r || null;
+  const editableFields = !r || r.source === 'mine';
+  document.getElementById('dlg-fields').style.display = editableFields ? '' : 'none';
+  document.getElementById('dlg-title').textContent = !r ? 'Eigenes Restaurant erfassen' : r.source === 'mine' ? `${r.name} bearbeiten` : `${r.name} selbst bewerten`;
+  document.getElementById('rating-hint').textContent = !r || r.source === 'mine' ? 'Bewertung (1 tief … 5 hoch)' : 'Deine Bewertung ersetzt die des Gastroführers (1 tief … 5 hoch)';
   document.getElementById('f-name').value = r?.name || '';
   document.getElementById('f-ort').value = r?.ort || '';
-  document.getElementById('f-art').value = r?.art || (artFilter || '');
+  document.getElementById('f-art').value = r?.art || artFilter || '';
   document.getElementById('f-link').value = r?.link || '';
   document.getElementById('f-note').value = r?.note || '';
-  dlgValues = r?.values?.length === N ? [...r.values] : Array(N).fill(DEFAULT_VALUE);
+  const src = r ? (own[r.id] || r.values) : null;
+  dlgValues = src?.length === N ? [...src] : Array(N).fill(DEFAULT_VALUE);
+  document.getElementById('dlg-remove-own').hidden = !(r && r.source === 'gf' && own[r.id]);
+  document.getElementById('art-list').innerHTML = arten().map(a => `<option value="${esc(a)}">`).join('');
   drawRatingRows();
   dlg.showModal();
-  document.getElementById('f-name').focus();
+  if (editableFields) document.getElementById('f-name').focus();
 }
 function drawRatingRows() {
-  const box = document.getElementById('rating-rows');
-  box.innerHTML = '';
-  labels.forEach((lab, i) => {
+  const box = document.getElementById('rating-rows'); box.innerHTML = '';
+  LABELS.forEach((lab, i) => {
     const row = document.createElement('div'); row.className = 'rating-row';
     row.innerHTML = `<span>${esc(lab)}</span><span class="vals"></span>`;
     const vals = row.querySelector('.vals');
@@ -343,131 +337,101 @@ function drawRatingRows() {
 }
 document.getElementById('btn-add').addEventListener('click', () => openDialog(null));
 document.getElementById('dlg-cancel').addEventListener('click', () => dlg.close());
+document.getElementById('dlg-remove-own').addEventListener('click', () => {
+  if (dlgTarget) { delete own[dlgTarget.id]; save(); render(); toast('Eigene Bewertung entfernt'); }
+  dlg.close();
+});
 document.getElementById('dlg-save').addEventListener('click', () => {
-  const name = document.getElementById('f-name').value.trim();
-  if (!name) { document.getElementById('f-name').focus(); toast('Name fehlt'); return; }
-  const data = {
-    name,
-    ort: document.getElementById('f-ort').value.trim(),
-    art: document.getElementById('f-art').value.trim(),
-    link: document.getElementById('f-link').value.trim(),
-    note: document.getElementById('f-note').value.trim(),
-    values: [...dlgValues]
-  };
-  if (editingId) {
-    const r = restaurants.find(x => x.id === editingId);
-    Object.assign(r, data);
-    toast(`«${name}» gespeichert`);
+  if (dlgTarget && dlgTarget.source === 'gf') {
+    own[dlgTarget.id] = [...dlgValues];
+    toast(`Deine Bewertung für «${dlgTarget.name}» gespeichert`);
   } else {
-    const r = { id: uid(), ...data };
-    restaurants.push(r); selectedId = r.id;
-    toast(`«${name}» erfasst`);
+    const name = document.getElementById('f-name').value.trim();
+    if (!name) { document.getElementById('f-name').focus(); toast('Name fehlt'); return; }
+    const data = { name, ort: document.getElementById('f-ort').value.trim(), art: document.getElementById('f-art').value.trim(), link: document.getElementById('f-link').value.trim(), note: document.getElementById('f-note').value.trim(), values: [...dlgValues] };
+    if (dlgTarget) { Object.assign(mine.find(x => x.id === dlgTarget.id), data); toast(`«${name}» gespeichert`); }
+    else { const r = { id: uid(), ...data }; mine.push(r); selectedId = r.id; toast(`«${name}» erfasst`); }
   }
   dlg.close(); save(); render();
 });
 
-// ---------- Sichern / Laden (JSON) ----------
+// ---------- Teilen (URL-Hash) ----------
+function encodeShare() {
+  const payload = { v: 1, w: wish, a: artFilter, o: own, m: mine };
+  return btoa(unescape(encodeURIComponent(JSON.stringify(payload))));
+}
+function decodeShare(str) { return JSON.parse(decodeURIComponent(escape(atob(str)))); }
+document.getElementById('btn-share').addEventListener('click', async () => {
+  const url = location.origin + location.pathname + '#s=' + encodeShare();
+  try { await navigator.clipboard.writeText(url); toast('Link kopiert – einfach weiterschicken'); }
+  catch { prompt('Link zum Teilen:', url); }
+});
+(function checkShare() {
+  const m = location.hash.match(/^#s=(.+)$/);
+  if (!m) return;
+  try {
+    pendingShare = decodeShare(m[1]);
+    const nOwn = Object.keys(pendingShare.o || {}).length, nMine = (pendingShare.m || []).length;
+    document.getElementById('share-text').textContent =
+      `Jemand hat dir eine Auswahl geschickt: Wunschprofil${pendingShare.a ? ' (' + pendingShare.a + ')' : ''}, ${nOwn} eigene Bewertungen, ${nMine} eigene Restaurants.`;
+    document.getElementById('share-banner').classList.add('show');
+  } catch { toast('Geteilter Link konnte nicht gelesen werden'); }
+  history.replaceState(null, '', location.pathname);
+})();
+document.getElementById('share-accept').addEventListener('click', () => {
+  const p = pendingShare; if (!p) return;
+  if (Array.isArray(p.w) && p.w.length === N) wish = p.w;
+  if (typeof p.a === 'string') artFilter = p.a;
+  if (p.o && typeof p.o === 'object') Object.assign(own, p.o);
+  for (const r of p.m || []) if (r?.name && !mine.some(x => x.id === r.id)) mine.push(r);
+  pendingShare = null; document.getElementById('share-banner').classList.remove('show');
+  save(); render(); toast('Auswahl übernommen');
+});
+document.getElementById('share-dismiss').addEventListener('click', () => { pendingShare = null; document.getElementById('share-banner').classList.remove('show'); });
+
+// ---------- Sichern / Laden (eigene Daten) ----------
 document.getElementById('btn-export').addEventListener('click', () => {
-  const blob = new Blob([JSON.stringify({ version: GF_VERSION, labels, restaurants }, null, 2)], { type: 'application/json' });
-  const a = document.createElement('a');
-  a.href = URL.createObjectURL(blob);
-  a.download = 'gastrofuehrer-' + new Date().toISOString().slice(0, 10) + '.json';
-  a.click(); URL.revokeObjectURL(a.href);
-  toast('JSON gesichert');
+  const blob = new Blob([JSON.stringify({ version: GF_VERSION, wish, own, mine }, null, 2)], { type: 'application/json' });
+  const a = document.createElement('a'); a.href = URL.createObjectURL(blob);
+  a.download = 'gastrofuehrer-meins-' + new Date().toISOString().slice(0, 10) + '.json';
+  a.click(); URL.revokeObjectURL(a.href); toast('Gesichert');
 });
 document.getElementById('btn-import').addEventListener('click', () => document.getElementById('file-import').click());
-function mergeData(data) {
-  const list = Array.isArray(data) ? data : data.restaurants;
-  if (!Array.isArray(list)) throw new Error('Kein Restaurant-Array');
-  let added = 0;
-  for (const r of list) {
-    if (!r?.name) continue;
-    const values = Array.isArray(r.values) && r.values.length === N ? r.values.map(v => typeof v === 'number' ? v : DEFAULT_VALUE) : Array(N).fill(DEFAULT_VALUE);
-    const existing = restaurants.find(x => x.id === r.id);
-    const rec = { id: r.id || uid(), name: r.name, ort: r.ort || '', art: r.art || '', link: r.link || '', note: r.note || '', values };
-    if (existing) Object.assign(existing, rec); else restaurants.push(rec);
-    added++;
-  }
-  if (Array.isArray(data.labels) && data.labels.length === N) labels = data.labels;
-  return added;
-}
 document.getElementById('file-import').addEventListener('change', async e => {
   const f = e.target.files[0]; if (!f) return;
   try {
-    const added = mergeData(JSON.parse(await f.text()));
-    save(); render(); toast(`${added} Restaurants geladen`);
-  } catch (err) {
-    toast('Datei konnte nicht gelesen werden: ' + err.message);
-  }
+    const d = JSON.parse(await f.text());
+    if (Array.isArray(d.wish) && d.wish.length === N) wish = d.wish;
+    if (d.own && typeof d.own === 'object') Object.assign(own, d.own);
+    for (const r of d.mine || d.restaurants || []) if (r?.name && !mine.some(x => x.id === r.id)) mine.push({ ...r, id: r.id || uid() });
+    save(); render(); toast('Geladen');
+  } catch (err) { toast('Datei konnte nicht gelesen werden: ' + err.message); }
   e.target.value = '';
 });
 
-// Fiktive Beispieldaten (restaurants.json im Repo)
-async function loadDemo(silent) {
+// ---------- Gastroführer-Daten laden ----------
+async function loadBase() {
   try {
     const res = await fetch('restaurants.json?v=' + GF_VERSION);
     if (!res.ok) throw new Error(res.status);
-    const added = mergeData(await res.json());
-    save(); render();
-    if (!silent) toast(`${added} Beispiel-Restaurants geladen`);
-  } catch (err) {
-    if (!silent) toast('Beispiele nicht gefunden (restaurants.json fehlt?)');
-  }
-}
-document.getElementById('btn-demo').addEventListener('click', () => {
-  const hasDemo = restaurants.some(r => String(r.id).startsWith('demo-'));
-  if (hasDemo) {
-    if (!confirm('Beispiel-Restaurants entfernen? Eigene Einträge bleiben erhalten.')) return;
-    restaurants = restaurants.filter(r => !String(r.id).startsWith('demo-'));
-    if (selectedId && !restaurants.some(r => r.id === selectedId)) selectedId = null;
-    save(); render(); toast('Beispiele entfernt');
-  } else {
-    loadDemo(false);
-  }
-});
-
-// ---------- Tabelle Wunschprofil ----------
-function drawTable() {
-  const tb = document.getElementById('table-body');
-  tb.innerHTML = '';
-  labels.forEach((lab, i) => {
-    const tr = document.createElement('tr');
-    const tdC = document.createElement('td'); tdC.className = 'crit';
-    const nameBtn = document.createElement('button');
-    nameBtn.textContent = lab; nameBtn.title = 'Umbenennen';
-    nameBtn.addEventListener('click', () => renameLabel(i));
-    tdC.appendChild(nameBtn); tr.appendChild(tdC);
-
-    const tdV = document.createElement('td'); tdV.className = 'vals';
-    const off = document.createElement('button');
-    off.className = 'btn small off' + (wish[i] === null ? ' active' : '');
-    off.textContent = 'egal';
-    off.addEventListener('click', () => { wish[i] = null; save(); render(); });
-    tdV.appendChild(off);
-    for (let l = 1; l <= LEVELS; l++) {
-      const b = document.createElement('button');
-      b.className = 'btn small' + (wish[i] === l ? ' active' : ''); b.textContent = l;
-      b.addEventListener('click', () => setWish(i, l));
-      tdV.appendChild(b);
-    }
-    tr.appendChild(tdV); tb.appendChild(tr);
-  });
-}
-function renameLabel(i) {
-  const v = prompt('Kriterium umbenennen:', labels[i]);
-  if (v === null || !v.trim()) return;
-  labels[i] = v.trim(); save(); render(); toast('Kriterium umbenannt');
+    const d = await res.json();
+    base = (Array.isArray(d) ? d : d.restaurants || []).filter(r => r?.name && Array.isArray(r.values) && r.values.length === N);
+  } catch { toast('restaurants.json nicht gefunden – nur eigene Restaurants sichtbar'); }
+  render();
 }
 
 // ---------- Render ----------
-function render() {
-  drawArtSelect(); drawRadar(); drawOverlayInfo(); drawList(); drawTable();
-  const demoBtn = document.getElementById('btn-demo');
-  const hasDemo = restaurants.some(r => String(r.id).startsWith('demo-'));
-  demoBtn.textContent = hasDemo ? 'Beispiele entfernen' : 'Beispiele laden';
-}
+function render() { drawTiles(); drawRadar(); drawOverlayInfo(); drawList(); }
+let resizeT; window.addEventListener('resize', () => { clearTimeout(resizeT); resizeT = setTimeout(drawRadar, 120); });
 
+// Mobil: Sprungknopf zu den Treffern, wenn die Liste nicht im Bild ist
+(function jumpBtn() {
+  const btn = document.getElementById('jump'), list = document.getElementById('step-list');
+  btn.addEventListener('click', () => list.scrollIntoView({ behavior: 'smooth', block: 'start' }));
+  if (!('IntersectionObserver' in window)) return;
+  new IntersectionObserver(([e]) => btn.classList.toggle('show', !e.isIntersecting && window.scrollY > 200), { threshold: 0.05 }).observe(list);
+})();
 document.getElementById('app-version').textContent = 'v' + GF_VERSION;
 document.getElementById('footer-version').textContent = 'Gastroführer v' + GF_VERSION;
 render();
-if (!restaurants.length) loadDemo(true); // leere Liste: Beispiele automatisch laden
+loadBase();

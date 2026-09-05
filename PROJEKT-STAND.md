@@ -1,4 +1,4 @@
-# Gastroführer — Projektstand (05.09.2026, v0.3.0)
+# Gastroführer — Projektstand (05.09.2026, v0.4.1)
 
 ## Was es ist
 Eigenständige Browser-App (kein Login, kein O365/MSAL, keine Backend-Abhängigkeit),
@@ -15,37 +15,36 @@ CRM-CSS noch nicht 1:1 übernommen, Variablen im `<style>` von index.html sind d
 - localStorage: Theme `gf-theme`, Wunschprofil `gf-wunsch`, umbenannte Kriterien `gf-labels`,
   Restaurants `gf-restaurants`, gewählte Art `gf-art`.
 
-## Funktionsumfang v0.3.0
-- Konzept: Gastroführer mit Suche über die Spinne. Ein Wunschprofil, Restaurants werden nach
-  Passung sortiert.
-- Kopfzeile: Dropdown «Art» (Japanisch, Chinesisch, Italienisch … + alle Arten aus den
-  erfassten Restaurants), filtert die Liste. Theme-Umschalter.
-- 7 Kriterien: Preisniveau, Ambiente, Weinkarte, Essen, Sehen und gesehen werden,
-  Günstig, Weitere Option 2 — umbenennbar (Klick auf Namen in der Tabelle).
-- Wunschprofil 1–5 (1 tief, 5 hoch) oder «egal» (nicht gewertet, Achse grau).
-- Netzdiagramm (Radar, SVG) direkt bedienbar: Klick auf Stufenpunkt setzt Wert, Ziehen
-  entlang der Achse verstellt, Klick auf Achsentitel toggelt «egal» (Wiedereinschalten → 3).
-  Zurücksetzen (↺).
-- Restaurants: Erfassen/Bearbeiten/Löschen im Dialog (Name, Ort, Art, Link, Notiz,
-  Bewertung 1–5 je Kriterium). Speicherung im Browser (localStorage).
-- Passung: 0–100 %, mittlere Abweichung zwischen Wunsch und Restaurant über alle
-  nicht-«egal»-Kriterien. Liste sortiert nach Passung.
-- Antippen eines Restaurants legt dessen Profil gestrichelt (orange) über das Netz.
-- Sichern/Laden: alle Restaurants als JSON-Datei exportieren/importieren (Backup, Weitergabe,
-  Wechsel Gerät/Browser).
-- Eingeklappte Tabelle mit Knöpfen egal/1–5 für das Wunschprofil.
-- Kriterien-Chips unter dem Netz: Antippen = «ist mir egal» (nicht gewertet), erneut = wieder werten.
-- Preisniveau und Günstig schliessen sich aus (EXCLUSIVE in gastro.js): wird eines gesetzt,
-  geht das andere automatisch auf egal. Standard nach Zurücksetzen: Preisniveau aktiv, Günstig egal.
-- `restaurants.json`: 320 fiktive Zürcher Restaurants (ids `demo-…`) zum Ausprobieren. Werden bei
-  leerer Liste automatisch geladen; Knopf «Beispiele laden / entfernen». Eigene Einträge bleiben.
-
-## Entfernt gegenüber v0.1.0
-- Mehrfach-Profile (＋ Profil, Legende, Profil umbenennen/löschen).
+## Funktionsumfang v0.4.1
+- Geführter Ablauf in drei Schritten:
+  1. «Heute habe ich Lust auf …» – grosse Kacheln je Küchenart (Emoji, Anzahl Lokale),
+     «Überrasch mich» = alle. Auswahl erscheint im Titel, scrollt zu Schritt 2.
+  2. «Mir ist wichtig:» – Netzdiagramm (7 Achsen, 1–5, «egal»-Knopf am Achsentitel,
+     Preisniveau/Günstig schliessen sich aus). ↺ Zurücksetzen.
+  3. «Deine Treffer» – Ranking nach Passung (Rang, Prozent-Ring, Mini-Balken der Bewertung).
+     Antippen legt das Lokal über das Netz.
+- Datenmodell:
+  - `restaurants.json` = Haupt-Rating des Gastroführers (Kurator), wird immer geladen (aktuell
+    320 fiktive Zürcher Lokale).
+  - Eigene Bewertung (✎) zu jedem Lokal überschreibt lokal das Kurator-Rating (localStorage
+    `gf-own`, Badge «deine Bewertung», grüne Balken, entfernbar).
+  - Eigene Restaurants (＋) mit eigener Bewertung (localStorage `gf-mine`, Badge «eigenes»).
+- Teilen («Spotify-Stil»): Knopf «Teilen» kopiert einen Link mit Wunschprofil, Art, eigenen
+  Bewertungen und eigenen Restaurants (URL-Hash `#s=…`, Base64-JSON). Empfänger bekommt einen
+  Banner «Übernehmen / Nein danke». Ohne Backend, daher Link statt Konto.
+- Sichern/Laden der eigenen Daten als JSON.
+- localStorage: `gf-theme`, `gf-wunsch`, `gf-art`, `gf-own`, `gf-mine` (v0.3-Daten aus
+  `gf-restaurants` werden migriert, Demo-Einträge verworfen).
+- Kriterien sind fix (LABELS in gastro.js), Umbenennen entfernt.
+- Mobile first (≤600 px): 3-spaltige Kacheln, Netz mit Kurztiteln (SHORT), grösseren
+  Punkten/«egal»-Knöpfen und Tap-Zielen ≥40 px, Seite über dem Netz weiterhin scrollbar
+  (touch-action nur auf den Griffen), Dialog als Bottom-Sheet, schwebender Knopf
+  «Treffer ansehen ↓», Safe-Area-Abstände. Netz zeichnet sich bei Resize neu.
 
 ## Ideen / offen
 - CRM-CSS 1:1 übernehmen.
-- Teilen: Wunschprofil als URL-Hash (#p=…) kodieren.
+- Echtes Teilen mit Konto/Backend (Follower, öffentliche Listen) – im Prototyp nur Link.
+- Kurator-Modus: eigene Bewertungen direkt als neue `restaurants.json` exportieren.
 - Export als PNG/SVG des Netzes.
 - Weitere Kriterien dynamisch hinzufügen/entfernen (aktuell fix 7 Achsen).
 - Echte Restaurantdaten (z.B. OpenStreetMap/Overpass) statt fiktiver Beispiele.
