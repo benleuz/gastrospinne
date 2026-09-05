@@ -1,7 +1,7 @@
 /* Gastroführer – gastro.js */
 'use strict';
 
-const GF_VERSION = '0.5.1';
+const GF_VERSION = '0.5.2';
 
 // ---------- Konstanten ----------
 const LABELS = ['Schick', 'Ambiente', 'Weinkarte', 'Essen', 'Sehen und gesehen werden', 'Günstig', 'Service'];
@@ -157,34 +157,32 @@ function drawTiles() {
 // ---------- Schritt 3: Kuratoren ----------
 function initials(n) { return n.split(/[\s']+/).filter(Boolean).slice(0, 2).map(w => w[0].toUpperCase()).join(''); }
 function drawCurators() {
-  const box = document.getElementById('kur-tiles');
-  box.innerHTML = '';
+  const sel = document.getElementById('sel-kur');
   const allActive = selKur.length === 0, mineActive = isMineList();
-  const mk = (k, isAll, isMine) => {
-    const b = document.createElement('button');
-    const active = isAll ? allActive : isMine ? mineActive : selKur.includes(k.id);
-    b.className = 'kur' + (isAll || isMine ? ' all' : '') + (active ? ' active' : '');
-    if (k.farbe) b.style.setProperty('--kc', k.farbe);
-    b.title = k.bio || '';
-    b.innerHTML = `<span class="avatar">${isAll ? '★' : esc(initials(k.name))}</span>
-      <span><span class="kname">${esc(k.name)}</span><br><span class="khandle">${k.url ? `<a href="${esc(k.url)}" target="_blank" rel="noopener">${esc(k.handle)}</a>` : esc(k.handle)}</span></span>`;
-    b.addEventListener('click', e => {
-      if (e.target.closest('a')) return;
-      if (isAll) selKur = [];
-      else if (isMine) selKur = mineActive ? [] : [MINE];
-      else selKur = (selKur.includes(k.id) ? selKur.filter(x => x !== k.id) : [...selKur.filter(x => x !== MINE), k.id]);
-      if (selKur.length === curators.length) selKur = [];
-      save(); render();
-    });
-    box.appendChild(b);
-  };
   const nMine = Object.keys(own).length + mine.length;
-  mk({ name: 'Alle', handle: `${curators.length} Stimmen`, bio: 'Durchschnitt aller Bewertungen' }, true, false);
-  mk({ name: 'Meine Liste', handle: nMine ? `${nMine} Lokale` : 'noch leer', bio: 'Nur Lokale, die du selbst bewertet oder erfasst hast' }, false, true);
-  curators.forEach(k => mk(k, false, false));
-  const n = activeCurators().length;
-  document.getElementById('kur-sub').textContent = allActive ? 'Alle Stimmen' : mineActive ? 'Meine Liste' : `${n} von ${curators.length} gewählt`;
+  sel.innerHTML = `<option value="">Alle (Durchschnitt aller ${curators.length} Stimmen)</option>` +
+    `<option value="${MINE}">Meine Liste${nMine ? ' (' + nMine + ' Lokale)' : ' (noch leer)'}</option>` +
+    curators.map(k => `<option value="${esc(k.id)}">${esc(k.name)}${k.handle ? ' – ' + esc(k.handle) : ''}</option>`).join('');
+  sel.value = allActive ? '' : mineActive ? MINE : (selKur[0] || '');
+  // Info-Karte zum gewählten Eintrag
+  const info = document.getElementById('kur-info');
+  const k = allActive ? null : mineActive ? null : curators.find(x => x.id === selKur[0]);
+  if (k) {
+    info.style.setProperty('--kc', k.farbe || 'var(--accent)');
+    info.innerHTML = `<span class="avatar">${esc(initials(k.name))}</span><span><span class="kname">${esc(k.name)}</span>${k.url ? ` · <a href="${esc(k.url)}" target="_blank" rel="noopener">${esc(k.handle)}</a>` : ''}<br><span class="kbio">${esc(k.bio || '')}</span></span>`;
+    info.hidden = false;
+  } else if (mineActive) {
+    info.style.setProperty('--kc', 'var(--own)');
+    info.innerHTML = `<span class="avatar">★</span><span><span class="kname">Meine Liste</span><br><span class="kbio">Nur Lokale, die du selbst bewertet oder erfasst hast.</span></span>`;
+    info.hidden = false;
+  } else info.hidden = true;
+  document.getElementById('kur-sub').textContent = allActive ? 'Alle Stimmen' : mineActive ? 'Meine Liste' : (k ? k.name : '');
 }
+document.getElementById('sel-kur').addEventListener('change', e => {
+  const v = e.target.value;
+  selKur = v === '' ? [] : [v];
+  save(); render();
+});
 
 // ---------- Schritt 2: Netz ----------
 const svg = document.getElementById('radar');

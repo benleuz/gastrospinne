@@ -1,4 +1,4 @@
-# Gastroführer — Projektstand (05.09.2026, v0.5.1)
+# Gastroführer — Projektstand (05.09.2026, v0.5.2)
 
 ## Was es ist
 Eigenständige Browser-App (kein Login, kein O365/MSAL, keine Backend-Abhängigkeit),
@@ -15,16 +15,16 @@ CRM-CSS noch nicht 1:1 übernommen, Variablen im `<style>` von index.html sind d
 - localStorage: Theme `gf-theme`, Wunschprofil `gf-wunsch`, umbenannte Kriterien `gf-labels`,
   Restaurants `gf-restaurants`, gewählte Art `gf-art`.
 
-## Funktionsumfang v0.5.1
+## Funktionsumfang v0.5.2
 - Geführter Ablauf in drei Schritten:
   1. «Heute habe ich Lust auf …» – grosse Kacheln je Küchenart (Emoji, Anzahl Lokale),
      «Überrasch mich» = alle. Auswahl erscheint im Titel, scrollt zu Schritt 2.
   2. «Mir ist wichtig:» – Netzdiagramm (7 Achsen, 1–5, «egal»-Knopf am Achsentitel,
      Schick/Günstig schliessen sich aus). ↺ Zurücksetzen.
-  3. «Wem vertraue ich?» – Kuratoren-Kacheln: Gastroführer (Haus-Rating) + 10 echte Zürcher
+  3. «Wem vertraue ich?» – Dropdown (#sel-kur): Alle, Meine Liste, Gastroführer (Haus-Rating),
+     10 echte Zürcher
      Food-Influencer aus `kuratoren.json` (Name, Handle, Link; Quelle Falstaff 06/2025).
-     Reihenfolge: «Alle» (Durchschnitt), «Meine Liste» (nur selbst bewertete/erfasste Lokale,
-     exklusiv), dann Gastroführer und die Influencer (Mehrfachauswahl). ACHTUNG Prototyp: die Bewertungen der
+     Einfachauswahl; darunter Info-Karte (Avatar, Handle-Link, Kurzbeschrieb) zum Gewählten. ACHTUNG Prototyp: die Bewertungen der
      Influencer sind SIMULIERT (deterministische Abweichung ±1 vom Haus-Rating, curatorValues in
      gastro.js) – echte Bewertungen müssten von den Personen kommen oder das Feature muss vor
      Veröffentlichung umbenannt/entfernt werden.

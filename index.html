@@ -74,21 +74,13 @@
   @media (prefers-reduced-motion: reduce) { .tile:hover { transform: none; } }
 
   /* Schritt 3: Kuratoren */
-  #kur-tiles { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 10px; }
-  .kur {
-    display: grid; grid-template-columns: 40px 1fr; gap: 10px; align-items: center; text-align: left;
-    padding: 10px 12px; border: 2px solid var(--line); border-radius: var(--radius); background: var(--card);
-    cursor: pointer; transition: border-color .12s, background .12s;
-  }
-  .kur:hover { border-color: var(--accent); }
-  .kur.active { border-color: var(--kc, var(--accent)); background: var(--accent-soft); }
-  .kur .avatar { width: 40px; height: 40px; border-radius: 50%; display: grid; place-items: center; font-weight: 700; color: #fff; background: var(--kc, var(--accent)); font-size: 15px; }
-  .kur .kname { font-weight: 600; font-size: 14px; line-height: 1.2; }
-  .kur .khandle { font-size: 12px; color: var(--muted); }
-  .kur .khandle a { color: var(--muted); }
-  .kur.all .avatar { background: var(--text); color: var(--bg); }
-  .kur.all.active { border-color: var(--text); }
-  @media (max-width: 600px) { #kur-tiles { grid-template-columns: repeat(2, 1fr); gap: 8px; } .kur { padding: 8px 10px; gap: 8px; grid-template-columns: 34px 1fr; } .kur .avatar { width: 34px; height: 34px; font-size: 13px; } }
+  #sel-kur { font-size: 17px; font-weight: 600; padding: 12px 40px 12px 14px; border-radius: 10px; appearance: none; -webkit-appearance: none;
+    background-image: linear-gradient(45deg, transparent 50%, var(--muted) 50%), linear-gradient(135deg, var(--muted) 50%, transparent 50%);
+    background-position: calc(100% - 20px) 50%, calc(100% - 14px) 50%; background-size: 6px 6px; background-repeat: no-repeat; }
+  #kur-info { display: grid; grid-template-columns: 44px 1fr; gap: 12px; align-items: center; margin-top: 12px; }
+  #kur-info .avatar { width: 44px; height: 44px; border-radius: 50%; display: grid; place-items: center; font-weight: 700; color: #fff; background: var(--kc, var(--accent)); font-size: 16px; }
+  #kur-info .kname { font-weight: 600; }
+  #kur-info .kbio { color: var(--muted); font-size: 13px; }
 
   /* Schritt 2: Netz */
   #radar-wrap { display: grid; place-items: center; }
@@ -274,8 +266,11 @@
       <h2 class="step-title">Wem vertraue ich?</h2>
       <span class="step-sub" id="kur-sub"></span>
     </div>
-    <p class="hint">«Alle» = Durchschnitt aller Stimmen, «Meine Liste» = nur deine eigenen Bewertungen und Lokale, sonst einzelne Influencer antippen. <strong>Prototyp: Die Bewertungen sind simuliert und stammen nicht von den Personen selbst.</strong></p>
-    <div id="kur-tiles"></div>
+    <div class="card" id="kur-card">
+      <select id="sel-kur" aria-label="Kurator wählen"></select>
+      <div id="kur-info" hidden></div>
+      <p class="hint" style="margin-top:10px"><strong>Prototyp:</strong> Die Influencer-Bewertungen sind simuliert und stammen nicht von den Personen selbst.</p>
+    </div>
   </section>
 
   <!-- Schritt 4 -->
@@ -328,6 +323,6 @@
 <footer id="footer-version"></footer>
 <div id="toasts" aria-live="polite"></div>
 
-<script src="gastro.js?v=0.5.1"></script>
+<script src="gastro.js?v=0.5.2"></script>
 </body>
 </html>
