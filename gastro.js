@@ -1,13 +1,16 @@
 /* Gastroführer – gastro.js */
 'use strict';
 
-const GF_VERSION = '0.2.0';
+const GF_VERSION = '0.3.0';
 
 // ---------- Konstanten ----------
 const DEFAULT_LABELS = [
   'Preisniveau', 'Ambiente', 'Weinkarte', 'Essen',
-  'Sehen und gesehen werden', 'Weitere Option 1', 'Weitere Option 2'
+  'Sehen und gesehen werden', 'Günstig', 'Weitere Option 2'
 ];
+// Kriterien, die sich gegenseitig ausschliessen (Index-Paare): Preisniveau <-> Günstig
+const EXCLUSIVE = [[0, 5]];
+function partnerOf(i) { for (const [a, b] of EXCLUSIVE) { if (i === a) return b; if (i === b) return a; } return -1; }
 const N = DEFAULT_LABELS.length;
 const LEVELS = 5;
 const DEFAULT_VALUE = 3;
@@ -28,9 +31,11 @@ const SIZE = 640, CX = 320, CY = 320, R = 235, LABEL_R = R + 34;
 // ---------- Zustand ----------
 let labels = loadJSON(LS_LABELS, null);
 if (!Array.isArray(labels) || labels.length !== N) labels = [...DEFAULT_LABELS];
+if (labels[5] === 'Weitere Option 1') labels[5] = 'Günstig'; // Migration v0.2 -> v0.3
 
 let wish = loadJSON(LS_WISH, null);                    // 1–5 oder null (= egal)
 if (!Array.isArray(wish) || wish.length !== N) wish = Array(N).fill(DEFAULT_VALUE);
+for (const [a, b] of EXCLUSIVE) if (wish[a] !== null && wish[b] !== null) wish[b] = null;
 
 let restaurants = loadJSON(LS_REST, []);
 if (!Array.isArray(restaurants)) restaurants = [];
@@ -203,15 +208,38 @@ svg.addEventListener('pointercancel', endDrag);
 
 function setWish(axis, level, persist = true) {
   wish[axis] = level;
+  const p = partnerOf(axis);
+  if (p >= 0 && wish[p] !== null) { wish[p] = null; if (persist) toast(`«${labels[p]}» auf egal gesetzt`); }
   if (persist) save();
   render();
+if (!restaurants.length) loadDemo(true); // leere Liste: Beispiele automatisch anbieten
 }
 function toggleOff(axis) {
-  wish[axis] = wish[axis] === null ? DEFAULT_VALUE : null;
+  if (wish[axis] === null) {
+    wish[axis] = DEFAULT_VALUE;
+    const p = partnerOf(axis);
+    if (p >= 0 && wish[p] !== null) { wish[p] = null; toast(`«${labels[p]}» auf egal gesetzt`); }
+  } else {
+    wish[axis] = null;
+  }
   save(); render();
 }
+function drawEgalRow() {
+  const box = document.getElementById('egal-row');
+  box.innerHTML = '';
+  labels.forEach((lab, i) => {
+    const b = document.createElement('button');
+    b.className = 'crit-chip' + (wish[i] === null ? ' off' : '');
+    b.textContent = lab;
+    b.title = wish[i] === null ? 'Wieder werten' : 'Ist mir egal';
+    b.addEventListener('click', () => toggleOff(i));
+    box.appendChild(b);
+  });
+}
 document.getElementById('btn-reset').addEventListener('click', () => {
-  wish = Array(N).fill(DEFAULT_VALUE); save(); render(); toast('Wunschprofil zurückgesetzt');
+  wish = Array(N).fill(DEFAULT_VALUE);
+  for (const [, b] of EXCLUSIVE) wish[b] = null;
+  save(); render(); toast('Wunschprofil zurückgesetzt');
 });
 
 // ---------- Overlay-Info ----------
@@ -355,27 +383,54 @@ document.getElementById('btn-export').addEventListener('click', () => {
   toast('JSON gesichert');
 });
 document.getElementById('btn-import').addEventListener('click', () => document.getElementById('file-import').click());
+function mergeData(data) {
+  const list = Array.isArray(data) ? data : data.restaurants;
+  if (!Array.isArray(list)) throw new Error('Kein Restaurant-Array');
+  let added = 0;
+  for (const r of list) {
+    if (!r?.name) continue;
+    const values = Array.isArray(r.values) && r.values.length === N ? r.values.map(v => typeof v === 'number' ? v : DEFAULT_VALUE) : Array(N).fill(DEFAULT_VALUE);
+    const existing = restaurants.find(x => x.id === r.id);
+    const rec = { id: r.id || uid(), name: r.name, ort: r.ort || '', art: r.art || '', link: r.link || '', note: r.note || '', values };
+    if (existing) Object.assign(existing, rec); else restaurants.push(rec);
+    added++;
+  }
+  if (Array.isArray(data.labels) && data.labels.length === N) labels = data.labels;
+  return added;
+}
 document.getElementById('file-import').addEventListener('change', async e => {
   const f = e.target.files[0]; if (!f) return;
   try {
-    const data = JSON.parse(await f.text());
-    const list = Array.isArray(data) ? data : data.restaurants;
-    if (!Array.isArray(list)) throw new Error('Kein Restaurant-Array');
-    let added = 0;
-    for (const r of list) {
-      if (!r?.name) continue;
-      const values = Array.isArray(r.values) && r.values.length === N ? r.values.map(v => typeof v === 'number' ? v : DEFAULT_VALUE) : Array(N).fill(DEFAULT_VALUE);
-      const existing = restaurants.find(x => x.id === r.id);
-      const rec = { id: r.id || uid(), name: r.name, ort: r.ort || '', art: r.art || '', link: r.link || '', note: r.note || '', values };
-      if (existing) Object.assign(existing, rec); else restaurants.push(rec);
-      added++;
-    }
-    if (Array.isArray(data.labels) && data.labels.length === N) labels = data.labels;
+    const added = mergeData(JSON.parse(await f.text()));
     save(); render(); toast(`${added} Restaurants geladen`);
   } catch (err) {
     toast('Datei konnte nicht gelesen werden: ' + err.message);
   }
   e.target.value = '';
+});
+
+// Fiktive Beispieldaten (restaurants.json im Repo)
+async function loadDemo(silent) {
+  try {
+    const res = await fetch('restaurants.json?v=' + GF_VERSION);
+    if (!res.ok) throw new Error(res.status);
+    const added = mergeData(await res.json());
+    save(); render();
+    if (!silent) toast(`${added} Beispiel-Restaurants geladen`);
+  } catch (err) {
+    if (!silent) toast('Beispiele nicht gefunden (restaurants.json fehlt?)');
+  }
+}
+document.getElementById('btn-demo').addEventListener('click', () => {
+  const hasDemo = restaurants.some(r => String(r.id).startsWith('demo-'));
+  if (hasDemo) {
+    if (!confirm('Beispiel-Restaurants entfernen? Eigene Einträge bleiben erhalten.')) return;
+    restaurants = restaurants.filter(r => !String(r.id).startsWith('demo-'));
+    if (selectedId && !restaurants.some(r => r.id === selectedId)) selectedId = null;
+    save(); render(); toast('Beispiele entfernt');
+  } else {
+    loadDemo(false);
+  }
 });
 
 // ---------- Tabelle Wunschprofil ----------
@@ -412,8 +467,14 @@ function renameLabel(i) {
 }
 
 // ---------- Render ----------
-function render() { drawArtSelect(); drawRadar(); drawOverlayInfo(); drawList(); drawTable(); }
+function render() {
+  drawArtSelect(); drawRadar(); drawOverlayInfo(); drawEgalRow(); drawList(); drawTable();
+  const demoBtn = document.getElementById('btn-demo');
+  const hasDemo = restaurants.some(r => String(r.id).startsWith('demo-'));
+  demoBtn.textContent = hasDemo ? 'Beispiele entfernen' : 'Beispiele laden';
+}
 
 document.getElementById('app-version').textContent = 'v' + GF_VERSION;
 document.getElementById('footer-version').textContent = 'Gastroführer v' + GF_VERSION;
 render();
+if (!restaurants.length) loadDemo(true); // leere Liste: Beispiele automatisch laden

@@ -1,4 +1,4 @@
-# Gastroführer — Projektstand (05.09.2026, v0.2.0)
+# Gastroführer — Projektstand (05.09.2026, v0.3.0)
 
 ## Was es ist
 Eigenständige Browser-App (kein Login, kein O365/MSAL, keine Backend-Abhängigkeit),
@@ -9,19 +9,19 @@ CRM-CSS noch nicht 1:1 übernommen, Variablen im `<style>` von index.html sind d
 ## Deploy
 - GitHub-Repo `benleuz/gastrospinne`, GitHub Pages aus `main` (Root).
 - URL: https://benleuz.github.io/gastrospinne/
-- Dateien im Root: `index.html`, `gastro.js`, `PROJEKT-STAND.md`, `README.md`.
+- Dateien im Root: `index.html`, `gastro.js`, `restaurants.json`, `PROJEKT-STAND.md`, `README.md`.
 - Version in der Kopfzeile (#app-version) und in der Fusszeile («Gastroführer vX.Y.Z», Konstante
   GF_VERSION in gastro.js) — bei jedem Deploy erhöhen, inkl. `?v=`-Cache-Busting am Script-Tag.
 - localStorage: Theme `gf-theme`, Wunschprofil `gf-wunsch`, umbenannte Kriterien `gf-labels`,
   Restaurants `gf-restaurants`, gewählte Art `gf-art`.
 
-## Funktionsumfang v0.2.0
+## Funktionsumfang v0.3.0
 - Konzept: Gastroführer mit Suche über die Spinne. Ein Wunschprofil, Restaurants werden nach
   Passung sortiert.
 - Kopfzeile: Dropdown «Art» (Japanisch, Chinesisch, Italienisch … + alle Arten aus den
   erfassten Restaurants), filtert die Liste. Theme-Umschalter.
 - 7 Kriterien: Preisniveau, Ambiente, Weinkarte, Essen, Sehen und gesehen werden,
-  Weitere Option 1, Weitere Option 2 — umbenennbar (Klick auf Namen in der Tabelle).
+  Günstig, Weitere Option 2 — umbenennbar (Klick auf Namen in der Tabelle).
 - Wunschprofil 1–5 (1 tief, 5 hoch) oder «egal» (nicht gewertet, Achse grau).
 - Netzdiagramm (Radar, SVG) direkt bedienbar: Klick auf Stufenpunkt setzt Wert, Ziehen
   entlang der Achse verstellt, Klick auf Achsentitel toggelt «egal» (Wiedereinschalten → 3).
@@ -34,6 +34,11 @@ CRM-CSS noch nicht 1:1 übernommen, Variablen im `<style>` von index.html sind d
 - Sichern/Laden: alle Restaurants als JSON-Datei exportieren/importieren (Backup, Weitergabe,
   Wechsel Gerät/Browser).
 - Eingeklappte Tabelle mit Knöpfen egal/1–5 für das Wunschprofil.
+- Kriterien-Chips unter dem Netz: Antippen = «ist mir egal» (nicht gewertet), erneut = wieder werten.
+- Preisniveau und Günstig schliessen sich aus (EXCLUSIVE in gastro.js): wird eines gesetzt,
+  geht das andere automatisch auf egal. Standard nach Zurücksetzen: Preisniveau aktiv, Günstig egal.
+- `restaurants.json`: 320 fiktive Zürcher Restaurants (ids `demo-…`) zum Ausprobieren. Werden bei
+  leerer Liste automatisch geladen; Knopf «Beispiele laden / entfernen». Eigene Einträge bleiben.
 
 ## Entfernt gegenüber v0.1.0
 - Mehrfach-Profile (＋ Profil, Legende, Profil umbenennen/löschen).
@@ -43,7 +48,7 @@ CRM-CSS noch nicht 1:1 übernommen, Variablen im `<style>` von index.html sind d
 - Teilen: Wunschprofil als URL-Hash (#p=…) kodieren.
 - Export als PNG/SVG des Netzes.
 - Weitere Kriterien dynamisch hinzufügen/entfernen (aktuell fix 7 Achsen).
-- Gemeinsame Restaurantliste (z.B. `restaurants.json` im Repo als Startbestand).
+- Echte Restaurantdaten (z.B. OpenStreetMap/Overpass) statt fiktiver Beispiele.
 
 ## Arbeitsweise (wie im CRM-Projekt)
 - Kurze, präzise Korrekturen → sofortige gezielte Fixes, bei jeder Änderung Versionssprung,
