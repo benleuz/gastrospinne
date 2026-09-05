@@ -1,7 +1,7 @@
 /* Gastroführer – gastro.js */
 'use strict';
 
-const GF_VERSION = '0.4.2';
+const GF_VERSION = '0.5.1';
 
 // ---------- Konstanten ----------
 const LABELS = ['Schick', 'Ambiente', 'Weinkarte', 'Essen', 'Sehen und gesehen werden', 'Günstig', 'Service'];
@@ -24,6 +24,7 @@ const LS_WISH = 'gf-wunsch';
 const LS_ART = 'gf-art';
 const LS_OWN = 'gf-own';        // eigene Bewertungen: { [id]: values[] }
 const LS_MINE = 'gf-mine';      // eigene Restaurants: [ {id, name, ort, art, link, note, values} ]
+const LS_KUR = 'gf-kuratoren';  // gewählte Kuratoren-Ids ([] = alle)
 
 let CX = 410; const CY = 320;
 let R = 235, LABEL_R = R + 36;
@@ -38,6 +39,8 @@ function geo() {
 
 // ---------- Zustand ----------
 let base = [];                                              // Gastroführer-Daten (restaurants.json)
+let curators = [{ id: 'gf', name: 'Gastroführer', handle: 'Haus-Rating', url: '', bio: '', farbe: '#1f6fe0' }];
+let selKur = loadJSON(LS_KUR, []); if (!Array.isArray(selKur)) selKur = [];
 let wish = loadJSON(LS_WISH, null);
 if (!Array.isArray(wish) || wish.length !== N) wish = Array(N).fill(DEFAULT_VALUE);
 let own = loadJSON(LS_OWN, {}); if (!own || typeof own !== 'object') own = {};
@@ -63,6 +66,7 @@ function save() {
     localStorage.setItem(LS_OWN, JSON.stringify(own));
     localStorage.setItem(LS_MINE, JSON.stringify(mine));
     localStorage.setItem(LS_ART, artFilter);
+    localStorage.setItem(LS_KUR, JSON.stringify(selKur));
   } catch {}
 }
 
@@ -88,7 +92,30 @@ function cssVar(n) { return getComputedStyle(document.documentElement).getProper
 function allRestaurants() {
   return [...base.map(r => ({ ...r, source: 'gf' })), ...mine.map(r => ({ ...r, source: 'mine' }))];
 }
-function effectiveValues(r) { return own[r.id] || r.values; }
+// Simulierte Kuratoren-Bewertung: deterministisch aus Kurator-Id + Restaurant-Id (Prototyp!)
+function hash(s) { let h = 2166136261; for (let i = 0; i < s.length; i++) { h ^= s.charCodeAt(i); h = Math.imul(h, 16777619); } return h >>> 0; }
+function curatorValues(k, r) {
+  if (k.id === 'gf' || r.source === 'mine') return r.values;
+  return r.values.map((v, i) => {
+    const x = hash(k.id + '|' + r.id + '|' + i) % 10;   // 0..9
+    const d = x < 2 ? -1 : x > 7 ? 1 : x === 9 ? 2 : 0;
+    return Math.max(1, Math.min(LEVELS, v + d));
+  });
+}
+const MINE = 'mine'; // Sonderwert in selKur: «Meine Liste»
+function isMineList() { return selKur.length === 1 && selKur[0] === MINE; }
+function activeCurators() {
+  const sel = curators.filter(k => selKur.includes(k.id));
+  return sel.length ? sel : curators;
+}
+function effectiveValues(r) {
+  if (own[r.id]) return own[r.id];
+  if (r.source === 'mine') return r.values;
+  const ks = activeCurators();
+  const sum = Array(N).fill(0);
+  ks.forEach(k => curatorValues(k, r).forEach((v, i) => { sum[i] += v; }));
+  return sum.map(s => Math.round((s / ks.length) * 10) / 10);
+}
 function arten() {
   const set = new Set(ART_ORDER);
   allRestaurants().forEach(r => { if (r.art) set.add(r.art); });
@@ -125,6 +152,38 @@ function drawTiles() {
   mk('', 'Überrasch mich', '🎲', all.length);
   arten().forEach(a => mk(a, a, EMOJI[a] || '🍽️', counts[a] || 0));
   document.getElementById('art-word').textContent = artFilter ? artFilter : '…';
+}
+
+// ---------- Schritt 3: Kuratoren ----------
+function initials(n) { return n.split(/[\s']+/).filter(Boolean).slice(0, 2).map(w => w[0].toUpperCase()).join(''); }
+function drawCurators() {
+  const box = document.getElementById('kur-tiles');
+  box.innerHTML = '';
+  const allActive = selKur.length === 0, mineActive = isMineList();
+  const mk = (k, isAll, isMine) => {
+    const b = document.createElement('button');
+    const active = isAll ? allActive : isMine ? mineActive : selKur.includes(k.id);
+    b.className = 'kur' + (isAll || isMine ? ' all' : '') + (active ? ' active' : '');
+    if (k.farbe) b.style.setProperty('--kc', k.farbe);
+    b.title = k.bio || '';
+    b.innerHTML = `<span class="avatar">${isAll ? '★' : esc(initials(k.name))}</span>
+      <span><span class="kname">${esc(k.name)}</span><br><span class="khandle">${k.url ? `<a href="${esc(k.url)}" target="_blank" rel="noopener">${esc(k.handle)}</a>` : esc(k.handle)}</span></span>`;
+    b.addEventListener('click', e => {
+      if (e.target.closest('a')) return;
+      if (isAll) selKur = [];
+      else if (isMine) selKur = mineActive ? [] : [MINE];
+      else selKur = (selKur.includes(k.id) ? selKur.filter(x => x !== k.id) : [...selKur.filter(x => x !== MINE), k.id]);
+      if (selKur.length === curators.length) selKur = [];
+      save(); render();
+    });
+    box.appendChild(b);
+  };
+  const nMine = Object.keys(own).length + mine.length;
+  mk({ name: 'Alle', handle: `${curators.length} Stimmen`, bio: 'Durchschnitt aller Bewertungen' }, true, false);
+  mk({ name: 'Meine Liste', handle: nMine ? `${nMine} Lokale` : 'noch leer', bio: 'Nur Lokale, die du selbst bewertet oder erfasst hast' }, false, true);
+  curators.forEach(k => mk(k, false, false));
+  const n = activeCurators().length;
+  document.getElementById('kur-sub').textContent = allActive ? 'Alle Stimmen' : mineActive ? 'Meine Liste' : `${n} von ${curators.length} gewählt`;
 }
 
 // ---------- Schritt 2: Netz ----------
@@ -256,11 +315,12 @@ function drawList() {
   box.innerHTML = '';
   const all = allRestaurants();
   const rows = all.filter(r => !artFilter || r.art === artFilter)
+    .filter(r => !isMineList() || own[r.id] || r.source === 'mine')
     .map(r => ({ r, s: score(effectiveValues(r)) }))
     .sort((a, b) => (b.s ?? -1) - (a.s ?? -1) || a.r.name.localeCompare(b.r.name, 'de'));
   document.getElementById('rest-count').textContent = artFilter ? `${rows.length} × ${artFilter}` : `${rows.length} Lokale`;
   if (!rows.length) {
-    box.innerHTML = `<div class="empty">${all.length ? 'Kein Lokal dieser Art. Erfasse eines mit «＋ Eigenes Restaurant».' : 'Daten werden geladen …'}</div>`;
+    box.innerHTML = `<div class="empty">${isMineList() ? 'Deine Liste ist noch leer. Bewerte ein Lokal mit ✎ oder erfasse eines mit «＋ Eigenes Restaurant».' : all.length ? 'Kein Lokal dieser Art. Erfasse eines mit «＋ Eigenes Restaurant».' : 'Daten werden geladen …'}</div>`;
     return;
   }
   rows.forEach(({ r, s }, idx) => {
@@ -359,7 +419,7 @@ document.getElementById('dlg-save').addEventListener('click', () => {
 
 // ---------- Teilen (URL-Hash) ----------
 function encodeShare() {
-  const payload = { v: 1, w: wish, a: artFilter, o: own, m: mine };
+  const payload = { v: 2, w: wish, a: artFilter, k: selKur, o: own, m: mine };
   return btoa(unescape(encodeURIComponent(JSON.stringify(payload))));
 }
 function decodeShare(str) { return JSON.parse(decodeURIComponent(escape(atob(str)))); }
@@ -384,6 +444,7 @@ document.getElementById('share-accept').addEventListener('click', () => {
   const p = pendingShare; if (!p) return;
   if (Array.isArray(p.w) && p.w.length === N) wish = p.w;
   if (typeof p.a === 'string') artFilter = p.a;
+  if (Array.isArray(p.k)) selKur = p.k;
   if (p.o && typeof p.o === 'object') Object.assign(own, p.o);
   for (const r of p.m || []) if (r?.name && !mine.some(x => x.id === r.id)) mine.push(r);
   pendingShare = null; document.getElementById('share-banner').classList.remove('show');
@@ -411,7 +472,17 @@ document.getElementById('file-import').addEventListener('change', async e => {
   e.target.value = '';
 });
 
-// ---------- Gastroführer-Daten laden ----------
+// ---------- Daten laden ----------
+async function loadCurators() {
+  try {
+    const res = await fetch('kuratoren.json?v=' + GF_VERSION);
+    if (!res.ok) throw new Error(res.status);
+    const d = await res.json();
+    if (Array.isArray(d.kuratoren) && d.kuratoren.length) curators = d.kuratoren;
+    selKur = selKur.filter(id => id === MINE || curators.some(k => k.id === id));
+  } catch { /* nur Haus-Rating */ }
+  render();
+}
 async function loadBase() {
   try {
     const res = await fetch('restaurants.json?v=' + GF_VERSION);
@@ -423,7 +494,7 @@ async function loadBase() {
 }
 
 // ---------- Render ----------
-function render() { drawTiles(); drawRadar(); drawOverlayInfo(); drawList(); }
+function render() { drawTiles(); drawRadar(); drawOverlayInfo(); drawCurators(); drawList(); }
 let resizeT; window.addEventListener('resize', () => { clearTimeout(resizeT); resizeT = setTimeout(drawRadar, 120); });
 
 // Mobil: Sprungknopf zu den Treffern, wenn die Liste nicht im Bild ist
@@ -436,4 +507,5 @@ let resizeT; window.addEventListener('resize', () => { clearTimeout(resizeT); re
 document.getElementById('app-version').textContent = 'v' + GF_VERSION;
 document.getElementById('footer-version').textContent = 'Gastroführer v' + GF_VERSION;
 render();
+loadCurators();
 loadBase();

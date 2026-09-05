@@ -73,6 +73,23 @@
   .tile .count { font-size: 12px; color: var(--muted); }
   @media (prefers-reduced-motion: reduce) { .tile:hover { transform: none; } }
 
+  /* Schritt 3: Kuratoren */
+  #kur-tiles { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 10px; }
+  .kur {
+    display: grid; grid-template-columns: 40px 1fr; gap: 10px; align-items: center; text-align: left;
+    padding: 10px 12px; border: 2px solid var(--line); border-radius: var(--radius); background: var(--card);
+    cursor: pointer; transition: border-color .12s, background .12s;
+  }
+  .kur:hover { border-color: var(--accent); }
+  .kur.active { border-color: var(--kc, var(--accent)); background: var(--accent-soft); }
+  .kur .avatar { width: 40px; height: 40px; border-radius: 50%; display: grid; place-items: center; font-weight: 700; color: #fff; background: var(--kc, var(--accent)); font-size: 15px; }
+  .kur .kname { font-weight: 600; font-size: 14px; line-height: 1.2; }
+  .kur .khandle { font-size: 12px; color: var(--muted); }
+  .kur .khandle a { color: var(--muted); }
+  .kur.all .avatar { background: var(--text); color: var(--bg); }
+  .kur.all.active { border-color: var(--text); }
+  @media (max-width: 600px) { #kur-tiles { grid-template-columns: repeat(2, 1fr); gap: 8px; } .kur { padding: 8px 10px; gap: 8px; grid-template-columns: 34px 1fr; } .kur .avatar { width: 34px; height: 34px; font-size: 13px; } }
+
   /* Schritt 2: Netz */
   #radar-wrap { display: grid; place-items: center; }
   #radar { width: 100%; max-width: 760px; height: auto; touch-action: pan-y; user-select: none; -webkit-user-select: none; -webkit-tap-highlight-color: transparent; display: block; }
@@ -251,9 +268,20 @@
   </section>
 
   <!-- Schritt 3 -->
-  <section class="step" id="step-list">
+  <section class="step" id="step-kur">
     <div class="step-head">
       <span class="step-num">3</span>
+      <h2 class="step-title">Wem vertraue ich?</h2>
+      <span class="step-sub" id="kur-sub"></span>
+    </div>
+    <p class="hint">«Alle» = Durchschnitt aller Stimmen, «Meine Liste» = nur deine eigenen Bewertungen und Lokale, sonst einzelne Influencer antippen. <strong>Prototyp: Die Bewertungen sind simuliert und stammen nicht von den Personen selbst.</strong></p>
+    <div id="kur-tiles"></div>
+  </section>
+
+  <!-- Schritt 4 -->
+  <section class="step" id="step-list">
+    <div class="step-head">
+      <span class="step-num">4</span>
       <h2 class="step-title">Deine Treffer</h2>
       <span id="rest-count" class="step-sub"></span>
       <span style="flex:1"></span>
@@ -264,7 +292,7 @@
         <button class="btn small primary" id="btn-add">＋ Eigenes Restaurant</button>
       </div>
     </div>
-    <p class="hint">Sortiert nach Passung. Antippen legt das Restaurant über das Netz. Mit ✎ bewertest du selbst – deine Bewertung zählt dann statt der des Gastroführers.</p>
+    <p class="hint">Sortiert nach Passung zu deinem Wunsch, berechnet aus den gewählten Bewertungen. Antippen legt das Restaurant über das Netz. Mit ✎ bewertest du selbst – deine Bewertung zählt dann vor allen anderen.</p>
     <div id="rest-list"></div>
   </section>
 </main>
@@ -300,6 +328,6 @@
 <footer id="footer-version"></footer>
 <div id="toasts" aria-live="polite"></div>
 
-<script src="gastro.js?v=0.4.2"></script>
+<script src="gastro.js?v=0.5.1"></script>
 </body>
 </html>
