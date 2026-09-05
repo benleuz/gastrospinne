@@ -1,7 +1,7 @@
 /* Gastroführer – gastro.js */
 'use strict';
 
-const GF_VERSION = '0.5.3';
+const GF_VERSION = '0.6.0';
 
 // ---------- Konstanten ----------
 const LABELS = ['Schick', 'Ambiente', 'Weinkarte', 'Essen', 'Sehen und gesehen werden', 'Günstig', 'Service'];
@@ -168,6 +168,16 @@ function applyTheme(t) { document.documentElement.setAttribute('data-theme', t);
   if (!t) t = matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
   document.documentElement.setAttribute('data-theme', t);
 })();
+// ---------- Design-Variante (A Klassisch, B Warm, C Bold) ----------
+const LS_DESIGN = 'gf-design';
+function applyDesign(d) {
+  document.documentElement.setAttribute('data-design', d);
+  document.querySelectorAll('#design button').forEach(b => b.classList.toggle('active', b.dataset.design === d));
+  try { localStorage.setItem(LS_DESIGN, d); } catch {}
+}
+(function () { let d = 'a'; try { d = localStorage.getItem(LS_DESIGN) || 'a'; } catch {} applyDesign(d); })();
+document.querySelectorAll('#design button').forEach(b => b.addEventListener('click', () => { applyDesign(b.dataset.design); render(); }));
+
 document.getElementById('btn-theme').addEventListener('click', () =>
   applyTheme(document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark'));
 

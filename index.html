@@ -4,6 +4,9 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#1d2128">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700&family=Inter:wght@400;600;700&family=Space+Grotesk:wght@500;700&family=Bebas+Neue&display=swap" rel="stylesheet">
 <title>Gastroführer</title>
 <meta name="description" content="Gastroführer – Heute Lust auf …? Finde das passende Restaurant.">
 <style>
@@ -23,6 +26,43 @@
     --shadow: 0 1px 2px rgba(0,0,0,.4), 0 6px 20px rgba(0,0,0,.35);
   }
 
+  /* ---------- Design B «Warm» ---------- */
+  :root[data-design="b"] {
+    --bg: #f6f1e7; --card: #fffdf8; --text: #2b2320; --muted: #7a6c63; --line: #e6dccd;
+    --accent: #b5532e; --accent-soft: #f7e4da; --accent-text: #fff; --danger: #b3382b;
+    --grid: #d9cfc0; --axis-off: #c9bfb1; --wish: #b5532e; --rest: #2e6f9e; --own: #4e8a3a;
+    --gold: #c9961d; --silver: #9a948c; --bronze: #a56a3a;
+    --shadow: 0 1px 2px rgba(60,40,20,.06), 0 6px 18px rgba(60,40,20,.08);
+    --radius: 18px;
+    --font: "Inter", "Segoe UI", system-ui, sans-serif;
+    --font-display: "Fraunces", Georgia, "Times New Roman", serif;
+  }
+  :root[data-design="b"][data-theme="dark"] {
+    --bg: #1a1512; --card: #241d19; --text: #f1e9df; --muted: #a8998c; --line: #3a302a;
+    --accent: #e07a4f; --accent-soft: #3b281f; --danger: #ff7a68;
+    --grid: #443a33; --axis-off: #574b43; --wish: #e07a4f; --rest: #6fb1e0; --own: #7fc26a;
+    --shadow: 0 1px 2px rgba(0,0,0,.4), 0 6px 20px rgba(0,0,0,.35);
+  }
+  /* ---------- Design C «Bold» ---------- */
+  :root[data-design="c"] {
+    --bg: #ffffff; --card: #ffffff; --text: #0f0f10; --muted: #5b5b60; --line: #0f0f10;
+    --accent: #d4ff2b; --accent-soft: #f4ffc9; --accent-text: #0f0f10; --danger: #ff2e63;
+    --grid: #c7c7cc; --axis-off: #d5d5d8; --wish: #ff2e63; --rest: #0f0f10; --own: #1fb26a;
+    --gold: #ff2e63; --silver: #0f0f10; --bronze: #0f0f10;
+    --shadow: 4px 4px 0 var(--line);
+    --radius: 0px;
+    --font: "Space Grotesk", "Segoe UI", system-ui, sans-serif;
+    --font-display: "Bebas Neue", "Space Grotesk", Impact, sans-serif;
+  }
+  :root[data-design="c"][data-theme="dark"] {
+    --bg: #0f0f10; --card: #0f0f10; --text: #f5f5f2; --muted: #9a9aa0; --line: #f5f5f2;
+    --accent: #d4ff2b; --accent-soft: #23290c; --accent-text: #0f0f10; --danger: #ff2e63;
+    --grid: #3a3a40; --axis-off: #2c2c31; --wish: #d4ff2b; --rest: #ff2e63; --own: #3ee08a;
+    --gold: #d4ff2b; --silver: #f5f5f2; --bronze: #f5f5f2;
+    --shadow: 4px 4px 0 var(--line);
+  }
+  :root { --font-display: var(--font); }
+
   * { box-sizing: border-box; }
   html, body { margin: 0; }
   body { font-family: var(--font); font-size: 15px; line-height: 1.45; color: var(--text); background: var(--bg); min-height: 100vh; }
@@ -40,7 +80,31 @@
   .step { display: grid; gap: 12px; }
   .step-head { display: flex; align-items: baseline; gap: 14px; flex-wrap: wrap; }
   .step-num { width: 34px; height: 34px; border-radius: 50%; background: var(--accent); color: var(--accent-text); display: inline-grid; place-items: center; font-weight: 700; font-size: 16px; flex: none; align-self: center; }
-  .step-title { font-size: 26px; font-weight: 700; margin: 0; letter-spacing: -.2px; }
+  .step-title { font-size: 26px; font-weight: 700; margin: 0; letter-spacing: -.2px; font-family: var(--font-display); }
+  header h1 { font-family: var(--font-display); }
+  :root[data-design="b"] .step-title { font-size: 30px; font-weight: 600; letter-spacing: 0; }
+  :root[data-design="b"] .step-num { background: var(--text); color: var(--bg); }
+  :root[data-design="b"] .btn.primary, :root[data-design="b"] .tile.active { border-radius: 999px; }
+  :root[data-design="b"] .btn { border-radius: 999px; }
+  :root[data-design="c"] .step-title { font-size: 40px; font-weight: 400; letter-spacing: .5px; text-transform: uppercase; line-height: 1; }
+  :root[data-design="c"] header h1 { font-size: 26px; letter-spacing: 1px; text-transform: uppercase; }
+  :root[data-design="c"] .step-num { border-radius: 0; background: var(--text); color: var(--bg); }
+  :root[data-design="c"] .card, :root[data-design="c"] .row, :root[data-design="c"] .tile, :root[data-design="c"] .btn, :root[data-design="c"] dialog, :root[data-design="c"] select { border-width: 2px; border-color: var(--line); }
+  :root[data-design="c"] .btn { box-shadow: 3px 3px 0 var(--line); }
+  :root[data-design="c"] .btn:active { transform: translate(2px, 2px); box-shadow: 1px 1px 0 var(--line); }
+  :root[data-design="c"] .tile.active { box-shadow: 6px 6px 0 var(--line); background: var(--accent); color: #0f0f10; }
+  :root[data-design="c"] .tile.active .count { color: #0f0f10; }
+  :root[data-design="c"] .ring .val { stroke: var(--wish); }
+  :root[data-design="c"] .rank { font-family: var(--font-display); font-size: 26px; }
+  :root[data-design="c"] .badge.mine { background: var(--accent); color: #0f0f10; }
+  :root[data-design="c"] .toast { border: 2px solid var(--line); }
+  @media (max-width: 600px) { :root[data-design="c"] .step-title { font-size: 30px; } :root[data-design="b"] .step-title { font-size: 24px; } }
+
+  /* Design-Umschalter */
+  #design { display: inline-flex; border: 1px solid var(--line); border-radius: 999px; overflow: hidden; }
+  #design button { border: 0; background: transparent; padding: 6px 11px; cursor: pointer; font-size: 13px; font-weight: 600; color: var(--muted); }
+  #design button.active { background: var(--text); color: var(--bg); }
+  #design button:focus-visible { outline: 2px solid var(--accent); outline-offset: -2px; }
   .step-title em { font-style: normal; color: var(--accent); }
   .step-sub { color: var(--muted); font-size: 14px; margin: 0; }
   @media (max-width: 560px) { .step-title { font-size: 21px; } }
@@ -222,6 +286,9 @@
   <h1>Gastroführer</h1>
   <span id="app-version"></span>
   <span class="spacer"></span>
+  <div id="design" role="group" aria-label="Design-Variante" title="Design-Variante (zum Testen)">
+    <button data-design="a">A</button><button data-design="b">B</button><button data-design="c">C</button>
+  </div>
   <button class="btn small" id="btn-share" title="Deine Auswahl, Bewertungen und eigenen Restaurants als Link teilen">Teilen</button>
   <button class="btn icon" id="btn-theme" title="Hell/Dunkel umschalten" aria-label="Design umschalten">◐</button>
 </header>
@@ -323,6 +390,6 @@
 <footer id="footer-version"></footer>
 <div id="toasts" aria-live="polite"></div>
 
-<script src="gastro.js?v=0.5.3"></script>
+<script src="gastro.js?v=0.6.0"></script>
 </body>
 </html>
