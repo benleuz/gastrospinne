@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="de-CH">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Gastroführer</title>
+<meta name="description" content="Gastroführer – Wunschprofil für Restaurants als Netzdiagramm.">
+<style>
+  /* ---------- Design-Tokens (CRM-kompatibel: CSS-Variablen, Dark/Light) ---------- */
+  :root {
+    --bg: #f4f5f7;
+    --card: #ffffff;
+    --text: #1d2229;
+    --muted: #6b7380;
+    --line: #dde1e7;
+    --accent: #1f6fe0;
+    --accent-text: #ffffff;
+    --danger: #c9372c;
+    --grid: #c9ced6;
+    --axis-off: #b8bec8;
+    --shadow: 0 1px 2px rgba(20,30,50,.06), 0 4px 16px rgba(20,30,50,.06);
+    --radius: 10px;
+    --font: "Segoe UI", system-ui, -apple-system, Roboto, "Helvetica Neue", Arial, sans-serif;
+  }
+  :root[data-theme="dark"] {
+    --bg: #14171c;
+    --card: #1d2128;
+    --text: #e6e9ee;
+    --muted: #97a0ad;
+    --line: #2d333d;
+    --accent: #4d8dff;
+    --accent-text: #ffffff;
+    --danger: #ff6b5e;
+    --grid: #3a414c;
+    --axis-off: #4a525e;
+    --shadow: 0 1px 2px rgba(0,0,0,.4), 0 6px 20px rgba(0,0,0,.35);
+  }
+
+  * { box-sizing: border-box; }
+  html, body { margin: 0; }
+  body {
+    font-family: var(--font);
+    font-size: 15px;
+    line-height: 1.45;
+    color: var(--text);
+    background: var(--bg);
+    min-height: 100vh;
+  }
+  button { font: inherit; color: inherit; }
+
+  /* ---------- Kopfzeile ---------- */
+  header {
+    display: flex; align-items: center; gap: 14px;
+    padding: 12px 20px;
+    border-bottom: 1px solid var(--line);
+    background: var(--card);
+    position: sticky; top: 0; z-index: 5;
+  }
+  header h1 { font-size: 18px; font-weight: 600; margin: 0; letter-spacing: .1px; }
+  #app-version { color: var(--muted); font-size: 13px; }
+  header .spacer { flex: 1; }
+
+  /* ---------- Layout ---------- */
+  main {
+    max-width: 980px; margin: 0 auto; padding: 22px 16px 60px;
+    display: grid; gap: 18px;
+  }
+
+  /* ---------- Bausteine ---------- */
+  .card {
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    padding: 16px 18px;
+  }
+  .card h2 { font-size: 15px; font-weight: 600; margin: 0 0 8px; }
+  .hint { color: var(--muted); font-size: 13px; margin: 0 0 6px; }
+
+  .btn {
+    display: inline-flex; align-items: center; gap: 6px;
+    padding: 7px 12px;
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    background: var(--card);
+    cursor: pointer;
+    line-height: 1.2;
+    transition: background .12s, border-color .12s;
+  }
+  .btn:hover { border-color: var(--accent); }
+  .btn:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+  .btn.primary { background: var(--accent); border-color: var(--accent); color: var(--accent-text); }
+  .btn.small { padding: 4px 9px; font-size: 13px; }
+  .btn.icon { padding: 6px 9px; }
+  .btn.danger:hover { border-color: var(--danger); color: var(--danger); }
+  .btn.active { background: var(--accent); border-color: var(--accent); color: var(--accent-text); }
+  .btn.off.active { background: var(--axis-off); border-color: var(--axis-off); color: var(--text); }
+
+  .toolbar { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin-bottom: 10px; }
+  .toolbar .grow { flex: 1; }
+
+  /* ---------- Netz ---------- */
+  #radar-wrap { display: grid; place-items: center; }
+  #radar {
+    width: 100%; max-width: 640px; height: auto;
+    touch-action: none; user-select: none; -webkit-user-select: none;
+    display: block;
+  }
+  #radar .ring { fill: none; stroke: var(--grid); stroke-width: 1; }
+  #radar .axis { stroke: var(--grid); stroke-width: 1.2; cursor: ns-resize; }
+  #radar .axis-hit { stroke: transparent; stroke-width: 26; cursor: ns-resize; }
+  #radar .axis.off { stroke: var(--axis-off); stroke-dasharray: 3 4; }
+  #radar .label {
+    font-size: 14px; fill: var(--text); cursor: pointer;
+    font-family: var(--font);
+  }
+  #radar .label.off { fill: var(--axis-off); text-decoration: line-through; }
+  #radar .label:hover { fill: var(--accent); }
+  #radar .level-num { font-size: 10px; fill: var(--muted); pointer-events: none; font-family: var(--font); }
+  #radar .step { fill: var(--card); stroke: var(--grid); stroke-width: 1; cursor: pointer; }
+  #radar .step:hover { stroke: var(--accent); stroke-width: 2; }
+  #radar .step.off { opacity: .35; cursor: pointer; }
+  #radar .poly { fill-opacity: .12; stroke-width: 2.5; stroke-linejoin: round; pointer-events: none; }
+  #radar .poly.inactive { fill-opacity: .04; stroke-width: 1.6; stroke-dasharray: 6 5; }
+  #radar .dot { pointer-events: none; }
+  #radar .dot.active { cursor: grab; pointer-events: auto; }
+
+  /* ---------- Legende / Profile ---------- */
+  #legend { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; margin-top: 8px; }
+  .chip {
+    display: inline-flex; align-items: center; gap: 8px;
+    padding: 5px 10px 5px 8px;
+    border: 1px solid var(--line); border-radius: 999px;
+    background: var(--card); cursor: pointer;
+  }
+  .chip .swatch { width: 12px; height: 12px; border-radius: 50%; display: inline-block; }
+  .chip.active { border-color: var(--chip, var(--accent)); box-shadow: inset 0 0 0 1px var(--chip, var(--accent)); font-weight: 600; }
+  .chip:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+  /* ---------- Tabelle ---------- */
+  details summary { cursor: pointer; font-weight: 600; list-style: none; display: flex; align-items: center; gap: 8px; }
+  details summary::-webkit-details-marker { display: none; }
+  details summary::before { content: "▸"; color: var(--muted); transition: transform .15s; }
+  details[open] summary::before { transform: rotate(90deg); }
+  table { width: 100%; border-collapse: collapse; margin-top: 12px; }
+  th, td { padding: 8px 6px; border-top: 1px solid var(--line); text-align: left; }
+  th { font-weight: 600; color: var(--muted); font-size: 13px; border-top: 0; }
+  td.crit button {
+    all: unset; cursor: pointer; border-bottom: 1px dashed var(--line);
+  }
+  td.crit button:hover { color: var(--accent); border-color: var(--accent); }
+  td.vals { display: flex; gap: 4px; flex-wrap: wrap; }
+  @media (max-width: 560px) {
+    table, tbody, tr, td { display: block; }
+    th { display: none; }
+    td { border-top: 0; }
+    tr { border-top: 1px solid var(--line); padding: 6px 0; }
+  }
+
+  /* ---------- Toast ---------- */
+  #toasts { position: fixed; left: 50%; bottom: 22px; transform: translateX(-50%); display: grid; gap: 8px; z-index: 20; }
+  .toast {
+    background: var(--text); color: var(--bg);
+    padding: 9px 14px; border-radius: 8px; font-size: 14px;
+    box-shadow: var(--shadow);
+    animation: toast-in .18s ease-out;
+  }
+  @keyframes toast-in { from { opacity: 0; transform: translateY(8px);} to { opacity: 1; transform: none; } }
+  @media (prefers-reduced-motion: reduce) { .toast { animation: none; } * { transition: none !important; } }
+
+  footer { text-align: center; color: var(--muted); font-size: 13px; padding: 10px; }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>Gastroführer</h1>
+  <span id="app-version"></span>
+  <span class="spacer"></span>
+  <button class="btn icon" id="btn-theme" title="Hell/Dunkel umschalten" aria-label="Design umschalten">◐</button>
+</header>
+
+<main>
+  <section class="card">
+    <div class="toolbar">
+      <h2 style="margin:0">Wunschprofil</h2>
+      <span class="grow"></span>
+      <button class="btn small" id="btn-add">＋ Profil</button>
+      <button class="btn small" id="btn-rename" title="Aktives Profil umbenennen">Umbenennen</button>
+      <button class="btn small" id="btn-reset" title="Aktives Profil zurücksetzen">↺</button>
+      <button class="btn small danger" id="btn-delete" title="Aktives Profil löschen">✕</button>
+    </div>
+    <p class="hint">Punkt anklicken oder entlang der Achse ziehen: 1 unwichtig … 5 sehr wichtig. Achsentitel anklicken schaltet «egal» um.</p>
+    <div id="radar-wrap">
+      <svg id="radar" viewBox="0 0 640 640" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Netzdiagramm der Kriterien"></svg>
+    </div>
+    <div id="legend"></div>
+  </section>
+
+  <section class="card">
+    <details id="table-details">
+      <summary>Tabelle</summary>
+      <p class="hint" style="margin-top:8px">Kriterium anklicken, um es umzubenennen.</p>
+      <table>
+        <thead><tr><th>Kriterium</th><th>Gewichtung (aktives Profil)</th></tr></thead>
+        <tbody id="table-body"></tbody>
+      </table>
+    </details>
+  </section>
+</main>
+
+<footer id="footer-version"></footer>
+<div id="toasts" aria-live="polite"></div>
+
+<script src="gastro.js?v=0.1.0"></script>
+</body>
+</html>
