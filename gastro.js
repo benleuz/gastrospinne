@@ -1,7 +1,7 @@
 /* Gastroführer – gastro.js */
 'use strict';
 
-const GF_VERSION = '0.5.2';
+const GF_VERSION = '0.5.3';
 
 // ---------- Konstanten ----------
 const LABELS = ['Schick', 'Ambiente', 'Weinkarte', 'Essen', 'Sehen und gesehen werden', 'Günstig', 'Service'];
@@ -39,7 +39,98 @@ function geo() {
 
 // ---------- Zustand ----------
 let base = [];                                              // Gastroführer-Daten (restaurants.json)
-let curators = [{ id: 'gf', name: 'Gastroführer', handle: 'Haus-Rating', url: '', bio: '', farbe: '#1f6fe0' }];
+// Kuratoren (eingebaut; kuratoren.json im Repo überschreibt diese Liste, falls vorhanden)
+const DEFAULT_CURATORS = [
+  {
+    "id": "gf",
+    "name": "Gastroführer",
+    "handle": "Haus-Rating",
+    "url": "",
+    "bio": "Das offizielle Rating dieses Gastroführers.",
+    "farbe": "#1f6fe0"
+  },
+  {
+    "id": "harrysding",
+    "name": "Harry's Ding",
+    "handle": "@harrysding",
+    "url": "https://www.instagram.com/harrysding",
+    "bio": "Harry H. Meier & Carrie Meier-Ho – seit 2008 Zürichs bekanntester Food-Blog.",
+    "farbe": "#e0561f"
+  },
+  {
+    "id": "zueriplausch",
+    "name": "Züriplausch",
+    "handle": "@zueriplausch",
+    "url": "https://www.instagram.com/zueriplausch/",
+    "bio": "Sarah Blattner – «einfach essen gehen», vom Beizli bis Fine Dining.",
+    "farbe": "#1fa05a"
+  },
+  {
+    "id": "zurichfoodadvisor",
+    "name": "Zurich Food Advisor",
+    "handle": "@zurichfoodadvisor",
+    "url": "https://www.instagram.com/zurichfoodadvisor/",
+    "bio": "Mariam Nemati – Trends, neue Orte, glamourös.",
+    "farbe": "#a23fd9"
+  },
+  {
+    "id": "eatwithan",
+    "name": "Eat with An",
+    "handle": "@eatwith_an",
+    "url": "https://www.instagram.com/eatwith_an/",
+    "bio": "Restaurant- und Pop-up-Tipps, Schwerpunkt asiatische Küche.",
+    "farbe": "#d9a21f"
+  },
+  {
+    "id": "thuja",
+    "name": "Thuja Leo",
+    "handle": "@thuja_leo",
+    "url": "https://www.instagram.com/thuja_leo",
+    "bio": "Swiss Influencer Award Food 2024 – hippe Lokale, Streetfood, Burger, Pizza.",
+    "farbe": "#1fb2c9"
+  },
+  {
+    "id": "anaundnina",
+    "name": "Ana und Nina",
+    "handle": "@anaundnina",
+    "url": "https://www.instagram.com/anaundnina/",
+    "bio": "Anastasia Lammer – Rezepte, Reisen, Restaurantbesuche.",
+    "farbe": "#c92f6b"
+  },
+  {
+    "id": "jasminedecker",
+    "name": "Jasmine Decker",
+    "handle": "@jasminea.decker",
+    "url": "https://www.instagram.com/jasminea.decker/",
+    "bio": "Englischsprachig, beliebt bei Expats – Ausflüge und Kulinarik rund um Zürich.",
+    "farbe": "#6b7cff"
+  },
+  {
+    "id": "rabona",
+    "name": "Rabona",
+    "handle": "@heyrabona",
+    "url": "https://www.instagram.com/heyrabona/",
+    "bio": "Streetfood und währschafte Küche, Zürich und ganze Schweiz.",
+    "farbe": "#ff7a3d"
+  },
+  {
+    "id": "aninipanini",
+    "name": "Anini Panini",
+    "handle": "@anini_paninii",
+    "url": "https://www.tiktok.com/@anini_paninii",
+    "bio": "Lockere Entdeckungsreisen vom Burgerschuppen bis zum Bistro – oft mit Nonno.",
+    "farbe": "#2fbf8f"
+  },
+  {
+    "id": "zurichfood",
+    "name": "Zürich Food",
+    "handle": "@zurich.food",
+    "url": "https://www.instagram.com/zurich.food/",
+    "bio": "Laura & Eva – Foodblog mit Zürcher Restaurant-Tipps.",
+    "farbe": "#b8763a"
+  }
+];
+let curators = DEFAULT_CURATORS;
 let selKur = loadJSON(LS_KUR, []); if (!Array.isArray(selKur)) selKur = [];
 let wish = loadJSON(LS_WISH, null);
 if (!Array.isArray(wish) || wish.length !== N) wish = Array(N).fill(DEFAULT_VALUE);
