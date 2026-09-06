@@ -1,4 +1,4 @@
-# Gastroführer — Projektstand (06.09.2026, v0.7.2)
+# Gastroführer — Projektstand (06.09.2026, v0.7.3)
 
 ## Was es ist
 Eigenständige Browser-App (kein Login, kein O365/MSAL, keine Backend-Abhängigkeit),
@@ -20,9 +20,9 @@ CRM-CSS noch nicht 1:1 übernommen, Variablen im `<style>` von index.html sind d
   Kuratoren-Bios (bio_en), Konzept-Popup. Restaurant-Notizen bleiben Deutsch (Daten).
 - Konzept-/Einstiegsseite als Popup (dialog#intro, Text INTRO in gastro.js, Basis
   EINSTIEG-TEXT.md v2): erscheint beim ersten Besuch, «Los geht's» schliesst, localStorage
-  `gf-intro`; jederzeit wieder über «Info».
+  `gf-intro`; jederzeit wieder über «Info». Eigene Kopfleiste im Popup mit DE/EN und ✕.
 
-## Funktionsumfang v0.7.2
+## Funktionsumfang v0.7.3
 - Geführter Ablauf in fünf Schritten:
   2. «Wo?» – Dropdown Stadt (CITIES in gastro.js, aktuell nur Zürich) + echte Kreis-Karte
      (ZH_MAP in gastro.js: SVG-Pfade der Kreise 1–12, zusammengefasst aus den offenen
@@ -34,8 +34,8 @@ CRM-CSS noch nicht 1:1 übernommen, Variablen im `<style>` von index.html sind d
   3. «Mir ist wichtig:» – Netzdiagramm.
   4. «Wem vertraue ich?» – Dropdown Alle / Meine Liste / Gastroführer / Influencer.
   5. «Deine Treffer» – Ranking (Zeile zeigt Art · Quartier (Kreis n)).
-- Eigene Restaurants (＋) und Design-Varianten A/B/C entfernt (v0.7.2). Eigene Bewertungen (✎)
-  bleiben. Sichern/Laden (JSON) in v0.7.2 entfernt.
+- Eigene Restaurants (＋) und Design-Varianten A/B/C entfernt (v0.7.3). Eigene Bewertungen (✎)
+  bleiben. Sichern/Laden (JSON) in v0.7.3 entfernt.
 - Reihenfolge der Bewertung: eigene > gewählte Kuratoren (Durchschnitt) > Haus-Rating.
 - Datenmodell:
   - `restaurants.json` = Haupt-Rating des Gastroführers (Kurator), wird immer geladen (aktuell
