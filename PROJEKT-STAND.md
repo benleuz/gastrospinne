@@ -1,4 +1,4 @@
-# Gastroführer — Projektstand (06.09.2026, v0.8.0)
+# Gastroführer — Projektstand (06.09.2026, v0.8.1)
 
 ## Was es ist
 Eigenständige Browser-App (kein Login, kein O365/MSAL, keine Backend-Abhängigkeit),
@@ -22,13 +22,14 @@ CRM-CSS noch nicht 1:1 übernommen, Variablen im `<style>` von index.html sind d
   EINSTIEG-TEXT.md v2): erscheint beim ersten Besuch, «Los geht's» schliesst, localStorage
   `gf-intro`; jederzeit wieder über «Info». Eigene Kopfleiste im Popup mit DE/EN und ✕.
 
-## Funktionsumfang v0.8.0
+## Funktionsumfang v0.8.1
 - Geführter Ablauf als Stufen (Zustand `step` = art | place | main, localStorage `gf-step`),
   es ist immer nur die aktuelle Stufe sichtbar:
   1. «Heute habe ich Lust auf …» – nur die Küchen-Kacheln. Antippen → Stufe 2.
   2. «Wo?» – nur Stadt-Dropdown + Kreis-Karte. Kreis antippen oder «Ganz Zürich» → Stufe 3.
   3. Hauptansicht: Netz (Wunschprofil) mit unauffälliger Zeile «Bewertungen von [Dropdown]»
-     (Alle / Meine Liste / Gastroführer / Influencer, ⓘ = Prototyp-Hinweis), darunter
+     (Alle / Meine Liste / Gastroführer / Influencer, ⓘ = Prototyp-Hinweis; einzeilig, keine
+     Legende «Mein Wunsch», mobil ohne Hinweistext und mit kompakterem Netz 680×600), darunter
      «Deine Treffer» (Ranking).
 - Kopfzeile zeigt ab Stufe 2 die Wahl als Chips (🍕 Italienisch · 📍 Kreis 4); Antippen springt
   zur jeweiligen Stufe zurück. Mobil in einer zweiten Zeile.

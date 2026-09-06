@@ -114,12 +114,12 @@
   #radar .poly.rest { fill-opacity: .06; stroke-width: 1.8; stroke-dasharray: 6 5; }
   #radar .dot { pointer-events: none; }
   #radar .dot.wish { cursor: grab; pointer-events: auto; }
-  #overlay-info { display: flex; align-items: center; gap: 12px; justify-content: center; font-size: 13px; color: var(--muted); min-height: 24px; flex-wrap: wrap; }
   .swatch { width: 12px; height: 12px; border-radius: 50%; display: inline-block; vertical-align: middle; margin-right: 4px; }
   .swatch.dash { border-radius: 2px; height: 3px; width: 16px; }
 
   /* Restaurant-Detail unter dem Netz */
-  #rest-detail { margin-top: 12px; border-top: 1px solid var(--line); padding-top: 12px; display: grid; grid-template-columns: 62px 1fr auto; gap: 12px; align-items: center; }
+  #rest-detail[hidden] { display: none; }
+  #rest-detail { margin-top: 8px; border-top: 1px solid var(--line); padding-top: 10px; display: grid; grid-template-columns: 62px 1fr auto; gap: 12px; align-items: center; }
   #rest-detail .name { font-weight: 700; font-size: 18px; }
   #rest-detail .meta { color: var(--muted); font-size: 13px; }
   #rest-detail .note { margin-top: 4px; font-size: 14px; }
@@ -135,8 +135,9 @@
   .step[hidden] { display: none; }
 
   /* Kuratoren-Zeile im Netz-Kasten (unauffällig) */
-  #kur-row { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; margin-top: 10px; padding-top: 10px; border-top: 1px solid var(--line); }
-  #kur-row select { width: auto; font-size: 13px; font-weight: 500; padding: 6px 30px 6px 10px; border-radius: 8px; background-position: calc(100% - 16px) 50%, calc(100% - 10px) 50%; }
+  #kur-row { display: flex; align-items: center; gap: 8px; flex-wrap: nowrap; margin-top: 6px; padding-top: 8px; border-top: 1px solid var(--line); }
+  #kur-row label { white-space: nowrap; }
+  #kur-row select { flex: 1; min-width: 0; width: auto; font-size: 13px; font-weight: 500; padding: 6px 30px 6px 10px; border-radius: 8px; background-position: calc(100% - 16px) 50%, calc(100% - 10px) 50%; }
   #kur-note { cursor: help; }
 
 
@@ -228,11 +229,12 @@
     .tile .count { font-size: 11px; }
     #radar-wrap { margin: 0 -12px; }
     #radar { max-width: none; width: 100%; }
-    #step-wish .card { padding: 10px 12px; }
+    #step-wish .card { padding: 8px 12px 10px; }
+    #step-wish .card > .hint { display: none; }
+    #step-wish .step-head { margin-bottom: -4px; }
     #radar .label { font-size: 21px; }
     #radar .egal-btn text { font-size: 17px; }
     #radar .level-num { font-size: 15px; }
-    #overlay-info { font-size: 14px; }
     .row { grid-template-columns: 24px 50px 1fr; gap: 10px; padding: 10px 12px; }
     .row .actions { grid-column: 1 / -1; justify-content: flex-end; }
     .row .actions .btn.small { min-height: 40px; min-width: 44px; justify-content: center; }
@@ -303,9 +305,8 @@
     <div class="card">
       <p class="hint" data-i18n="wishHint">Punkt anklicken oder entlang der Achse ziehen: 1 tief … 5 hoch. «egal» = wird nicht gewertet. Schick und Günstig schliessen sich aus.</p>
       <div id="radar-wrap"><svg id="radar" viewBox="0 0 820 640" xmlns="http://www.w3.org/2000/svg" role="img"></svg></div>
-      <div id="overlay-info"></div>
       <div id="kur-row">
-        <label for="sel-kur" class="hint" data-i18n="ratingsBy">Bewertungen von</label>
+        <label for="sel-kur" class="hint" data-i18n="ratingsBy">Bewertungen von:</label>
         <select id="sel-kur" aria-label="Kurator"></select>
         <span class="hint" id="kur-note" title=""></span>
       </div>
@@ -355,6 +356,6 @@
 <footer id="footer-version"></footer>
 <div id="toasts" aria-live="polite"></div>
 
-<script src="gastro.js?v=0.8.0"></script>
+<script src="gastro.js?v=0.8.1"></script>
 </body>
 </html>
