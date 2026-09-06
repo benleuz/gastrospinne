@@ -1,4 +1,4 @@
-# Gastroführer — Projektstand (06.09.2026, v0.7.4)
+# Gastroführer — Projektstand (06.09.2026, v0.8.0)
 
 ## Was es ist
 Eigenständige Browser-App (kein Login, kein O365/MSAL, keine Backend-Abhängigkeit),
@@ -22,22 +22,21 @@ CRM-CSS noch nicht 1:1 übernommen, Variablen im `<style>` von index.html sind d
   EINSTIEG-TEXT.md v2): erscheint beim ersten Besuch, «Los geht's» schliesst, localStorage
   `gf-intro`; jederzeit wieder über «Info». Eigene Kopfleiste im Popup mit DE/EN und ✕.
 
-## Funktionsumfang v0.7.4
-- Geführter Ablauf in fünf Schritten:
-  2. «Wo?» – Dropdown Stadt (CITIES in gastro.js, aktuell nur Zürich) + echte Kreis-Karte
-     (ZH_MAP in gastro.js: SVG-Pfade der Kreise 1–12, zusammengefasst aus den offenen
-     Quartierdaten der Stadt Zürich, vereinfacht; Zürichsee angenähert ausgeschnitten).
-     Zahl und Anzahl Lokale je Kreis (berücksichtigt gewählte Art), Hover/aktiv farbig.
-     Mehrfachauswahl, Chips «Ganz Zürich» / «Kreis n ✕». localStorage `gf-city`, `gf-kreise`.
-     restaurants.json hat je Lokal `stadt`, `kreis`, `quartier`.
-  1. «Heute habe ich Lust auf …» – Kacheln je Küchenart (Zähler = ganze Stadt).
-  3. «Mir ist wichtig:» – Netzdiagramm.
-  4. «Wem vertraue ich?» – Dropdown Alle / Meine Liste / Gastroführer / Influencer.
-  5. «Deine Treffer» – Ranking (Zeile zeigt Art · Quartier (Kreis n)). Antippen: Detail-Panel
-     (Ring, Name, Meta, Notiz, Balken, ✎, Ausblenden) erscheint direkt unter dem Netz, Seite
-     scrollt zur Spinne; Schritt 4 (Kuratoren) ist derweil eingeklappt («… · ändern» öffnet).
-- Eigene Restaurants (＋) und Design-Varianten A/B/C entfernt (v0.7.4). Eigene Bewertungen (✎)
-  bleiben. Sichern/Laden (JSON) in v0.7.4 entfernt.
+## Funktionsumfang v0.8.0
+- Geführter Ablauf als Stufen (Zustand `step` = art | place | main, localStorage `gf-step`),
+  es ist immer nur die aktuelle Stufe sichtbar:
+  1. «Heute habe ich Lust auf …» – nur die Küchen-Kacheln. Antippen → Stufe 2.
+  2. «Wo?» – nur Stadt-Dropdown + Kreis-Karte. Kreis antippen oder «Ganz Zürich» → Stufe 3.
+  3. Hauptansicht: Netz (Wunschprofil) mit unauffälliger Zeile «Bewertungen von [Dropdown]»
+     (Alle / Meine Liste / Gastroführer / Influencer, ⓘ = Prototyp-Hinweis), darunter
+     «Deine Treffer» (Ranking).
+- Kopfzeile zeigt ab Stufe 2 die Wahl als Chips (🍕 Italienisch · 📍 Kreis 4); Antippen springt
+  zur jeweiligen Stufe zurück. Mobil in einer zweiten Zeile.
+- Restaurant antippen: Detail-Panel (Ring, Name, Meta, Notiz, Balken, ✎, Ausblenden) direkt
+  unter dem Netz, Seite scrollt zur Spinne; Liste bleibt darunter.
+- Kreis-Karte: Zahl je Kreis berücksichtigt die gewählte Art. Mehrere Kreise: nach dem ersten
+  Antippen über den Chip zurück zur Karte und weitere wählen.
+- Eigene Restaurants (＋), Design-Varianten, Sichern/Laden entfernt. Eigene Bewertungen (✎) bleiben.
 - Reihenfolge der Bewertung: eigene > gewählte Kuratoren (Durchschnitt) > Haus-Rating.
 - Datenmodell:
   - `restaurants.json` = Haupt-Rating des Gastroführers (Kurator), wird immer geladen (aktuell

@@ -41,7 +41,6 @@
 
   .step { display: grid; gap: 12px; }
   .step-head { display: flex; align-items: baseline; gap: 14px; flex-wrap: wrap; }
-  .step-num { width: 34px; height: 34px; border-radius: 50%; background: var(--accent); color: var(--accent-text); display: inline-grid; place-items: center; font-weight: 700; font-size: 16px; flex: none; align-self: center; }
   .step-title { font-size: 26px; font-weight: 700; margin: 0; letter-spacing: -.2px; }
   .step-title em { font-style: normal; color: var(--accent); }
   .step-sub { color: var(--muted); font-size: 14px; margin: 0; }
@@ -125,15 +124,21 @@
   #rest-detail .meta { color: var(--muted); font-size: 13px; }
   #rest-detail .note { margin-top: 4px; font-size: 14px; }
   #rest-detail .actions { display: flex; gap: 6px; flex-wrap: wrap; justify-content: flex-end; }
-  #kur-collapsed { display: flex; align-items: center; gap: 10px; padding: 10px 14px; }
-  #kur-collapsed[hidden] { display: none; }
   @media (max-width: 600px) { #rest-detail { grid-template-columns: 50px 1fr; } #rest-detail .actions { grid-column: 1 / -1; } }
 
-  /* Schritt 4: Kuratoren */
-  #kur-info { display: grid; grid-template-columns: 44px 1fr; gap: 12px; align-items: center; margin-top: 12px; }
-  #kur-info .avatar { width: 44px; height: 44px; border-radius: 50%; display: grid; place-items: center; font-weight: 700; color: #fff; background: var(--kc, var(--accent)); font-size: 16px; }
-  #kur-info .kname { font-weight: 600; }
-  #kur-info .kbio { color: var(--muted); font-size: 13px; }
+  /* Kopfzeile: Zusammenfassung */
+  #summary { display: flex; gap: 6px; flex-wrap: wrap; align-items: center; }
+  #summary:empty { display: none; }
+  .sum { display: inline-flex; align-items: center; gap: 6px; padding: 5px 11px 5px 8px; border: 1px solid var(--line); border-radius: 999px; background: var(--accent-soft); cursor: pointer; font-size: 13px; font-weight: 600; color: var(--text); }
+  .sum:hover { border-color: var(--accent); }
+  .sum .e { font-size: 16px; line-height: 1; }
+  .step[hidden] { display: none; }
+
+  /* Kuratoren-Zeile im Netz-Kasten (unauffällig) */
+  #kur-row { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; margin-top: 10px; padding-top: 10px; border-top: 1px solid var(--line); }
+  #kur-row select { width: auto; font-size: 13px; font-weight: 500; padding: 6px 30px 6px 10px; border-radius: 8px; background-position: calc(100% - 16px) 50%, calc(100% - 10px) 50%; }
+  #kur-note { cursor: help; }
+
 
   /* Schritt 5: Ranking */
   #rest-list { display: grid; gap: 8px; }
@@ -205,12 +210,13 @@
     header { padding: 8px 12px; gap: 8px; }
     header h1 { font-size: 17px; }
     #app-version { display: none; }
+    header { flex-wrap: wrap; }
+    #summary { order: 10; width: 100%; }
     main { padding: 16px 12px 96px; gap: 22px; }
     .card { padding: 12px; }
     .btn { min-height: 40px; }
     .btn.small { min-height: 36px; padding: 6px 11px; font-size: 14px; }
     .step-head { gap: 10px; }
-    .step-num { width: 30px; height: 30px; font-size: 15px; }
     .step-title { font-size: 21px; }
     .step-sub { width: 100%; }
     #step-list .toolbar { width: 100%; }
@@ -249,6 +255,7 @@
 <header>
   <h1>Gastroführer</h1>
   <span id="app-version"></span>
+  <div id="summary"></div>
   <span class="spacer"></span>
   <div id="lang" class="lang-switch" role="group" aria-label="Sprache"><button data-lang="de">DE</button><button data-lang="en">EN</button></div>
   <button class="btn small" id="btn-info" data-i18n="info">Info</button>
@@ -263,19 +270,17 @@
     <button class="btn" id="share-dismiss" data-i18n="noThanks">Nein danke</button>
   </div>
 
-  <!-- 1 Art -->
+  <!-- Stufe 1: Art -->
   <section class="step" id="step-art">
     <div class="step-head">
-      <span class="step-num">1</span>
-      <h2 class="step-title"><span data-i18n="cravingTitle">Heute habe ich Lust auf</span> <em id="art-word">…</em></h2>
+      <h2 class="step-title"><span data-i18n="cravingTitle">Heute habe ich Lust auf</span> <em>…</em></h2>
     </div>
     <div id="tiles"></div>
   </section>
 
-  <!-- 2 Ort -->
+  <!-- Stufe 2: Ort -->
   <section class="step" id="step-place">
     <div class="step-head">
-      <span class="step-num">2</span>
       <h2 class="step-title" data-i18n="whereTitle">Wo?</h2>
       <span class="step-sub" id="place-sub"></span>
     </div>
@@ -288,10 +293,9 @@
     </div>
   </section>
 
-  <!-- 3 Wichtig -->
+  <!-- Stufe 3: Spinne + Resultate -->
   <section class="step" id="step-wish">
     <div class="step-head">
-      <span class="step-num">3</span>
       <h2 class="step-title" data-i18n="wishTitle">Mir ist wichtig:</h2>
       <span style="flex:1"></span>
       <button class="btn small" id="btn-reset"><span>↺</span> <span data-i18n="reset">Zurücksetzen</span></button>
@@ -300,31 +304,17 @@
       <p class="hint" data-i18n="wishHint">Punkt anklicken oder entlang der Achse ziehen: 1 tief … 5 hoch. «egal» = wird nicht gewertet. Schick und Günstig schliessen sich aus.</p>
       <div id="radar-wrap"><svg id="radar" viewBox="0 0 820 640" xmlns="http://www.w3.org/2000/svg" role="img"></svg></div>
       <div id="overlay-info"></div>
+      <div id="kur-row">
+        <label for="sel-kur" class="hint" data-i18n="ratingsBy">Bewertungen von</label>
+        <select id="sel-kur" aria-label="Kurator"></select>
+        <span class="hint" id="kur-note" title=""></span>
+      </div>
       <div id="rest-detail" hidden></div>
     </div>
   </section>
 
-  <!-- 4 Kuratoren -->
-  <section class="step" id="step-kur">
-    <div class="step-head">
-      <span class="step-num">4</span>
-      <h2 class="step-title" data-i18n="trustTitle">Wem vertraue ich?</h2>
-      <span class="step-sub" id="kur-sub"></span>
-    </div>
-    <div class="card" id="kur-collapsed" hidden>
-      <button class="btn small" id="kur-expand"></button>
-    </div>
-    <div class="card" id="kur-card">
-      <select id="sel-kur" aria-label="Kurator"></select>
-      <div id="kur-info" hidden></div>
-      <p class="hint" style="margin-top:10px"><strong data-i18n="proto">Prototyp:</strong> <span data-i18n="protoHint">Die Influencer-Bewertungen sind simuliert und stammen nicht von den Personen selbst.</span></p>
-    </div>
-  </section>
-
-  <!-- 5 Treffer -->
   <section class="step" id="step-list">
     <div class="step-head">
-      <span class="step-num">5</span>
       <h2 class="step-title" data-i18n="hitsTitle">Deine Treffer</h2>
       <span id="rest-count" class="step-sub"></span>
     </div>
@@ -365,6 +355,6 @@
 <footer id="footer-version"></footer>
 <div id="toasts" aria-live="polite"></div>
 
-<script src="gastro.js?v=0.7.4"></script>
+<script src="gastro.js?v=0.8.0"></script>
 </body>
 </html>
