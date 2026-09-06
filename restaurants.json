@@ -1,5 +1,5 @@
 {
- "version": "0.3.0",
+ "version": "0.7.0",
  "hinweis": "Fiktive Beispieldaten zum Ausprobieren – Namen, Orte und Bewertungen sind erfunden.",
  "restaurants": [
   {
@@ -17,7 +17,10 @@
     4,
     3,
     3
-   ]
+   ],
+   "stadt": "Zürich",
+   "kreis": 5,
+   "quartier": "Escher-Wyss"
   },
   {
    "id": "demo-002",
@@ -34,7 +37,10 @@
     1,
     3,
     2
-   ]
+   ],
+   "stadt": "Zürich",
+   "kreis": 2,
+   "quartier": "Enge"
   },
   {
    "id": "demo-003",
@@ -51,7 +57,10 @@
     2,
     4,
     3
-   ]
+   ],
+   "stadt": "Zürich",
+   "kreis": 6,
+   "quartier": "Oberstrass"
   },
   {
    "id": "demo-004",
@@ -68,7 +77,10 @@
     2,
     2,
     4
-   ]
+   ],
+   "stadt": "Zürich",
+   "kreis": 7,
+   "quartier": "Witikon"
   },
   {
    "id": "demo-005",
@@ -85,7 +97,10 @@
     1,
     4,
     1
-   ]
+   ],
+   "stadt": "Zürich",
+   "kreis": 4,
+   "quartier": "Aussersihl"
   },
   {
    "id": "demo-006",
@@ -102,7 +117,10 @@
     3,
     4,
     4
-   ]
+   ],
+   "stadt": "Zürich",
+   "kreis": 8,
+   "quartier": "Seefeld"
   },
   {
    "id": "demo-007",
@@ -119,7 +137,10 @@
     1,
     3,
     5
-   ]
+   ],
+   "stadt": "Zürich",
+   "kreis": 3,
+   "quartier": "Wiedikon"
   },
   {
    "id": "demo-008",
@@ -136,7 +157,10 @@
     2,
     4,
     2
-   ]
+   ],
+   "stadt": "Zürich",
+   "kreis": 9,
+   "quartier": "Albisrieden"
   },
   {
    "id": "demo-009",
@@ -153,7 +177,10 @@
     1,
     5,
     2
-   ]
+   ],
+   "stadt": "Zürich",
+   "kreis": 7,
+   "quartier": "Hirslanden"
   },
   {
    "id": "demo-010",
@@ -170,7 +197,10 @@
     2,
     3,
     3
-   ]
+   ],
+   "stadt": "Zürich",
+   "kreis": 4,
+   "quartier": "Aussersihl"
   },
   {
    "id": "demo-011",
@@ -187,7 +217,10 @@
     3,
     2,
     3
-   ]
+   ],
+   "stadt": "Zürich",
+   "kreis": 8,
+   "quartier": "Riesbach"
   },
   {
    "id": "demo-012",
@@ -204,7 +237,10 @@
     2,
     5,
     4
-   ]
+   ],
+   "stadt": "Zürich",
+   "kreis": 5,
+   "quartier": "Escher-Wyss"
   },
   {
    "id": "demo-013",
@@ -221,7 +257,10 @@
     1,
     5,
     4
-   ]
+   ],
+   "stadt": "Zürich",
+   "kreis": 4,
+   "quartier": "Langstrasse"
   },
   {
    "id": "demo-014",
@@ -238,7 +277,10 @@
     2,
     5,
     3
-   ]
+   ],
+   "stadt": "Zürich",
+   "kreis": 3,
+   "quartier": "Friesenberg"
   },
   {
    "id": "demo-015",
@@ -255,7 +297,10 @@
     5,
     2,
     4
-   ]
+   ],
+   "stadt": "Zürich",
+   "kreis": 3,
+   "quartier": "Friesenberg"
   },
   {
    "id": "demo-016",
@@ -272,7 +317,10 @@
     2,
     2,
     3
-   ]
+   ],
+   "stadt": "Zürich",
+   "kreis": 10,
+   "quartier": "Wipkingen"
   },
   {
    "id": "demo-017",
@@ -289,7 +337,10 @@
     5,
     1,
     3
-   ]
+   ],
+   "stadt": "Zürich",
+   "kreis": 11,
+   "quartier": "Affoltern"
   },
   {
    "id": "demo-018",
@@ -306,7 +357,10 @@
     4,
     3,
     4
-   ]
+   ],
+   "stadt": "Zürich",
+   "kreis": 1,
+   "quartier": "Selnau"
   },
   {
    "id": "demo-019",
@@ -323,7 +377,10 @@
     3,
     2,
     3
-   ]
+   ],
+   "stadt": "Zürich",
+   "kreis": 1,
+   "quartier": "Altstadt"
   },
   {
    "id": "demo-020",
@@ -340,7 +397,10 @@
     1,
     5,
     3
-   ]
+   ],
+   "stadt": "Zürich",
+   "kreis": 2,
+   "quartier": "Leimbach"
   },
   {
    "id": "demo-021",
@@ -357,7 +417,10 @@
     2,
     3,
     4
-   ]
+   ],
+   "stadt": "Zürich",
+   "kreis": 7,
+   "quartier": "Hottingen"
   },
   {
    "id": "demo-022",
@@ -374,7 +437,10 @@
     1,
     5,
     4
-   ]
+   ],
+   "stadt": "Zürich",
+   "kreis": 11,
+   "quartier": "Oerlikon"
   },
   {
    "id": "demo-023",
@@ -391,7 +457,10 @@
     1,
     4,
     1
-   ]
+   ],
+   "stadt": "Zürich",
+   "kreis": 5,
+   "quartier": "Kreis 5"
   },
   {
    "id": "demo-024",
@@ -408,7 +477,10 @@
     5,
     2,
     2
-   ]
+   ],
+   "stadt": "Zürich",
+   "kreis": 7,
+   "quartier": "Hottingen"
   },
   {
    "id": "demo-025",
@@ -425,7 +497,10 @@
     4,
     5,
     3
-   ]
+   ],
+   "stadt": "Zürich",
+   "kreis": 5,
+   "quartier": "Zürich-West"
   },
   {
    "id": "demo-026",
@@ -442,7 +517,10 @@
     2,
     3,
     3
-   ]
+   ],
+   "stadt": "Zürich",
+   "kreis": 1,
+   "quartier": "Niederdorf"
   },
   {
    "id": "demo-027",
@@ -459,7 +537,10 @@
     1,
     5,
     3
-   ]
+   ],
+   "stadt": "Zürich",
+   "kreis": 3,
+   "quartier": "Friesenberg"
   },
   {
    "id": "demo-028",
@@ -476,7 +557,10 @@
     2,
     4,
     3
-   ]
+   ],
+   "stadt": "Zürich",
+   "kreis": 8,
+   "quartier": "Riesbach"
   },
   {
    "id": "demo-029",
@@ -493,7 +577,10 @@
     3,
     2,
     5
-   ]
+   ],
+   "stadt": "Zürich",
+   "kreis": 3,
+   "quartier": "Sihlfeld"
   },
   {
    "id": "demo-030",
@@ -510,7 +597,10 @@
     2,
     3,
     4
-   ]
+   ],
+   "stadt": "Zürich",
+   "kreis": 11,
+   "quartier": "Seebach"
   },
   {
    "id": "demo-031",
@@ -527,7 +617,10 @@
     4,
     3,
     3
-   ]
+   ],
+   "stadt": "Zürich",
+   "kreis": 4,
+   "quartier": "Kreis 4"
   },
   {
    "id": "demo-032",
@@ -544,7 +637,10 @@
     3,
     2,
     3
-   ]
+   ],
+   "stadt": "Zürich",
+   "kreis": 11,
+   "quartier": "Oerlikon"
   },
   {
    "id": "demo-033",
@@ -561,7 +657,10 @@
     3,
     3,
     3
-   ]
+   ],
+   "stadt": "Zürich",
+   "kreis": 4,
+   "quartier": "Aussersihl"
   },
   {
    "id": "demo-034",
@@ -578,7 +677,10 @@
     3,
     5,
     4
-   ]
+   ],
+   "stadt": "Zürich",
+   "kreis": 3,
+   "quartier": "Binz"
   },
   {
    "id": "demo-035",
@@ -595,7 +697,10 @@
     4,
     2,
     3
-   ]
+   ],
+   "stadt": "Zürich",
+   "kreis": 2,
+   "quartier": "Enge"
   },
   {
    "id": "demo-036",
@@ -612,7 +717,10 @@
     4,
     2,
     2
-   ]
+   ],
+   "stadt": "Zürich",
+   "kreis": 11,
+   "quartier": "Seebach"
   },
   {
    "id": "demo-037",
@@ -629,7 +737,10 @@
     1,
     4,
     5
-   ]
+   ],
+   "stadt": "Zürich",
+   "kreis": 11,
+   "quartier": "Seebach"
   },
   {
    "id": "demo-038",
@@ -646,7 +757,10 @@
     1,
     5,
     4
-   ]
+   ],
+   "stadt": "Zürich",
+   "kreis": 1,
+   "quartier": "Lindenhof"
   },
   {
    "id": "demo-039",
@@ -663,7 +777,10 @@
     3,
     3,
     4
-   ]
+   ],
+   "stadt": "Zürich",
+   "kreis": 10,
+   "quartier": "Höngg"
   },
   {
    "id": "demo-040",
@@ -680,7 +797,10 @@
     2,
     3,
     4
-   ]
+   ],
+   "stadt": "Zürich",
+   "kreis": 4,
+   "quartier": "Aussersihl"
   },
   {
    "id": "demo-041",
@@ -697,7 +817,10 @@
     1,
     5,
     2
-   ]
+   ],
+   "stadt": "Zürich",
+   "kreis": 5,
+   "quartier": "Escher-Wyss"
   },
   {
    "id": "demo-042",
@@ -714,7 +837,10 @@
     4,
     3,
     2
-   ]
+   ],
+   "stadt": "Zürich",
+   "kreis": 7,
+   "quartier": "Hirslanden"
   },
   {
    "id": "demo-043",
@@ -731,7 +857,10 @@
     2,
     3,
     5
-   ]
+   ],
+   "stadt": "Zürich",
+   "kreis": 4,
+   "quartier": "Kreis 4"
   },
   {
    "id": "demo-044",
@@ -748,7 +877,10 @@
     4,
     1,
     3
-   ]
+   ],
+   "stadt": "Zürich",
+   "kreis": 3,
+   "quartier": "Sihlfeld"
   },
   {
    "id": "demo-045",
@@ -765,7 +897,10 @@
     2,
     1,
     3
-   ]
+   ],
+   "stadt": "Zürich",
+   "kreis": 11,
+   "quartier": "Seebach"
   },
   {
    "id": "demo-046",
@@ -782,7 +917,10 @@
     4,
     2,
     2
-   ]
+   ],
+   "stadt": "Zürich",
+   "kreis": 7,
+   "quartier": "Hirslanden"
   },
   {
    "id": "demo-047",
@@ -799,7 +937,10 @@
     4,
     1,
     4
-   ]
+   ],
+   "stadt": "Zürich",
+   "kreis": 10,
+   "quartier": "Wipkingen"
   },
   {
    "id": "demo-048",
@@ -816,7 +957,10 @@
     5,
     3,
     3
-   ]
+   ],
+   "stadt": "Zürich",
+   "kreis": 6,
+   "quartier": "Oberstrass"
   },
   {
    "id": "demo-049",
@@ -833,7 +977,10 @@
     3,
     2,
     2
-   ]
+   ],
+   "stadt": "Zürich",
+   "kreis": 3,
+   "quartier": "Wiedikon"
   },
   {
    "id": "demo-050",
@@ -850,7 +997,10 @@
     1,
     3,
     3
-   ]
+   ],
+   "stadt": "Zürich",
+   "kreis": 11,
+   "quartier": "Oerlikon"
   },
   {
    "id": "demo-051",
@@ -867,7 +1017,10 @@
     3,
     4,
     3
-   ]
+   ],
+   "stadt": "Zürich",
+   "kreis": 7,
+   "quartier": "Hirslanden"
   },
   {
    "id": "demo-052",
@@ -884,7 +1037,10 @@
     3,
     5,
     2
-   ]
+   ],
+   "stadt": "Zürich",
+   "kreis": 6,
+   "quartier": "Oberstrass"
   },
   {
    "id": "demo-053",
@@ -901,7 +1057,10 @@
     2,
     4,
     1
-   ]
+   ],
+   "stadt": "Zürich",
+   "kreis": 2,
+   "quartier": "Enge"
   },
   {
    "id": "demo-054",
@@ -918,7 +1077,10 @@
     5,
     2,
     2
-   ]
+   ],
+   "stadt": "Zürich",
+   "kreis": 5,
+   "quartier": "Escher-Wyss"
   },
   {
    "id": "demo-055",
@@ -935,7 +1097,10 @@
     5,
     1,
     3
-   ]
+   ],
+   "stadt": "Zürich",
+   "kreis": 6,
+   "quartier": "Oberstrass"
   },
   {
    "id": "demo-056",
@@ -952,7 +1117,10 @@
     1,
     4,
     3
-   ]
+   ],
+   "stadt": "Zürich",
+   "kreis": 7,
+   "quartier": "Fluntern"
   },
   {
    "id": "demo-057",
@@ -969,7 +1137,10 @@
     5,
     1,
     3
-   ]
+   ],
+   "stadt": "Zürich",
+   "kreis": 2,
+   "quartier": "Leimbach"
   },
   {
    "id": "demo-058",
@@ -986,7 +1157,10 @@
     2,
     2,
     3
-   ]
+   ],
+   "stadt": "Zürich",
+   "kreis": 1,
+   "quartier": "Rathausquartier"
   },
   {
    "id": "demo-059",
@@ -1003,7 +1177,10 @@
     5,
     1,
     2
-   ]
+   ],
+   "stadt": "Zürich",
+   "kreis": 11,
+   "quartier": "Seebach"
   },
   {
    "id": "demo-060",
@@ -1020,7 +1197,10 @@
     2,
     2,
     5
-   ]
+   ],
+   "stadt": "Zürich",
+   "kreis": 1,
+   "quartier": "Lindenhof"
   },
   {
    "id": "demo-061",
@@ -1037,7 +1217,10 @@
     3,
     2,
     2
-   ]
+   ],
+   "stadt": "Zürich",
+   "kreis": 1,
+   "quartier": "Selnau"
   },
   {
    "id": "demo-062",
@@ -1054,7 +1237,10 @@
     5,
     3,
     4
-   ]
+   ],
+   "stadt": "Zürich",
+   "kreis": 1,
+   "quartier": "Altstadt"
   },
   {
    "id": "demo-063",
@@ -1071,7 +1257,10 @@
     2,
     5,
     1
-   ]
+   ],
+   "stadt": "Zürich",
+   "kreis": 5,
+   "quartier": "Zürich-West"
   },
   {
    "id": "demo-064",
@@ -1088,7 +1277,10 @@
     2,
     4,
     3
-   ]
+   ],
+   "stadt": "Zürich",
+   "kreis": 3,
+   "quartier": "Friesenberg"
   },
   {
    "id": "demo-065",
@@ -1105,7 +1297,10 @@
     3,
     3,
     3
-   ]
+   ],
+   "stadt": "Zürich",
+   "kreis": 4,
+   "quartier": "Aussersihl"
   },
   {
    "id": "demo-066",
@@ -1122,7 +1317,10 @@
     1,
     5,
     5
-   ]
+   ],
+   "stadt": "Zürich",
+   "kreis": 3,
+   "quartier": "Wiedikon"
   },
   {
    "id": "demo-067",
@@ -1139,7 +1337,10 @@
     2,
     3,
     5
-   ]
+   ],
+   "stadt": "Zürich",
+   "kreis": 9,
+   "quartier": "Altstetten"
   },
   {
    "id": "demo-068",
@@ -1156,7 +1357,10 @@
     3,
     4,
     3
-   ]
+   ],
+   "stadt": "Zürich",
+   "kreis": 9,
+   "quartier": "Altstetten"
   },
   {
    "id": "demo-069",
@@ -1173,7 +1377,10 @@
     2,
     3,
     3
-   ]
+   ],
+   "stadt": "Zürich",
+   "kreis": 3,
+   "quartier": "Binz"
   },
   {
    "id": "demo-070",
@@ -1190,7 +1397,10 @@
     1,
     4,
     3
-   ]
+   ],
+   "stadt": "Zürich",
+   "kreis": 4,
+   "quartier": "Hard"
   },
   {
    "id": "demo-071",
@@ -1207,7 +1417,10 @@
     4,
     2,
     1
-   ]
+   ],
+   "stadt": "Zürich",
+   "kreis": 3,
+   "quartier": "Sihlfeld"
   },
   {
    "id": "demo-072",
@@ -1224,7 +1437,10 @@
     3,
     2,
     5
-   ]
+   ],
+   "stadt": "Zürich",
+   "kreis": 3,
+   "quartier": "Wiedikon"
   },
   {
    "id": "demo-073",
@@ -1241,7 +1457,10 @@
     2,
     3,
     3
-   ]
+   ],
+   "stadt": "Zürich",
+   "kreis": 1,
+   "quartier": "Altstadt"
   },
   {
    "id": "demo-074",
@@ -1258,7 +1477,10 @@
     1,
     4,
     5
-   ]
+   ],
+   "stadt": "Zürich",
+   "kreis": 1,
+   "quartier": "Lindenhof"
   },
   {
    "id": "demo-075",
@@ -1275,7 +1497,10 @@
     2,
     4,
     2
-   ]
+   ],
+   "stadt": "Zürich",
+   "kreis": 8,
+   "quartier": "Riesbach"
   },
   {
    "id": "demo-076",
@@ -1292,7 +1517,10 @@
     2,
     4,
     4
-   ]
+   ],
+   "stadt": "Zürich",
+   "kreis": 8,
+   "quartier": "Riesbach"
   },
   {
    "id": "demo-077",
@@ -1309,7 +1537,10 @@
     1,
     5,
     3
-   ]
+   ],
+   "stadt": "Zürich",
+   "kreis": 12,
+   "quartier": "Schwamendingen"
   },
   {
    "id": "demo-078",
@@ -1326,7 +1557,10 @@
     1,
     5,
     5
-   ]
+   ],
+   "stadt": "Zürich",
+   "kreis": 3,
+   "quartier": "Sihlfeld"
   },
   {
    "id": "demo-079",
@@ -1343,7 +1577,10 @@
     3,
     5,
     5
-   ]
+   ],
+   "stadt": "Zürich",
+   "kreis": 5,
+   "quartier": "Escher-Wyss"
   },
   {
    "id": "demo-080",
@@ -1360,7 +1597,10 @@
     1,
     3,
     2
-   ]
+   ],
+   "stadt": "Zürich",
+   "kreis": 3,
+   "quartier": "Sihlfeld"
   },
   {
    "id": "demo-081",
@@ -1377,7 +1617,10 @@
     1,
     3,
     4
-   ]
+   ],
+   "stadt": "Zürich",
+   "kreis": 1,
+   "quartier": "Selnau"
   },
   {
    "id": "demo-082",
@@ -1394,7 +1637,10 @@
     5,
     2,
     2
-   ]
+   ],
+   "stadt": "Zürich",
+   "kreis": 8,
+   "quartier": "Seefeld"
   },
   {
    "id": "demo-083",
@@ -1411,7 +1657,10 @@
     2,
     3,
     4
-   ]
+   ],
+   "stadt": "Zürich",
+   "kreis": 7,
+   "quartier": "Hirslanden"
   },
   {
    "id": "demo-084",
@@ -1428,7 +1677,10 @@
     5,
     1,
     1
-   ]
+   ],
+   "stadt": "Zürich",
+   "kreis": 1,
+   "quartier": "Rathausquartier"
   },
   {
    "id": "demo-085",
@@ -1445,7 +1697,10 @@
     3,
     3,
     4
-   ]
+   ],
+   "stadt": "Zürich",
+   "kreis": 5,
+   "quartier": "Escher-Wyss"
   },
   {
    "id": "demo-086",
@@ -1462,7 +1717,10 @@
     3,
     1,
     4
-   ]
+   ],
+   "stadt": "Zürich",
+   "kreis": 2,
+   "quartier": "Enge"
   },
   {
    "id": "demo-087",
@@ -1479,7 +1737,10 @@
     1,
     4,
     5
-   ]
+   ],
+   "stadt": "Zürich",
+   "kreis": 10,
+   "quartier": "Höngg"
   },
   {
    "id": "demo-088",
@@ -1496,7 +1757,10 @@
     3,
     4,
     2
-   ]
+   ],
+   "stadt": "Zürich",
+   "kreis": 4,
+   "quartier": "Hard"
   },
   {
    "id": "demo-089",
@@ -1513,7 +1777,10 @@
     3,
     4,
     3
-   ]
+   ],
+   "stadt": "Zürich",
+   "kreis": 3,
+   "quartier": "Friesenberg"
   },
   {
    "id": "demo-090",
@@ -1530,7 +1797,10 @@
     2,
     5,
     1
-   ]
+   ],
+   "stadt": "Zürich",
+   "kreis": 8,
+   "quartier": "Seefeld"
   },
   {
    "id": "demo-091",
@@ -1547,7 +1817,10 @@
     1,
     5,
     1
-   ]
+   ],
+   "stadt": "Zürich",
+   "kreis": 1,
+   "quartier": "Lindenhof"
   },
   {
    "id": "demo-092",
@@ -1564,7 +1837,10 @@
     2,
     5,
     3
-   ]
+   ],
+   "stadt": "Zürich",
+   "kreis": 3,
+   "quartier": "Wiedikon"
   },
   {
    "id": "demo-093",
@@ -1581,7 +1857,10 @@
     2,
     3,
     2
-   ]
+   ],
+   "stadt": "Zürich",
+   "kreis": 11,
+   "quartier": "Seebach"
   },
   {
    "id": "demo-094",
@@ -1598,7 +1877,10 @@
     2,
     4,
     5
-   ]
+   ],
+   "stadt": "Zürich",
+   "kreis": 7,
+   "quartier": "Hirslanden"
   },
   {
    "id": "demo-095",
@@ -1615,7 +1897,10 @@
     3,
     1,
     2
-   ]
+   ],
+   "stadt": "Zürich",
+   "kreis": 10,
+   "quartier": "Höngg"
   },
   {
    "id": "demo-096",
@@ -1632,7 +1917,10 @@
     1,
     4,
     4
-   ]
+   ],
+   "stadt": "Zürich",
+   "kreis": 8,
+   "quartier": "Seefeld"
   },
   {
    "id": "demo-097",
@@ -1649,7 +1937,10 @@
     4,
     3,
     4
-   ]
+   ],
+   "stadt": "Zürich",
+   "kreis": 3,
+   "quartier": "Sihlfeld"
   },
   {
    "id": "demo-098",
@@ -1666,7 +1957,10 @@
     1,
     3,
     3
-   ]
+   ],
+   "stadt": "Zürich",
+   "kreis": 3,
+   "quartier": "Sihlfeld"
   },
   {
    "id": "demo-099",
@@ -1683,7 +1977,10 @@
     3,
     3,
     4
-   ]
+   ],
+   "stadt": "Zürich",
+   "kreis": 8,
+   "quartier": "Riesbach"
   },
   {
    "id": "demo-100",
@@ -1700,7 +1997,10 @@
     1,
     4,
     4
-   ]
+   ],
+   "stadt": "Zürich",
+   "kreis": 1,
+   "quartier": "Niederdorf"
   },
   {
    "id": "demo-101",
@@ -1717,7 +2017,10 @@
     3,
     3,
     3
-   ]
+   ],
+   "stadt": "Zürich",
+   "kreis": 3,
+   "quartier": "Friesenberg"
   },
   {
    "id": "demo-102",
@@ -1734,7 +2037,10 @@
     4,
     2,
     2
-   ]
+   ],
+   "stadt": "Zürich",
+   "kreis": 2,
+   "quartier": "Enge"
   },
   {
    "id": "demo-103",
@@ -1751,7 +2057,10 @@
     5,
     3,
     3
-   ]
+   ],
+   "stadt": "Zürich",
+   "kreis": 8,
+   "quartier": "Seefeld"
   },
   {
    "id": "demo-104",
@@ -1768,7 +2077,10 @@
     1,
     1,
     1
-   ]
+   ],
+   "stadt": "Zürich",
+   "kreis": 11,
+   "quartier": "Seebach"
   },
   {
    "id": "demo-105",
@@ -1785,7 +2097,10 @@
     4,
     1,
     4
-   ]
+   ],
+   "stadt": "Zürich",
+   "kreis": 5,
+   "quartier": "Kreis 5"
   },
   {
    "id": "demo-106",
@@ -1802,7 +2117,10 @@
     1,
     3,
     5
-   ]
+   ],
+   "stadt": "Zürich",
+   "kreis": 2,
+   "quartier": "Enge"
   },
   {
    "id": "demo-107",
@@ -1819,7 +2137,10 @@
     4,
     5,
     3
-   ]
+   ],
+   "stadt": "Zürich",
+   "kreis": 10,
+   "quartier": "Höngg"
   },
   {
    "id": "demo-108",
@@ -1836,7 +2157,10 @@
     3,
     2,
     3
-   ]
+   ],
+   "stadt": "Zürich",
+   "kreis": 3,
+   "quartier": "Friesenberg"
   },
   {
    "id": "demo-109",
@@ -1853,7 +2177,10 @@
     4,
     4,
     3
-   ]
+   ],
+   "stadt": "Zürich",
+   "kreis": 3,
+   "quartier": "Wiedikon"
   },
   {
    "id": "demo-110",
@@ -1870,7 +2197,10 @@
     4,
     4,
     1
-   ]
+   ],
+   "stadt": "Zürich",
+   "kreis": 3,
+   "quartier": "Wiedikon"
   },
   {
    "id": "demo-111",
@@ -1887,7 +2217,10 @@
     1,
     3,
     4
-   ]
+   ],
+   "stadt": "Zürich",
+   "kreis": 4,
+   "quartier": "Hard"
   },
   {
    "id": "demo-112",
@@ -1904,7 +2237,10 @@
     1,
     5,
     3
-   ]
+   ],
+   "stadt": "Zürich",
+   "kreis": 11,
+   "quartier": "Oerlikon"
   },
   {
    "id": "demo-113",
@@ -1921,7 +2257,10 @@
     3,
     2,
     2
-   ]
+   ],
+   "stadt": "Zürich",
+   "kreis": 8,
+   "quartier": "Riesbach"
   },
   {
    "id": "demo-114",
@@ -1938,7 +2277,10 @@
     1,
     3,
     4
-   ]
+   ],
+   "stadt": "Zürich",
+   "kreis": 5,
+   "quartier": "Kreis 5"
   },
   {
    "id": "demo-115",
@@ -1955,7 +2297,10 @@
     4,
     2,
     1
-   ]
+   ],
+   "stadt": "Zürich",
+   "kreis": 1,
+   "quartier": "Altstadt"
   },
   {
    "id": "demo-116",
@@ -1972,7 +2317,10 @@
     1,
     5,
     1
-   ]
+   ],
+   "stadt": "Zürich",
+   "kreis": 12,
+   "quartier": "Schwamendingen"
   },
   {
    "id": "demo-117",
@@ -1989,7 +2337,10 @@
     2,
     5,
     3
-   ]
+   ],
+   "stadt": "Zürich",
+   "kreis": 4,
+   "quartier": "Langstrasse"
   },
   {
    "id": "demo-118",
@@ -2006,7 +2357,10 @@
     5,
     2,
     3
-   ]
+   ],
+   "stadt": "Zürich",
+   "kreis": 12,
+   "quartier": "Schwamendingen"
   },
   {
    "id": "demo-119",
@@ -2023,7 +2377,10 @@
     3,
     3,
     3
-   ]
+   ],
+   "stadt": "Zürich",
+   "kreis": 8,
+   "quartier": "Riesbach"
   },
   {
    "id": "demo-120",
@@ -2040,7 +2397,10 @@
     5,
     2,
     5
-   ]
+   ],
+   "stadt": "Zürich",
+   "kreis": 7,
+   "quartier": "Hottingen"
   },
   {
    "id": "demo-121",
@@ -2057,7 +2417,10 @@
     2,
     2,
     4
-   ]
+   ],
+   "stadt": "Zürich",
+   "kreis": 10,
+   "quartier": "Höngg"
   },
   {
    "id": "demo-122",
@@ -2074,7 +2437,10 @@
     3,
     4,
     3
-   ]
+   ],
+   "stadt": "Zürich",
+   "kreis": 4,
+   "quartier": "Hard"
   },
   {
    "id": "demo-123",
@@ -2091,7 +2457,10 @@
     2,
     4,
     2
-   ]
+   ],
+   "stadt": "Zürich",
+   "kreis": 5,
+   "quartier": "Escher-Wyss"
   },
   {
    "id": "demo-124",
@@ -2108,7 +2477,10 @@
     4,
     3,
     4
-   ]
+   ],
+   "stadt": "Zürich",
+   "kreis": 12,
+   "quartier": "Schwamendingen"
   },
   {
    "id": "demo-125",
@@ -2125,7 +2497,10 @@
     1,
     5,
     4
-   ]
+   ],
+   "stadt": "Zürich",
+   "kreis": 10,
+   "quartier": "Höngg"
   },
   {
    "id": "demo-126",
@@ -2142,7 +2517,10 @@
     2,
     4,
     3
-   ]
+   ],
+   "stadt": "Zürich",
+   "kreis": 4,
+   "quartier": "Langstrasse"
   },
   {
    "id": "demo-127",
@@ -2159,7 +2537,10 @@
     1,
     4,
     3
-   ]
+   ],
+   "stadt": "Zürich",
+   "kreis": 3,
+   "quartier": "Friesenberg"
   },
   {
    "id": "demo-128",
@@ -2176,7 +2557,10 @@
     1,
     5,
     2
-   ]
+   ],
+   "stadt": "Zürich",
+   "kreis": 2,
+   "quartier": "Enge"
   },
   {
    "id": "demo-129",
@@ -2193,7 +2577,10 @@
     1,
     5,
     4
-   ]
+   ],
+   "stadt": "Zürich",
+   "kreis": 12,
+   "quartier": "Schwamendingen"
   },
   {
    "id": "demo-130",
@@ -2210,7 +2597,10 @@
     3,
     1,
     1
-   ]
+   ],
+   "stadt": "Zürich",
+   "kreis": 2,
+   "quartier": "Wollishofen"
   },
   {
    "id": "demo-131",
@@ -2227,7 +2617,10 @@
     1,
     4,
     2
-   ]
+   ],
+   "stadt": "Zürich",
+   "kreis": 11,
+   "quartier": "Oerlikon"
   },
   {
    "id": "demo-132",
@@ -2244,7 +2637,10 @@
     1,
     4,
     2
-   ]
+   ],
+   "stadt": "Zürich",
+   "kreis": 9,
+   "quartier": "Albisrieden"
   },
   {
    "id": "demo-133",
@@ -2261,7 +2657,10 @@
     4,
     3,
     3
-   ]
+   ],
+   "stadt": "Zürich",
+   "kreis": 2,
+   "quartier": "Enge"
   },
   {
    "id": "demo-134",
@@ -2278,7 +2677,10 @@
     3,
     2,
     2
-   ]
+   ],
+   "stadt": "Zürich",
+   "kreis": 10,
+   "quartier": "Wipkingen"
   },
   {
    "id": "demo-135",
@@ -2295,7 +2697,10 @@
     3,
     1,
     3
-   ]
+   ],
+   "stadt": "Zürich",
+   "kreis": 10,
+   "quartier": "Höngg"
   },
   {
    "id": "demo-136",
@@ -2312,7 +2717,10 @@
     1,
     3,
     3
-   ]
+   ],
+   "stadt": "Zürich",
+   "kreis": 1,
+   "quartier": "Selnau"
   },
   {
    "id": "demo-137",
@@ -2329,7 +2737,10 @@
     3,
     5,
     2
-   ]
+   ],
+   "stadt": "Zürich",
+   "kreis": 7,
+   "quartier": "Hirslanden"
   },
   {
    "id": "demo-138",
@@ -2346,7 +2757,10 @@
     3,
     3,
     3
-   ]
+   ],
+   "stadt": "Zürich",
+   "kreis": 1,
+   "quartier": "Rathausquartier"
   },
   {
    "id": "demo-139",
@@ -2363,7 +2777,10 @@
     2,
     4,
     2
-   ]
+   ],
+   "stadt": "Zürich",
+   "kreis": 11,
+   "quartier": "Seebach"
   },
   {
    "id": "demo-140",
@@ -2380,7 +2797,10 @@
     1,
     5,
     4
-   ]
+   ],
+   "stadt": "Zürich",
+   "kreis": 7,
+   "quartier": "Witikon"
   },
   {
    "id": "demo-141",
@@ -2397,7 +2817,10 @@
     1,
     5,
     4
-   ]
+   ],
+   "stadt": "Zürich",
+   "kreis": 11,
+   "quartier": "Seebach"
   },
   {
    "id": "demo-142",
@@ -2414,7 +2837,10 @@
     4,
     4,
     2
-   ]
+   ],
+   "stadt": "Zürich",
+   "kreis": 5,
+   "quartier": "Escher-Wyss"
   },
   {
    "id": "demo-143",
@@ -2431,7 +2857,10 @@
     2,
     2,
     2
-   ]
+   ],
+   "stadt": "Zürich",
+   "kreis": 5,
+   "quartier": "Kreis 5"
   },
   {
    "id": "demo-144",
@@ -2448,7 +2877,10 @@
     4,
     2,
     3
-   ]
+   ],
+   "stadt": "Zürich",
+   "kreis": 9,
+   "quartier": "Altstetten"
   },
   {
    "id": "demo-145",
@@ -2465,7 +2897,10 @@
     1,
     3,
     2
-   ]
+   ],
+   "stadt": "Zürich",
+   "kreis": 10,
+   "quartier": "Wipkingen"
   },
   {
    "id": "demo-146",
@@ -2482,7 +2917,10 @@
     5,
     3,
     3
-   ]
+   ],
+   "stadt": "Zürich",
+   "kreis": 5,
+   "quartier": "Escher-Wyss"
   },
   {
    "id": "demo-147",
@@ -2499,7 +2937,10 @@
     1,
     4,
     4
-   ]
+   ],
+   "stadt": "Zürich",
+   "kreis": 4,
+   "quartier": "Aussersihl"
   },
   {
    "id": "demo-148",
@@ -2516,7 +2957,10 @@
     2,
     1,
     4
-   ]
+   ],
+   "stadt": "Zürich",
+   "kreis": 1,
+   "quartier": "Niederdorf"
   },
   {
    "id": "demo-149",
@@ -2533,7 +2977,10 @@
     2,
     3,
     3
-   ]
+   ],
+   "stadt": "Zürich",
+   "kreis": 4,
+   "quartier": "Aussersihl"
   },
   {
    "id": "demo-150",
@@ -2550,7 +2997,10 @@
     2,
     3,
     2
-   ]
+   ],
+   "stadt": "Zürich",
+   "kreis": 4,
+   "quartier": "Aussersihl"
   },
   {
    "id": "demo-151",
@@ -2567,7 +3017,10 @@
     5,
     2,
     2
-   ]
+   ],
+   "stadt": "Zürich",
+   "kreis": 7,
+   "quartier": "Hottingen"
   },
   {
    "id": "demo-152",
@@ -2584,7 +3037,10 @@
     3,
     3,
     2
-   ]
+   ],
+   "stadt": "Zürich",
+   "kreis": 6,
+   "quartier": "Oberstrass"
   },
   {
    "id": "demo-153",
@@ -2601,7 +3057,10 @@
     4,
     1,
     1
-   ]
+   ],
+   "stadt": "Zürich",
+   "kreis": 7,
+   "quartier": "Fluntern"
   },
   {
    "id": "demo-154",
@@ -2618,7 +3077,10 @@
     3,
     5,
     5
-   ]
+   ],
+   "stadt": "Zürich",
+   "kreis": 1,
+   "quartier": "Lindenhof"
   },
   {
    "id": "demo-155",
@@ -2635,7 +3097,10 @@
     1,
     2,
     3
-   ]
+   ],
+   "stadt": "Zürich",
+   "kreis": 7,
+   "quartier": "Hirslanden"
   },
   {
    "id": "demo-156",
@@ -2652,7 +3117,10 @@
     2,
     2,
     3
-   ]
+   ],
+   "stadt": "Zürich",
+   "kreis": 7,
+   "quartier": "Witikon"
   },
   {
    "id": "demo-157",
@@ -2669,7 +3137,10 @@
     5,
     1,
     4
-   ]
+   ],
+   "stadt": "Zürich",
+   "kreis": 4,
+   "quartier": "Kreis 4"
   },
   {
    "id": "demo-158",
@@ -2686,7 +3157,10 @@
     2,
     3,
     3
-   ]
+   ],
+   "stadt": "Zürich",
+   "kreis": 9,
+   "quartier": "Albisrieden"
   },
   {
    "id": "demo-159",
@@ -2703,7 +3177,10 @@
     4,
     4,
     2
-   ]
+   ],
+   "stadt": "Zürich",
+   "kreis": 7,
+   "quartier": "Hottingen"
   },
   {
    "id": "demo-160",
@@ -2720,7 +3197,10 @@
     4,
     2,
     3
-   ]
+   ],
+   "stadt": "Zürich",
+   "kreis": 10,
+   "quartier": "Wipkingen"
   },
   {
    "id": "demo-161",
@@ -2737,7 +3217,10 @@
     2,
     3,
     5
-   ]
+   ],
+   "stadt": "Zürich",
+   "kreis": 3,
+   "quartier": "Wiedikon"
   },
   {
    "id": "demo-162",
@@ -2754,7 +3237,10 @@
     5,
     3,
     2
-   ]
+   ],
+   "stadt": "Zürich",
+   "kreis": 1,
+   "quartier": "Selnau"
   },
   {
    "id": "demo-163",
@@ -2771,7 +3257,10 @@
     1,
     5,
     4
-   ]
+   ],
+   "stadt": "Zürich",
+   "kreis": 2,
+   "quartier": "Enge"
   },
   {
    "id": "demo-164",
@@ -2788,7 +3277,10 @@
     2,
     3,
     3
-   ]
+   ],
+   "stadt": "Zürich",
+   "kreis": 1,
+   "quartier": "Selnau"
   },
   {
    "id": "demo-165",
@@ -2805,7 +3297,10 @@
     5,
     1,
     2
-   ]
+   ],
+   "stadt": "Zürich",
+   "kreis": 1,
+   "quartier": "Altstadt"
   },
   {
    "id": "demo-166",
@@ -2822,7 +3317,10 @@
     1,
     3,
     3
-   ]
+   ],
+   "stadt": "Zürich",
+   "kreis": 4,
+   "quartier": "Hard"
   },
   {
    "id": "demo-167",
@@ -2839,7 +3337,10 @@
     1,
     5,
     5
-   ]
+   ],
+   "stadt": "Zürich",
+   "kreis": 2,
+   "quartier": "Enge"
   },
   {
    "id": "demo-168",
@@ -2856,7 +3357,10 @@
     4,
     3,
     4
-   ]
+   ],
+   "stadt": "Zürich",
+   "kreis": 10,
+   "quartier": "Wipkingen"
   },
   {
    "id": "demo-169",
@@ -2873,7 +3377,10 @@
     5,
     2,
     3
-   ]
+   ],
+   "stadt": "Zürich",
+   "kreis": 3,
+   "quartier": "Friesenberg"
   },
   {
    "id": "demo-170",
@@ -2890,7 +3397,10 @@
     2,
     2,
     4
-   ]
+   ],
+   "stadt": "Zürich",
+   "kreis": 6,
+   "quartier": "Oberstrass"
   },
   {
    "id": "demo-171",
@@ -2907,7 +3417,10 @@
     4,
     3,
     3
-   ]
+   ],
+   "stadt": "Zürich",
+   "kreis": 3,
+   "quartier": "Sihlfeld"
   },
   {
    "id": "demo-172",
@@ -2924,7 +3437,10 @@
     4,
     2,
     4
-   ]
+   ],
+   "stadt": "Zürich",
+   "kreis": 7,
+   "quartier": "Hirslanden"
   },
   {
    "id": "demo-173",
@@ -2941,7 +3457,10 @@
     2,
     4,
     3
-   ]
+   ],
+   "stadt": "Zürich",
+   "kreis": 2,
+   "quartier": "Enge"
   },
   {
    "id": "demo-174",
@@ -2958,7 +3477,10 @@
     2,
     4,
     2
-   ]
+   ],
+   "stadt": "Zürich",
+   "kreis": 9,
+   "quartier": "Altstetten"
   },
   {
    "id": "demo-175",
@@ -2975,7 +3497,10 @@
     2,
     5,
     4
-   ]
+   ],
+   "stadt": "Zürich",
+   "kreis": 5,
+   "quartier": "Zürich-West"
   },
   {
    "id": "demo-176",
@@ -2992,7 +3517,10 @@
     3,
     2,
     4
-   ]
+   ],
+   "stadt": "Zürich",
+   "kreis": 1,
+   "quartier": "Selnau"
   },
   {
    "id": "demo-177",
@@ -3009,7 +3537,10 @@
     1,
     4,
     3
-   ]
+   ],
+   "stadt": "Zürich",
+   "kreis": 1,
+   "quartier": "Niederdorf"
   },
   {
    "id": "demo-178",
@@ -3026,7 +3557,10 @@
     4,
     3,
     4
-   ]
+   ],
+   "stadt": "Zürich",
+   "kreis": 9,
+   "quartier": "Altstetten"
   },
   {
    "id": "demo-179",
@@ -3043,7 +3577,10 @@
     1,
     4,
     2
-   ]
+   ],
+   "stadt": "Zürich",
+   "kreis": 12,
+   "quartier": "Schwamendingen"
   },
   {
    "id": "demo-180",
@@ -3060,7 +3597,10 @@
     4,
     4,
     1
-   ]
+   ],
+   "stadt": "Zürich",
+   "kreis": 5,
+   "quartier": "Escher-Wyss"
   },
   {
    "id": "demo-181",
@@ -3077,7 +3617,10 @@
     5,
     1,
     2
-   ]
+   ],
+   "stadt": "Zürich",
+   "kreis": 5,
+   "quartier": "Escher-Wyss"
   },
   {
    "id": "demo-182",
@@ -3094,7 +3637,10 @@
     4,
     2,
     1
-   ]
+   ],
+   "stadt": "Zürich",
+   "kreis": 8,
+   "quartier": "Riesbach"
   },
   {
    "id": "demo-183",
@@ -3111,7 +3657,10 @@
     5,
     1,
     3
-   ]
+   ],
+   "stadt": "Zürich",
+   "kreis": 8,
+   "quartier": "Seefeld"
   },
   {
    "id": "demo-184",
@@ -3128,7 +3677,10 @@
     4,
     4,
     3
-   ]
+   ],
+   "stadt": "Zürich",
+   "kreis": 8,
+   "quartier": "Seefeld"
   },
   {
    "id": "demo-185",
@@ -3145,7 +3697,10 @@
     2,
     5,
     3
-   ]
+   ],
+   "stadt": "Zürich",
+   "kreis": 7,
+   "quartier": "Hottingen"
   },
   {
    "id": "demo-186",
@@ -3162,7 +3717,10 @@
     1,
     4,
     2
-   ]
+   ],
+   "stadt": "Zürich",
+   "kreis": 12,
+   "quartier": "Schwamendingen"
   },
   {
    "id": "demo-187",
@@ -3179,7 +3737,10 @@
     3,
     5,
     3
-   ]
+   ],
+   "stadt": "Zürich",
+   "kreis": 12,
+   "quartier": "Schwamendingen"
   },
   {
    "id": "demo-188",
@@ -3196,7 +3757,10 @@
     1,
     5,
     2
-   ]
+   ],
+   "stadt": "Zürich",
+   "kreis": 6,
+   "quartier": "Oberstrass"
   },
   {
    "id": "demo-189",
@@ -3213,7 +3777,10 @@
     4,
     4,
     1
-   ]
+   ],
+   "stadt": "Zürich",
+   "kreis": 4,
+   "quartier": "Kreis 4"
   },
   {
    "id": "demo-190",
@@ -3230,7 +3797,10 @@
     1,
     4,
     5
-   ]
+   ],
+   "stadt": "Zürich",
+   "kreis": 11,
+   "quartier": "Oerlikon"
   },
   {
    "id": "demo-191",
@@ -3247,7 +3817,10 @@
     3,
     5,
     2
-   ]
+   ],
+   "stadt": "Zürich",
+   "kreis": 5,
+   "quartier": "Zürich-West"
   },
   {
    "id": "demo-192",
@@ -3264,7 +3837,10 @@
     2,
     3,
     3
-   ]
+   ],
+   "stadt": "Zürich",
+   "kreis": 4,
+   "quartier": "Hard"
   },
   {
    "id": "demo-193",
@@ -3281,7 +3857,10 @@
     1,
     5,
     5
-   ]
+   ],
+   "stadt": "Zürich",
+   "kreis": 8,
+   "quartier": "Riesbach"
   },
   {
    "id": "demo-194",
@@ -3298,7 +3877,10 @@
     2,
     4,
     2
-   ]
+   ],
+   "stadt": "Zürich",
+   "kreis": 4,
+   "quartier": "Kreis 4"
   },
   {
    "id": "demo-195",
@@ -3315,7 +3897,10 @@
     4,
     4,
     2
-   ]
+   ],
+   "stadt": "Zürich",
+   "kreis": 4,
+   "quartier": "Kreis 4"
   },
   {
    "id": "demo-196",
@@ -3332,7 +3917,10 @@
     3,
     3,
     3
-   ]
+   ],
+   "stadt": "Zürich",
+   "kreis": 2,
+   "quartier": "Leimbach"
   },
   {
    "id": "demo-197",
@@ -3349,7 +3937,10 @@
     2,
     3,
     4
-   ]
+   ],
+   "stadt": "Zürich",
+   "kreis": 11,
+   "quartier": "Seebach"
   },
   {
    "id": "demo-198",
@@ -3366,7 +3957,10 @@
     1,
     5,
     3
-   ]
+   ],
+   "stadt": "Zürich",
+   "kreis": 1,
+   "quartier": "Rathausquartier"
   },
   {
    "id": "demo-199",
@@ -3383,7 +3977,10 @@
     1,
     3,
     4
-   ]
+   ],
+   "stadt": "Zürich",
+   "kreis": 2,
+   "quartier": "Wollishofen"
   },
   {
    "id": "demo-200",
@@ -3400,7 +3997,10 @@
     2,
     2,
     2
-   ]
+   ],
+   "stadt": "Zürich",
+   "kreis": 11,
+   "quartier": "Seebach"
   },
   {
    "id": "demo-201",
@@ -3417,7 +4017,10 @@
     1,
     4,
     4
-   ]
+   ],
+   "stadt": "Zürich",
+   "kreis": 8,
+   "quartier": "Riesbach"
   },
   {
    "id": "demo-202",
@@ -3434,7 +4037,10 @@
     2,
     3,
     4
-   ]
+   ],
+   "stadt": "Zürich",
+   "kreis": 2,
+   "quartier": "Enge"
   },
   {
    "id": "demo-203",
@@ -3451,7 +4057,10 @@
     1,
     4,
     2
-   ]
+   ],
+   "stadt": "Zürich",
+   "kreis": 7,
+   "quartier": "Fluntern"
   },
   {
    "id": "demo-204",
@@ -3468,7 +4077,10 @@
     3,
     3,
     3
-   ]
+   ],
+   "stadt": "Zürich",
+   "kreis": 1,
+   "quartier": "Niederdorf"
   },
   {
    "id": "demo-205",
@@ -3485,7 +4097,10 @@
     1,
     4,
     3
-   ]
+   ],
+   "stadt": "Zürich",
+   "kreis": 2,
+   "quartier": "Leimbach"
   },
   {
    "id": "demo-206",
@@ -3502,7 +4117,10 @@
     1,
     5,
     4
-   ]
+   ],
+   "stadt": "Zürich",
+   "kreis": 1,
+   "quartier": "Lindenhof"
   },
   {
    "id": "demo-207",
@@ -3519,7 +4137,10 @@
     4,
     2,
     2
-   ]
+   ],
+   "stadt": "Zürich",
+   "kreis": 1,
+   "quartier": "Selnau"
   },
   {
    "id": "demo-208",
@@ -3536,7 +4157,10 @@
     1,
     2,
     4
-   ]
+   ],
+   "stadt": "Zürich",
+   "kreis": 12,
+   "quartier": "Schwamendingen"
   },
   {
    "id": "demo-209",
@@ -3553,7 +4177,10 @@
     5,
     3,
     2
-   ]
+   ],
+   "stadt": "Zürich",
+   "kreis": 11,
+   "quartier": "Seebach"
   },
   {
    "id": "demo-210",
@@ -3570,7 +4197,10 @@
     5,
     2,
     3
-   ]
+   ],
+   "stadt": "Zürich",
+   "kreis": 1,
+   "quartier": "Altstadt"
   },
   {
    "id": "demo-211",
@@ -3587,7 +4217,10 @@
     2,
     5,
     5
-   ]
+   ],
+   "stadt": "Zürich",
+   "kreis": 2,
+   "quartier": "Wollishofen"
   },
   {
    "id": "demo-212",
@@ -3604,7 +4237,10 @@
     4,
     2,
     3
-   ]
+   ],
+   "stadt": "Zürich",
+   "kreis": 6,
+   "quartier": "Unterstrass"
   },
   {
    "id": "demo-213",
@@ -3621,7 +4257,10 @@
     5,
     1,
     2
-   ]
+   ],
+   "stadt": "Zürich",
+   "kreis": 9,
+   "quartier": "Albisrieden"
   },
   {
    "id": "demo-214",
@@ -3638,7 +4277,10 @@
     4,
     3,
     2
-   ]
+   ],
+   "stadt": "Zürich",
+   "kreis": 7,
+   "quartier": "Hottingen"
   },
   {
    "id": "demo-215",
@@ -3655,7 +4297,10 @@
     1,
     4,
     4
-   ]
+   ],
+   "stadt": "Zürich",
+   "kreis": 1,
+   "quartier": "Lindenhof"
   },
   {
    "id": "demo-216",
@@ -3672,7 +4317,10 @@
     5,
     2,
     2
-   ]
+   ],
+   "stadt": "Zürich",
+   "kreis": 8,
+   "quartier": "Seefeld"
   },
   {
    "id": "demo-217",
@@ -3689,7 +4337,10 @@
     1,
     5,
     4
-   ]
+   ],
+   "stadt": "Zürich",
+   "kreis": 6,
+   "quartier": "Unterstrass"
   },
   {
    "id": "demo-218",
@@ -3706,7 +4357,10 @@
     5,
     4,
     2
-   ]
+   ],
+   "stadt": "Zürich",
+   "kreis": 1,
+   "quartier": "Lindenhof"
   },
   {
    "id": "demo-219",
@@ -3723,7 +4377,10 @@
     2,
     4,
     4
-   ]
+   ],
+   "stadt": "Zürich",
+   "kreis": 5,
+   "quartier": "Kreis 5"
   },
   {
    "id": "demo-220",
@@ -3740,7 +4397,10 @@
     5,
     1,
     3
-   ]
+   ],
+   "stadt": "Zürich",
+   "kreis": 7,
+   "quartier": "Hirslanden"
   },
   {
    "id": "demo-221",
@@ -3757,7 +4417,10 @@
     3,
     3,
     5
-   ]
+   ],
+   "stadt": "Zürich",
+   "kreis": 7,
+   "quartier": "Hottingen"
   },
   {
    "id": "demo-222",
@@ -3774,7 +4437,10 @@
     5,
     3,
     4
-   ]
+   ],
+   "stadt": "Zürich",
+   "kreis": 5,
+   "quartier": "Zürich-West"
   },
   {
    "id": "demo-223",
@@ -3791,7 +4457,10 @@
     1,
     5,
     3
-   ]
+   ],
+   "stadt": "Zürich",
+   "kreis": 10,
+   "quartier": "Höngg"
   },
   {
    "id": "demo-224",
@@ -3808,7 +4477,10 @@
     3,
     5,
     3
-   ]
+   ],
+   "stadt": "Zürich",
+   "kreis": 4,
+   "quartier": "Langstrasse"
   },
   {
    "id": "demo-225",
@@ -3825,7 +4497,10 @@
     4,
     2,
     4
-   ]
+   ],
+   "stadt": "Zürich",
+   "kreis": 10,
+   "quartier": "Wipkingen"
   },
   {
    "id": "demo-226",
@@ -3842,7 +4517,10 @@
     2,
     2,
     4
-   ]
+   ],
+   "stadt": "Zürich",
+   "kreis": 7,
+   "quartier": "Fluntern"
   },
   {
    "id": "demo-227",
@@ -3859,7 +4537,10 @@
     4,
     3,
     3
-   ]
+   ],
+   "stadt": "Zürich",
+   "kreis": 11,
+   "quartier": "Affoltern"
   },
   {
    "id": "demo-228",
@@ -3876,7 +4557,10 @@
     5,
     2,
     3
-   ]
+   ],
+   "stadt": "Zürich",
+   "kreis": 4,
+   "quartier": "Aussersihl"
   },
   {
    "id": "demo-229",
@@ -3893,7 +4577,10 @@
     4,
     2,
     2
-   ]
+   ],
+   "stadt": "Zürich",
+   "kreis": 3,
+   "quartier": "Sihlfeld"
   },
   {
    "id": "demo-230",
@@ -3910,7 +4597,10 @@
     3,
     2,
     4
-   ]
+   ],
+   "stadt": "Zürich",
+   "kreis": 9,
+   "quartier": "Altstetten"
   },
   {
    "id": "demo-231",
@@ -3927,7 +4617,10 @@
     4,
     3,
     3
-   ]
+   ],
+   "stadt": "Zürich",
+   "kreis": 4,
+   "quartier": "Kreis 4"
   },
   {
    "id": "demo-232",
@@ -3944,7 +4637,10 @@
     3,
     2,
     3
-   ]
+   ],
+   "stadt": "Zürich",
+   "kreis": 1,
+   "quartier": "Rathausquartier"
   },
   {
    "id": "demo-233",
@@ -3961,7 +4657,10 @@
     4,
     3,
     2
-   ]
+   ],
+   "stadt": "Zürich",
+   "kreis": 1,
+   "quartier": "Selnau"
   },
   {
    "id": "demo-234",
@@ -3978,7 +4677,10 @@
     5,
     2,
     2
-   ]
+   ],
+   "stadt": "Zürich",
+   "kreis": 5,
+   "quartier": "Zürich-West"
   },
   {
    "id": "demo-235",
@@ -3995,7 +4697,10 @@
     5,
     1,
     2
-   ]
+   ],
+   "stadt": "Zürich",
+   "kreis": 5,
+   "quartier": "Zürich-West"
   },
   {
    "id": "demo-236",
@@ -4012,7 +4717,10 @@
     3,
     3,
     2
-   ]
+   ],
+   "stadt": "Zürich",
+   "kreis": 3,
+   "quartier": "Binz"
   },
   {
    "id": "demo-237",
@@ -4029,7 +4737,10 @@
     3,
     3,
     5
-   ]
+   ],
+   "stadt": "Zürich",
+   "kreis": 3,
+   "quartier": "Sihlfeld"
   },
   {
    "id": "demo-238",
@@ -4046,7 +4757,10 @@
     2,
     4,
     2
-   ]
+   ],
+   "stadt": "Zürich",
+   "kreis": 9,
+   "quartier": "Albisrieden"
   },
   {
    "id": "demo-239",
@@ -4063,7 +4777,10 @@
     3,
     3,
     5
-   ]
+   ],
+   "stadt": "Zürich",
+   "kreis": 4,
+   "quartier": "Kreis 4"
   },
   {
    "id": "demo-240",
@@ -4080,7 +4797,10 @@
     3,
     2,
     3
-   ]
+   ],
+   "stadt": "Zürich",
+   "kreis": 9,
+   "quartier": "Albisrieden"
   },
   {
    "id": "demo-241",
@@ -4097,7 +4817,10 @@
     1,
     5,
     2
-   ]
+   ],
+   "stadt": "Zürich",
+   "kreis": 7,
+   "quartier": "Hottingen"
   },
   {
    "id": "demo-242",
@@ -4114,7 +4837,10 @@
     1,
     4,
     2
-   ]
+   ],
+   "stadt": "Zürich",
+   "kreis": 7,
+   "quartier": "Hottingen"
   },
   {
    "id": "demo-243",
@@ -4131,7 +4857,10 @@
     3,
     4,
     3
-   ]
+   ],
+   "stadt": "Zürich",
+   "kreis": 10,
+   "quartier": "Höngg"
   },
   {
    "id": "demo-244",
@@ -4148,7 +4877,10 @@
     3,
     2,
     4
-   ]
+   ],
+   "stadt": "Zürich",
+   "kreis": 3,
+   "quartier": "Sihlfeld"
   },
   {
    "id": "demo-245",
@@ -4165,7 +4897,10 @@
     4,
     3,
     2
-   ]
+   ],
+   "stadt": "Zürich",
+   "kreis": 8,
+   "quartier": "Seefeld"
   },
   {
    "id": "demo-246",
@@ -4182,7 +4917,10 @@
     4,
     3,
     5
-   ]
+   ],
+   "stadt": "Zürich",
+   "kreis": 4,
+   "quartier": "Langstrasse"
   },
   {
    "id": "demo-247",
@@ -4199,7 +4937,10 @@
     5,
     1,
     3
-   ]
+   ],
+   "stadt": "Zürich",
+   "kreis": 3,
+   "quartier": "Wiedikon"
   },
   {
    "id": "demo-248",
@@ -4216,7 +4957,10 @@
     3,
     4,
     5
-   ]
+   ],
+   "stadt": "Zürich",
+   "kreis": 3,
+   "quartier": "Friesenberg"
   },
   {
    "id": "demo-249",
@@ -4233,7 +4977,10 @@
     1,
     3,
     1
-   ]
+   ],
+   "stadt": "Zürich",
+   "kreis": 1,
+   "quartier": "Selnau"
   },
   {
    "id": "demo-250",
@@ -4250,7 +4997,10 @@
     1,
     4,
     1
-   ]
+   ],
+   "stadt": "Zürich",
+   "kreis": 9,
+   "quartier": "Altstetten"
   },
   {
    "id": "demo-251",
@@ -4267,7 +5017,10 @@
     2,
     4,
     1
-   ]
+   ],
+   "stadt": "Zürich",
+   "kreis": 6,
+   "quartier": "Unterstrass"
   },
   {
    "id": "demo-252",
@@ -4284,7 +5037,10 @@
     5,
     2,
     1
-   ]
+   ],
+   "stadt": "Zürich",
+   "kreis": 4,
+   "quartier": "Langstrasse"
   },
   {
    "id": "demo-253",
@@ -4301,7 +5057,10 @@
     3,
     5,
     3
-   ]
+   ],
+   "stadt": "Zürich",
+   "kreis": 1,
+   "quartier": "Altstadt"
   },
   {
    "id": "demo-254",
@@ -4318,7 +5077,10 @@
     1,
     5,
     1
-   ]
+   ],
+   "stadt": "Zürich",
+   "kreis": 2,
+   "quartier": "Leimbach"
   },
   {
    "id": "demo-255",
@@ -4335,7 +5097,10 @@
     1,
     5,
     3
-   ]
+   ],
+   "stadt": "Zürich",
+   "kreis": 1,
+   "quartier": "Altstadt"
   },
   {
    "id": "demo-256",
@@ -4352,7 +5117,10 @@
     5,
     2,
     5
-   ]
+   ],
+   "stadt": "Zürich",
+   "kreis": 4,
+   "quartier": "Aussersihl"
   },
   {
    "id": "demo-257",
@@ -4369,7 +5137,10 @@
     2,
     3,
     2
-   ]
+   ],
+   "stadt": "Zürich",
+   "kreis": 10,
+   "quartier": "Wipkingen"
   },
   {
    "id": "demo-258",
@@ -4386,7 +5157,10 @@
     1,
     4,
     3
-   ]
+   ],
+   "stadt": "Zürich",
+   "kreis": 10,
+   "quartier": "Wipkingen"
   },
   {
    "id": "demo-259",
@@ -4403,7 +5177,10 @@
     3,
     5,
     4
-   ]
+   ],
+   "stadt": "Zürich",
+   "kreis": 5,
+   "quartier": "Zürich-West"
   },
   {
    "id": "demo-260",
@@ -4420,7 +5197,10 @@
     5,
     2,
     2
-   ]
+   ],
+   "stadt": "Zürich",
+   "kreis": 1,
+   "quartier": "Niederdorf"
   },
   {
    "id": "demo-261",
@@ -4437,7 +5217,10 @@
     2,
     3,
     2
-   ]
+   ],
+   "stadt": "Zürich",
+   "kreis": 8,
+   "quartier": "Riesbach"
   },
   {
    "id": "demo-262",
@@ -4454,7 +5237,10 @@
     1,
     5,
     4
-   ]
+   ],
+   "stadt": "Zürich",
+   "kreis": 12,
+   "quartier": "Schwamendingen"
   },
   {
    "id": "demo-263",
@@ -4471,7 +5257,10 @@
     3,
     1,
     3
-   ]
+   ],
+   "stadt": "Zürich",
+   "kreis": 7,
+   "quartier": "Witikon"
   },
   {
    "id": "demo-264",
@@ -4488,7 +5277,10 @@
     2,
     3,
     1
-   ]
+   ],
+   "stadt": "Zürich",
+   "kreis": 10,
+   "quartier": "Höngg"
   },
   {
    "id": "demo-265",
@@ -4505,7 +5297,10 @@
     4,
     3,
     5
-   ]
+   ],
+   "stadt": "Zürich",
+   "kreis": 1,
+   "quartier": "Selnau"
   },
   {
    "id": "demo-266",
@@ -4522,7 +5317,10 @@
     2,
     5,
     2
-   ]
+   ],
+   "stadt": "Zürich",
+   "kreis": 9,
+   "quartier": "Albisrieden"
   },
   {
    "id": "demo-267",
@@ -4539,7 +5337,10 @@
     4,
     2,
     5
-   ]
+   ],
+   "stadt": "Zürich",
+   "kreis": 2,
+   "quartier": "Wollishofen"
   },
   {
    "id": "demo-268",
@@ -4556,7 +5357,10 @@
     2,
     2,
     2
-   ]
+   ],
+   "stadt": "Zürich",
+   "kreis": 7,
+   "quartier": "Hirslanden"
   },
   {
    "id": "demo-269",
@@ -4573,7 +5377,10 @@
     4,
     3,
     3
-   ]
+   ],
+   "stadt": "Zürich",
+   "kreis": 7,
+   "quartier": "Hirslanden"
   },
   {
    "id": "demo-270",
@@ -4590,7 +5397,10 @@
     2,
     5,
     3
-   ]
+   ],
+   "stadt": "Zürich",
+   "kreis": 11,
+   "quartier": "Seebach"
   },
   {
    "id": "demo-271",
@@ -4607,7 +5417,10 @@
     5,
     1,
     2
-   ]
+   ],
+   "stadt": "Zürich",
+   "kreis": 1,
+   "quartier": "Rathausquartier"
   },
   {
    "id": "demo-272",
@@ -4624,7 +5437,10 @@
     5,
     1,
     4
-   ]
+   ],
+   "stadt": "Zürich",
+   "kreis": 11,
+   "quartier": "Seebach"
   },
   {
    "id": "demo-273",
@@ -4641,7 +5457,10 @@
     4,
     2,
     1
-   ]
+   ],
+   "stadt": "Zürich",
+   "kreis": 2,
+   "quartier": "Enge"
   },
   {
    "id": "demo-274",
@@ -4658,7 +5477,10 @@
     2,
     3,
     2
-   ]
+   ],
+   "stadt": "Zürich",
+   "kreis": 5,
+   "quartier": "Kreis 5"
   },
   {
    "id": "demo-275",
@@ -4675,7 +5497,10 @@
     3,
     4,
     4
-   ]
+   ],
+   "stadt": "Zürich",
+   "kreis": 8,
+   "quartier": "Riesbach"
   },
   {
    "id": "demo-276",
@@ -4692,7 +5517,10 @@
     1,
     5,
     4
-   ]
+   ],
+   "stadt": "Zürich",
+   "kreis": 7,
+   "quartier": "Hottingen"
   },
   {
    "id": "demo-277",
@@ -4709,7 +5537,10 @@
     5,
     2,
     4
-   ]
+   ],
+   "stadt": "Zürich",
+   "kreis": 3,
+   "quartier": "Binz"
   },
   {
    "id": "demo-278",
@@ -4726,7 +5557,10 @@
     2,
     2,
     2
-   ]
+   ],
+   "stadt": "Zürich",
+   "kreis": 10,
+   "quartier": "Wipkingen"
   },
   {
    "id": "demo-279",
@@ -4743,7 +5577,10 @@
     3,
     4,
     2
-   ]
+   ],
+   "stadt": "Zürich",
+   "kreis": 1,
+   "quartier": "Selnau"
   },
   {
    "id": "demo-280",
@@ -4760,7 +5597,10 @@
     1,
     5,
     2
-   ]
+   ],
+   "stadt": "Zürich",
+   "kreis": 10,
+   "quartier": "Wipkingen"
   },
   {
    "id": "demo-281",
@@ -4777,7 +5617,10 @@
     4,
     2,
     2
-   ]
+   ],
+   "stadt": "Zürich",
+   "kreis": 10,
+   "quartier": "Wipkingen"
   },
   {
    "id": "demo-282",
@@ -4794,7 +5637,10 @@
     3,
     2,
     2
-   ]
+   ],
+   "stadt": "Zürich",
+   "kreis": 6,
+   "quartier": "Oberstrass"
   },
   {
    "id": "demo-283",
@@ -4811,7 +5657,10 @@
     2,
     5,
     5
-   ]
+   ],
+   "stadt": "Zürich",
+   "kreis": 3,
+   "quartier": "Sihlfeld"
   },
   {
    "id": "demo-284",
@@ -4828,7 +5677,10 @@
     3,
     1,
     3
-   ]
+   ],
+   "stadt": "Zürich",
+   "kreis": 3,
+   "quartier": "Binz"
   },
   {
    "id": "demo-285",
@@ -4845,7 +5697,10 @@
     1,
     2,
     4
-   ]
+   ],
+   "stadt": "Zürich",
+   "kreis": 12,
+   "quartier": "Schwamendingen"
   },
   {
    "id": "demo-286",
@@ -4862,7 +5717,10 @@
     3,
     5,
     4
-   ]
+   ],
+   "stadt": "Zürich",
+   "kreis": 7,
+   "quartier": "Witikon"
   },
   {
    "id": "demo-287",
@@ -4879,7 +5737,10 @@
     4,
     1,
     4
-   ]
+   ],
+   "stadt": "Zürich",
+   "kreis": 11,
+   "quartier": "Oerlikon"
   },
   {
    "id": "demo-288",
@@ -4896,7 +5757,10 @@
     2,
     3,
     4
-   ]
+   ],
+   "stadt": "Zürich",
+   "kreis": 10,
+   "quartier": "Wipkingen"
   },
   {
    "id": "demo-289",
@@ -4913,7 +5777,10 @@
     1,
     5,
     4
-   ]
+   ],
+   "stadt": "Zürich",
+   "kreis": 2,
+   "quartier": "Wollishofen"
   },
   {
    "id": "demo-290",
@@ -4930,7 +5797,10 @@
     2,
     5,
     4
-   ]
+   ],
+   "stadt": "Zürich",
+   "kreis": 8,
+   "quartier": "Riesbach"
   },
   {
    "id": "demo-291",
@@ -4947,7 +5817,10 @@
     2,
     3,
     5
-   ]
+   ],
+   "stadt": "Zürich",
+   "kreis": 3,
+   "quartier": "Binz"
   },
   {
    "id": "demo-292",
@@ -4964,7 +5837,10 @@
     5,
     1,
     2
-   ]
+   ],
+   "stadt": "Zürich",
+   "kreis": 1,
+   "quartier": "Altstadt"
   },
   {
    "id": "demo-293",
@@ -4981,7 +5857,10 @@
     2,
     3,
     3
-   ]
+   ],
+   "stadt": "Zürich",
+   "kreis": 7,
+   "quartier": "Hottingen"
   },
   {
    "id": "demo-294",
@@ -4998,7 +5877,10 @@
     4,
     2,
     1
-   ]
+   ],
+   "stadt": "Zürich",
+   "kreis": 7,
+   "quartier": "Hottingen"
   },
   {
    "id": "demo-295",
@@ -5015,7 +5897,10 @@
     1,
     5,
     4
-   ]
+   ],
+   "stadt": "Zürich",
+   "kreis": 7,
+   "quartier": "Fluntern"
   },
   {
    "id": "demo-296",
@@ -5032,7 +5917,10 @@
     2,
     3,
     3
-   ]
+   ],
+   "stadt": "Zürich",
+   "kreis": 5,
+   "quartier": "Kreis 5"
   },
   {
    "id": "demo-297",
@@ -5049,7 +5937,10 @@
     2,
     5,
     3
-   ]
+   ],
+   "stadt": "Zürich",
+   "kreis": 4,
+   "quartier": "Kreis 4"
   },
   {
    "id": "demo-298",
@@ -5066,7 +5957,10 @@
     2,
     4,
     3
-   ]
+   ],
+   "stadt": "Zürich",
+   "kreis": 2,
+   "quartier": "Wollishofen"
   },
   {
    "id": "demo-299",
@@ -5083,7 +5977,10 @@
     5,
     2,
     4
-   ]
+   ],
+   "stadt": "Zürich",
+   "kreis": 2,
+   "quartier": "Wollishofen"
   },
   {
    "id": "demo-300",
@@ -5100,7 +5997,10 @@
     5,
     1,
     3
-   ]
+   ],
+   "stadt": "Zürich",
+   "kreis": 3,
+   "quartier": "Binz"
   },
   {
    "id": "demo-301",
@@ -5117,7 +6017,10 @@
     3,
     4,
     3
-   ]
+   ],
+   "stadt": "Zürich",
+   "kreis": 11,
+   "quartier": "Oerlikon"
   },
   {
    "id": "demo-302",
@@ -5134,7 +6037,10 @@
     2,
     4,
     3
-   ]
+   ],
+   "stadt": "Zürich",
+   "kreis": 7,
+   "quartier": "Fluntern"
   },
   {
    "id": "demo-303",
@@ -5151,7 +6057,10 @@
     1,
     5,
     3
-   ]
+   ],
+   "stadt": "Zürich",
+   "kreis": 5,
+   "quartier": "Kreis 5"
   },
   {
    "id": "demo-304",
@@ -5168,7 +6077,10 @@
     2,
     4,
     2
-   ]
+   ],
+   "stadt": "Zürich",
+   "kreis": 2,
+   "quartier": "Enge"
   },
   {
    "id": "demo-305",
@@ -5185,7 +6097,10 @@
     4,
     5,
     1
-   ]
+   ],
+   "stadt": "Zürich",
+   "kreis": 4,
+   "quartier": "Kreis 4"
   },
   {
    "id": "demo-306",
@@ -5202,7 +6117,10 @@
     2,
     4,
     2
-   ]
+   ],
+   "stadt": "Zürich",
+   "kreis": 4,
+   "quartier": "Langstrasse"
   },
   {
    "id": "demo-307",
@@ -5219,7 +6137,10 @@
     1,
     5,
     4
-   ]
+   ],
+   "stadt": "Zürich",
+   "kreis": 1,
+   "quartier": "Rathausquartier"
   },
   {
    "id": "demo-308",
@@ -5236,7 +6157,10 @@
     5,
     1,
     1
-   ]
+   ],
+   "stadt": "Zürich",
+   "kreis": 1,
+   "quartier": "Altstadt"
   },
   {
    "id": "demo-309",
@@ -5253,7 +6177,10 @@
     5,
     1,
     2
-   ]
+   ],
+   "stadt": "Zürich",
+   "kreis": 2,
+   "quartier": "Enge"
   },
   {
    "id": "demo-310",
@@ -5270,7 +6197,10 @@
     3,
     4,
     1
-   ]
+   ],
+   "stadt": "Zürich",
+   "kreis": 2,
+   "quartier": "Enge"
   },
   {
    "id": "demo-311",
@@ -5287,7 +6217,10 @@
     1,
     3,
     3
-   ]
+   ],
+   "stadt": "Zürich",
+   "kreis": 5,
+   "quartier": "Kreis 5"
   },
   {
    "id": "demo-312",
@@ -5304,7 +6237,10 @@
     4,
     2,
     2
-   ]
+   ],
+   "stadt": "Zürich",
+   "kreis": 2,
+   "quartier": "Enge"
   },
   {
    "id": "demo-313",
@@ -5321,7 +6257,10 @@
     2,
     2,
     4
-   ]
+   ],
+   "stadt": "Zürich",
+   "kreis": 2,
+   "quartier": "Leimbach"
   },
   {
    "id": "demo-314",
@@ -5338,7 +6277,10 @@
     2,
     5,
     3
-   ]
+   ],
+   "stadt": "Zürich",
+   "kreis": 3,
+   "quartier": "Binz"
   },
   {
    "id": "demo-315",
@@ -5355,7 +6297,10 @@
     4,
     3,
     2
-   ]
+   ],
+   "stadt": "Zürich",
+   "kreis": 1,
+   "quartier": "Selnau"
   },
   {
    "id": "demo-316",
@@ -5372,7 +6317,10 @@
     1,
     4,
     5
-   ]
+   ],
+   "stadt": "Zürich",
+   "kreis": 12,
+   "quartier": "Schwamendingen"
   },
   {
    "id": "demo-317",
@@ -5389,7 +6337,10 @@
     2,
     3,
     3
-   ]
+   ],
+   "stadt": "Zürich",
+   "kreis": 10,
+   "quartier": "Höngg"
   },
   {
    "id": "demo-318",
@@ -5406,7 +6357,10 @@
     1,
     4,
     4
-   ]
+   ],
+   "stadt": "Zürich",
+   "kreis": 11,
+   "quartier": "Oerlikon"
   },
   {
    "id": "demo-319",
@@ -5423,7 +6377,10 @@
     5,
     2,
     3
-   ]
+   ],
+   "stadt": "Zürich",
+   "kreis": 4,
+   "quartier": "Kreis 4"
   },
   {
    "id": "demo-320",
@@ -5440,7 +6397,10 @@
     4,
     3,
     5
-   ]
+   ],
+   "stadt": "Zürich",
+   "kreis": 11,
+   "quartier": "Seebach"
   }
  ]
 }

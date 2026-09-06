@@ -1,4 +1,4 @@
-# Gastroführer — Projektstand (05.09.2026, v0.6.0)
+# Gastroführer — Projektstand (06.09.2026, v0.7.2)
 
 ## Was es ist
 Eigenständige Browser-App (kein Login, kein O365/MSAL, keine Backend-Abhängigkeit),
@@ -12,25 +12,31 @@ CRM-CSS noch nicht 1:1 übernommen, Variablen im `<style>` von index.html sind d
 - Dateien im Root: `index.html`, `gastro.js`, `restaurants.json`, `kuratoren.json`, `PROJEKT-STAND.md`, `README.md`.
 - Version in der Kopfzeile (#app-version) und in der Fusszeile («Gastroführer vX.Y.Z», Konstante
   GF_VERSION in gastro.js) — bei jedem Deploy erhöhen, inkl. `?v=`-Cache-Busting am Script-Tag.
-- localStorage: Theme `gf-theme`, Wunschprofil `gf-wunsch`, umbenannte Kriterien `gf-labels`,
-  Restaurants `gf-restaurants`, gewählte Art `gf-art`.
+- localStorage: `gf-theme`, `gf-wunsch`, `gf-art`, `gf-own`, `gf-kuratoren`, `gf-city`, `gf-kreise`,
+  `gf-lang`, `gf-intro`.
+- Kopfzeile: Titel, Version, Sprache DE/EN, Info (öffnet Konzept-Popup), Teilen, Theme.
+- Zweisprachig DE/EN (Wörterbuch T in gastro.js, data-i18n im HTML, localStorage `gf-lang`,
+  Vorbelegung nach Browsersprache). Übersetzt: alle UI-Texte, Kriterien, Küchenarten,
+  Kuratoren-Bios (bio_en), Konzept-Popup. Restaurant-Notizen bleiben Deutsch (Daten).
+- Konzept-/Einstiegsseite als Popup (dialog#intro, Text INTRO in gastro.js, Basis
+  EINSTIEG-TEXT.md v2): erscheint beim ersten Besuch, «Los geht's» schliesst, localStorage
+  `gf-intro`; jederzeit wieder über «Info».
 
-## Funktionsumfang v0.6.0
-- Geführter Ablauf in drei Schritten:
-  1. «Heute habe ich Lust auf …» – grosse Kacheln je Küchenart (Emoji, Anzahl Lokale),
-     «Überrasch mich» = alle. Auswahl erscheint im Titel, scrollt zu Schritt 2.
-  2. «Mir ist wichtig:» – Netzdiagramm (7 Achsen, 1–5, «egal»-Knopf am Achsentitel,
-     Schick/Günstig schliessen sich aus). ↺ Zurücksetzen.
-  3. «Wem vertraue ich?» – Dropdown (#sel-kur): Alle, Meine Liste, Gastroführer (Haus-Rating),
-     10 echte Zürcher (Liste eingebaut als DEFAULT_CURATORS in gastro.js; `kuratoren.json` optional als Override)
-     Food-Influencer aus `kuratoren.json` (Name, Handle, Link; Quelle Falstaff 06/2025).
-     Einfachauswahl; darunter Info-Karte (Avatar, Handle-Link, Kurzbeschrieb) zum Gewählten. ACHTUNG Prototyp: die Bewertungen der
-     Influencer sind SIMULIERT (deterministische Abweichung ±1 vom Haus-Rating, curatorValues in
-     gastro.js) – echte Bewertungen müssten von den Personen kommen oder das Feature muss vor
-     Veröffentlichung umbenannt/entfernt werden.
-  4. «Deine Treffer» – Ranking nach Passung (Rang, Prozent-Ring, Mini-Balken der Bewertung).
-     Antippen legt das Lokal über das Netz. Reihenfolge der Bewertung: eigene > gewählte
-     Kuratoren (Durchschnitt) > Haus-Rating.
+## Funktionsumfang v0.7.2
+- Geführter Ablauf in fünf Schritten:
+  2. «Wo?» – Dropdown Stadt (CITIES in gastro.js, aktuell nur Zürich) + echte Kreis-Karte
+     (ZH_MAP in gastro.js: SVG-Pfade der Kreise 1–12, zusammengefasst aus den offenen
+     Quartierdaten der Stadt Zürich, vereinfacht; Zürichsee angenähert ausgeschnitten).
+     Zahl und Anzahl Lokale je Kreis (berücksichtigt gewählte Art), Hover/aktiv farbig.
+     Mehrfachauswahl, Chips «Ganz Zürich» / «Kreis n ✕». localStorage `gf-city`, `gf-kreise`.
+     restaurants.json hat je Lokal `stadt`, `kreis`, `quartier`.
+  1. «Heute habe ich Lust auf …» – Kacheln je Küchenart (Zähler = ganze Stadt).
+  3. «Mir ist wichtig:» – Netzdiagramm.
+  4. «Wem vertraue ich?» – Dropdown Alle / Meine Liste / Gastroführer / Influencer.
+  5. «Deine Treffer» – Ranking (Zeile zeigt Art · Quartier (Kreis n)).
+- Eigene Restaurants (＋) und Design-Varianten A/B/C entfernt (v0.7.2). Eigene Bewertungen (✎)
+  bleiben. Sichern/Laden (JSON) in v0.7.2 entfernt.
+- Reihenfolge der Bewertung: eigene > gewählte Kuratoren (Durchschnitt) > Haus-Rating.
 - Datenmodell:
   - `restaurants.json` = Haupt-Rating des Gastroführers (Kurator), wird immer geladen (aktuell
     320 fiktive Zürcher Lokale).
@@ -41,8 +47,7 @@ CRM-CSS noch nicht 1:1 übernommen, Variablen im `<style>` von index.html sind d
   Bewertungen und eigenen Restaurants (URL-Hash `#s=…`, Base64-JSON). Empfänger bekommt einen
   Banner «Übernehmen / Nein danke». Ohne Backend, daher Link statt Konto.
 - Sichern/Laden der eigenen Daten als JSON.
-- localStorage: `gf-theme`, `gf-wunsch`, `gf-art`, `gf-own`, `gf-mine`, `gf-kuratoren` (v0.3-Daten aus
-  `gf-restaurants` werden migriert, Demo-Einträge verworfen).
+- localStorage: `gf-theme`, `gf-wunsch`, `gf-art`, `gf-own`, `gf-kuratoren`, `gf-city`, `gf-kreise`, `gf-lang`, `gf-intro`.
 - Kriterien sind fix (LABELS in gastro.js), Umbenennen entfernt.
 - Mobile first (≤600 px): 3-spaltige Kacheln, Netz mit Kurztiteln (SHORT), viewBox 680×640 (Netz füllt die Breite), grösseren
   Punkten/«egal»-Knöpfen und Tap-Zielen ≥40 px, Seite über dem Netz weiterhin scrollbar
