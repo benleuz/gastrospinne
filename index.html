@@ -119,6 +119,16 @@
   .swatch { width: 12px; height: 12px; border-radius: 50%; display: inline-block; vertical-align: middle; margin-right: 4px; }
   .swatch.dash { border-radius: 2px; height: 3px; width: 16px; }
 
+  /* Restaurant-Detail unter dem Netz */
+  #rest-detail { margin-top: 12px; border-top: 1px solid var(--line); padding-top: 12px; display: grid; grid-template-columns: 62px 1fr auto; gap: 12px; align-items: center; }
+  #rest-detail .name { font-weight: 700; font-size: 18px; }
+  #rest-detail .meta { color: var(--muted); font-size: 13px; }
+  #rest-detail .note { margin-top: 4px; font-size: 14px; }
+  #rest-detail .actions { display: flex; gap: 6px; flex-wrap: wrap; justify-content: flex-end; }
+  #kur-collapsed { display: flex; align-items: center; gap: 10px; padding: 10px 14px; }
+  #kur-collapsed[hidden] { display: none; }
+  @media (max-width: 600px) { #rest-detail { grid-template-columns: 50px 1fr; } #rest-detail .actions { grid-column: 1 / -1; } }
+
   /* Schritt 4: Kuratoren */
   #kur-info { display: grid; grid-template-columns: 44px 1fr; gap: 12px; align-items: center; margin-top: 12px; }
   #kur-info .avatar { width: 44px; height: 44px; border-radius: 50%; display: grid; place-items: center; font-weight: 700; color: #fff; background: var(--kc, var(--accent)); font-size: 16px; }
@@ -290,6 +300,7 @@
       <p class="hint" data-i18n="wishHint">Punkt anklicken oder entlang der Achse ziehen: 1 tief … 5 hoch. «egal» = wird nicht gewertet. Schick und Günstig schliessen sich aus.</p>
       <div id="radar-wrap"><svg id="radar" viewBox="0 0 820 640" xmlns="http://www.w3.org/2000/svg" role="img"></svg></div>
       <div id="overlay-info"></div>
+      <div id="rest-detail" hidden></div>
     </div>
   </section>
 
@@ -300,7 +311,10 @@
       <h2 class="step-title" data-i18n="trustTitle">Wem vertraue ich?</h2>
       <span class="step-sub" id="kur-sub"></span>
     </div>
-    <div class="card">
+    <div class="card" id="kur-collapsed" hidden>
+      <button class="btn small" id="kur-expand"></button>
+    </div>
+    <div class="card" id="kur-card">
       <select id="sel-kur" aria-label="Kurator"></select>
       <div id="kur-info" hidden></div>
       <p class="hint" style="margin-top:10px"><strong data-i18n="proto">Prototyp:</strong> <span data-i18n="protoHint">Die Influencer-Bewertungen sind simuliert und stammen nicht von den Personen selbst.</span></p>
@@ -351,6 +365,6 @@
 <footer id="footer-version"></footer>
 <div id="toasts" aria-live="polite"></div>
 
-<script src="gastro.js?v=0.7.3"></script>
+<script src="gastro.js?v=0.7.4"></script>
 </body>
 </html>
