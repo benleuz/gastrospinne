@@ -1,4 +1,4 @@
-# Gastroführer — Projektstand (06.09.2026, v0.9.0)
+# Gastroführer — Projektstand (06.09.2026, v0.9.1)
 
 ## Was es ist
 Eigenständige Browser-App (kein Login, kein O365/MSAL, keine Backend-Abhängigkeit),
@@ -22,15 +22,16 @@ CRM-CSS noch nicht 1:1 übernommen, Variablen im `<style>` von index.html sind d
   EINSTIEG-TEXT.md v2): erscheint beim ersten Besuch, «Los geht's» schliesst, localStorage
   `gf-intro`; jederzeit wieder über «Info». Eigene Kopfleiste im Popup mit DE/EN und ✕.
 
-## Funktionsumfang v0.9.0
+## Funktionsumfang v0.9.1
 - Geführter Ablauf als Stufen (Zustand `step` = art | place | kur | main, localStorage
   `gf-step`), es ist immer nur die aktuelle Stufe sichtbar:
   1. «Heute habe ich Lust auf …» – nur die Küchen-Kacheln. Antippen → Stufe 2.
   2. «Wo?» – Stadt-Dropdown + Kreis-Karte. Kreis antippen oder «Ganz Zürich» → Stufe 3.
   3. «Wem vertraue ich?» – Liste (Alle, Meine Liste, Gastroführer, Influencer mit Avatar,
      Bio, Handle) oder «Überspringen» (= Alle) → Hauptansicht.
-  4. Hauptansicht ohne Titel/Text: Netz-Kasten (nur ↺ oben rechts) und unmittelbar darunter
-     die Restaurant-Liste.
+  4. Hauptansicht ohne Titel/Text: Netz-Kasten (nur ↺ oben rechts) klebt unter der Kopfzeile
+     (position: sticky, --header-h via ResizeObserver; mobil Netz max. 44vh, Kasten scrollbar
+     falls Detail zu hoch), darunter scrollt nur die Restaurant-Liste.
 - Kopfzeile zeigt die Wahl als Chips: nur Emoji der Art · 📍 Kreis 3 · 👤 Stimme; Antippen
   springt zur jeweiligen Stufe zurück. Mobil in einer zweiten Zeile.
 - Restaurant antippen: Detail-Panel direkt unter dem Netz, Seite scrollt nach oben.
