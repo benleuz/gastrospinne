@@ -79,6 +79,7 @@
   #kreis-map .lbl.on text { fill: var(--accent-text); }
   #kreis-map .lbl.on .cnt { fill: var(--accent-text); opacity: .85; }
   #kreis-map .lakelabel { font-size: 11px; fill: var(--muted); font-family: var(--font); }
+  #place-next { justify-content: center; font-size: 17px; padding: 12px; }
   #kreis-chips { display: flex; flex-wrap: wrap; gap: 6px; justify-content: center; }
   .chip { display: inline-flex; align-items: center; gap: 6px; padding: 5px 11px; border: 1px solid var(--line); border-radius: 999px; background: var(--card); cursor: pointer; font-size: 13px; }
   .chip.active { background: var(--accent); border-color: var(--accent); color: var(--accent-text); }
@@ -302,6 +303,7 @@
       <div id="map-wrap">
         <svg id="kreis-map" viewBox="0 0 440 420" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Kreise"></svg>
         <div id="kreis-chips"></div>
+        <button class="btn primary" id="place-next"></button>
       </div>
     </div>
   </section>
@@ -360,6 +362,6 @@
 <footer id="footer-version"></footer>
 <div id="toasts" aria-live="polite"></div>
 
-<script src="gastro.js?v=0.9.4"></script>
+<script src="gastro.js?v=0.9.5"></script>
 </body>
 </html>
