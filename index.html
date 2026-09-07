@@ -31,6 +31,9 @@
 
   header { display: flex; align-items: center; gap: 10px; padding: 10px 16px; border-bottom: 1px solid var(--line); background: var(--card); position: sticky; top: 0; z-index: 5; }
   header h1 { font-size: 18px; font-weight: 600; margin: 0; }
+  #btn-home { all: unset; cursor: pointer; }
+  #btn-home:hover { color: var(--accent); }
+  #btn-home:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; border-radius: 4px; }
   #app-version { color: var(--muted); font-size: 13px; }
   header .spacer { flex: 1; }
   .lang-switch, #lang { display: inline-flex; border: 1px solid var(--line); border-radius: 999px; overflow: hidden; }
@@ -263,7 +266,7 @@
 <body>
 
 <header id="hdr">
-  <h1>Gastroführer</h1>
+  <h1><button id="btn-home" type="button" title="Alles zurücksetzen">Gastroführer</button></h1>
   <span id="app-version"></span>
   <div id="summary"></div>
   <span class="spacer"></span>
@@ -357,6 +360,6 @@
 <footer id="footer-version"></footer>
 <div id="toasts" aria-live="polite"></div>
 
-<script src="gastro.js?v=0.9.3"></script>
+<script src="gastro.js?v=0.9.4"></script>
 </body>
 </html>
