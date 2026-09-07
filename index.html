@@ -200,7 +200,8 @@
   #intro .status { color: var(--muted); font-size: 13px; margin-top: 18px; }
   #intro .foot { position: sticky; bottom: 0; background: var(--card); }
   #intro .intro-top { position: sticky; top: 0; display: flex; align-items: center; gap: 10px; padding: 10px 14px; border-bottom: 1px solid var(--line); background: var(--card); z-index: 1; }
-  #intro { display: grid; grid-template-rows: auto 1fr auto; }
+  #intro[open] { display: grid; grid-template-rows: auto 1fr auto; }
+  dialog:not([open]) { display: none; }
   #intro .body { max-height: calc(90dvh - 130px); }
 
   #toasts { position: fixed; left: 50%; bottom: 22px; transform: translateX(-50%); display: grid; gap: 8px; z-index: 20; }
@@ -356,6 +357,6 @@
 <footer id="footer-version"></footer>
 <div id="toasts" aria-live="polite"></div>
 
-<script src="gastro.js?v=0.9.2"></script>
+<script src="gastro.js?v=0.9.3"></script>
 </body>
 </html>
